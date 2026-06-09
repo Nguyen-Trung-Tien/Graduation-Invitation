@@ -36,10 +36,10 @@ export default function Envelope({ guestName, onOpen }) {
           className="text-center flex flex-col items-center gap-2 pointer-events-none"
         >
           <span className="text-xs uppercase tracking-[0.3em] text-accent font-bold font-sans">
-            UTH • LỄ TỐT NGHIỆP 2026
+            LỄ TỐT NGHIỆP 2026
           </span>
           <h2 className="text-2xl sm:text-3xl font-serif text-[#002d62] font-extrabold mt-1 tracking-wide">
-            THƯ MỜI TRÂN TRỌNG
+            THƯ MỜI
           </h2>
         </motion.div>
 
@@ -85,17 +85,31 @@ export default function Envelope({ guestName, onOpen }) {
               <div className="w-16 h-[1px] bg-amber-800/20"></div>
             </motion.div>
 
-            {/* Front Flaps of Envelope (overlay) */}
-            {/* Bottom/Left/Right folded appearance using gradients */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent rounded-2xl pointer-events-none z-20"></div>
+            {/* Left Flap */}
+            <div 
+              className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#002b5c] to-[#002247] rounded-l-2xl border-l border-y border-accent/10 pointer-events-none z-20 shadow-md"
+              style={{ clipPath: "polygon(0% 0%, 100% 50%, 0% 100%)" }}
+            />
 
-            {/* Front Cover text */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-20 pointer-events-none">
-              <span className="text-[10px] tracking-[0.2em] text-slate-400 font-semibold uppercase">
+            {/* Right Flap */}
+            <div 
+              className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-[#002b5c] to-[#002247] rounded-r-2xl border-r border-y border-accent/10 pointer-events-none z-20 shadow-md"
+              style={{ clipPath: "polygon(100% 0%, 0% 50%, 100% 100%)" }}
+            />
+
+            {/* Bottom Flap */}
+            <div 
+              className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#001c3d] to-[#002b5c] rounded-b-2xl border-b border-x border-accent/15 pointer-events-none z-21 shadow-lg"
+              style={{ clipPath: "polygon(0% 100%, 50% 0%, 100% 100%)" }}
+            />
+
+            {/* Guest Name Label Card */}
+            <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[75%] sm:w-[65%] bg-[#FCFBF7] border-2 border-double border-accent/40 rounded-xl p-2.5 text-center shadow-lg pointer-events-none z-22 select-none">
+              <span className="text-[9px] tracking-[0.2em] text-slate-400 font-bold uppercase block mb-0.5">
                 Kính gửi
               </span>
               <h1
-                className="text-4xl sm:text-5xl font-handwriting text-accent font-normal py-1 mt-1 leading-normal text-glow"
+                className="text-xl sm:text-2xl font-handwriting text-[#002d62] font-normal leading-normal text-glow"
                 style={{ letterSpacing: "0.04em", wordSpacing: "0.15em" }}
               >
                 {guestName || "Toàn thể Đại gia đình"}
@@ -112,7 +126,7 @@ export default function Envelope({ guestName, onOpen }) {
               }
               transition={{ duration: 0.6, ease: "easeInOut" }}
               // creates a triangular flap shape
-              className="absolute inset-x-0 top-0 h-[52%] bg-gradient-to-b from-[#003c80] to-[#00224d] border-t-2 border-accent/40 rounded-t-2xl pointer-events-none origin-top"
+              className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#003c80] to-[#00224d] rounded-t-2xl border-t border-x border-accent/20 pointer-events-none origin-top shadow-md"
               style={{
                 clipPath: "polygon(0% 0%, 100% 0%, 50% 100%)",
                 originY: 0,

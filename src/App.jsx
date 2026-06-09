@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
+import { Settings } from "lucide-react";
 import Envelope from "./components/Envelope";
 import InvitationCard from "./components/InvitationCard";
-import MusicPlayer from "./components/MusicPlayer";
 import Customizer from "./components/Customizer";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
 
   // Initial invitation configuration, loaded from URL params if present
   const [config, setConfig] = useState({
@@ -18,7 +18,6 @@ export default function App() {
     time: "08:00",
     hall: "Hội trường A (Cơ sở chính)",
     address: "02 Võ Oanh, Phường 25, Quận Bình Thạnh, TP. Hồ Chí Minh",
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
   });
 
   const [guestName, setGuestName] = useState("Toàn thể Đại gia đình");
@@ -35,7 +34,6 @@ export default function App() {
     const time = params.get("time");
     const hall = params.get("hall");
     const address = params.get("address");
-    const music = params.get("music");
 
     if (guest) setGuestName(guest);
 
@@ -47,13 +45,11 @@ export default function App() {
       time: time || prev.time,
       hall: hall || prev.hall,
       address: address || prev.address,
-      audioUrl: music || prev.audioUrl,
     }));
   }, []);
 
   const handleOpenEnvelope = () => {
     setIsOpen(true);
-    setIsPlaying(true);
 
     // Initial confetti burst
     confetti({
@@ -74,10 +70,6 @@ export default function App() {
     }, 400);
   };
 
-  const toggleMusic = () => {
-    setIsPlaying(!isPlaying);
-  };
-
   return (
     <div className="relative min-h-screen w-full flex flex-col justify-between overflow-x-hidden">
       {!isOpen ? (
@@ -85,7 +77,7 @@ export default function App() {
         <Envelope guestName={guestName} onOpen={handleOpenEnvelope} />
       ) : (
         /* Main Invitation Content */
-        <div className="flex-1 w-full flex flex-col justify-between py-6 px-4 sm:px-6 relative z-10 animate-[fadeIn_1s_ease-out]">
+        <div className="flex-1 w-full flex flex-col justify-start py-6 px-4 sm:px-6 relative z-10 animate-[fadeIn_1s_ease-out] gap-4">
           {/* Background Ambient Stars */}
           <div className="stars"></div>
 
@@ -99,18 +91,24 @@ export default function App() {
             <InvitationCard config={config} guestName={guestName} />
           </div>
 
-          {/* Floating Music Controller */}
-          <MusicPlayer
-            isPlaying={isPlaying}
-            togglePlay={toggleMusic}
-            audioUrl={config.audioUrl}
-          />
+          {/* Settings Button below Card */}
+          <div className="w-full max-w-3xl mx-auto flex justify-center mt-2 mb-4 relative z-20">
+            <button
+              onClick={() => setIsCustomizerOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-md glass border border-accent/40 shadow-md text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all hover:scale-105 active:scale-95 text-sm font-bold uppercase tracking-wider cursor-pointer font-sans"
+            >
+              <Settings className="w-4 h-4 text-accent animate-[spin_12s_linear_infinite]" />
+              <span>Tùy chỉnh thông tin</span>
+            </button>
+          </div>
 
           {/* Configuration / Share drawer */}
           <Customizer
             config={config}
             onChange={setConfig}
             defaultGuest={guestName}
+            isOpen={isCustomizerOpen}
+            onClose={() => setIsCustomizerOpen(false)}
           />
         </div>
       )}

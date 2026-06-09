@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Settings, X, Copy, Check, Info } from 'lucide-react';
 
-export default function Customizer({ config, onChange, defaultGuest }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Customizer({ config, onChange, defaultGuest, isOpen, onClose }) {
   const [guestName, setGuestName] = useState(defaultGuest || 'Toàn thể Đại gia đình');
   const [copied, setCopied] = useState(false);
 
@@ -25,7 +24,6 @@ export default function Customizer({ config, onChange, defaultGuest }) {
     params.set('time', config.time);
     params.set('hall', config.hall);
     params.set('address', config.address);
-    params.set('music', config.audioUrl);
 
     const fullUrl = `${baseUrl}?${params.toString()}`;
     
@@ -37,26 +35,17 @@ export default function Customizer({ config, onChange, defaultGuest }) {
 
   return (
     <>
-      {/* Floating Gear Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed top-6 right-6 z-45 p-3 rounded-full glass border border-accent/40 shadow-lg cursor-pointer text-accent transition-transform hover:scale-110 active:scale-95"
-        title="Tùy chỉnh thông tin thiệp"
-      >
-        <Settings className="w-5 h-5 animate-[spin_8s_linear_infinite]" />
-      </button>
-
       {/* Slide-over Drawer Backdrop */}
       {isOpen && (
         <div 
           className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm transition-opacity"
-          onClick={() => setIsOpen(false)}
+          onClick={onClose}
         />
       )}
 
       {/* Slide-over Drawer Panel */}
       <div 
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-[#FCFBF7] border-l border-accent/20 z-50 shadow-2xl flex flex-col transition-transform duration-300 transform ${
+        className={`fixed top-0 right-0 h-full w-full max-w-full sm:max-w-md bg-[#FCFBF7] border-l border-accent/20 z-50 shadow-2xl flex flex-col transition-transform duration-300 transform ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -66,7 +55,7 @@ export default function Customizer({ config, onChange, defaultGuest }) {
             <Settings className="w-4 h-4 text-accent animate-spin-slow" /> Cấu Hình Thiệp Mời
           </h3>
           <button 
-            onClick={() => setIsOpen(false)}
+            onClick={onClose}
             className="p-1 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
@@ -198,19 +187,7 @@ export default function Customizer({ config, onChange, defaultGuest }) {
               />
             </div>
 
-            {/* Music URL */}
-            <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
-                URL Nhạc Nền (mp3)
-              </label>
-              <input 
-                type="text"
-                value={config.audioUrl}
-                onChange={(e) => handleFieldChange('audioUrl', e.target.value)}
-                placeholder="Nhập link file nhạc mp3..."
-                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
-              />
-            </div>
+
           </div>
         </div>
 

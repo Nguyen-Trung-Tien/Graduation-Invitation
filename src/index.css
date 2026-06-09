@@ -130,29 +130,32 @@
   opacity: 0.6;
 }
 
-/* Floating Blobs Keyframe Animations */
+/* Floating Blobs Keyframe Animations - optimized using translate3d for GPU acceleration */
 @keyframes float-blob {
   0%, 100% {
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translate3d(0, 0, 0);
   }
   33% {
-    transform: translateY(-30px) scale(1.08) rotate(120deg);
+    transform: translate3d(-10px, -30px, 0);
   }
   66% {
-    transform: translateY(15px) scale(0.95) rotate(240deg);
+    transform: translate3d(10px, 15px, 0);
   }
 }
 
 .animate-blob {
+  will-change: transform;
   animation: float-blob 15s ease-in-out infinite;
 }
 
 .animate-blob-delayed {
+  will-change: transform;
   animation: float-blob 20s ease-in-out infinite;
   animation-delay: 4s;
 }
 
 .animate-blob-slow {
+  will-change: transform;
   animation: float-blob 25s ease-in-out infinite;
   animation-delay: 8s;
 }
