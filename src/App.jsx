@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
-import { Settings } from "lucide-react";
+import { Settings, Printer } from "lucide-react";
 import Envelope from "./components/Envelope";
 import InvitationCard from "./components/InvitationCard";
 import Customizer from "./components/Customizer";
+import ExportModal from "./components/ExportModal";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   // Initial invitation configuration, loaded from URL params if present
   const [config, setConfig] = useState({
@@ -88,17 +90,25 @@ export default function App() {
 
           {/* Invitation Card */}
           <div className="flex-1 flex items-center justify-center">
-            <InvitationCard config={config} guestName={guestName} />
+            <InvitationCard config={config} guestName={guestName} isPrintable={true} />
           </div>
 
-          {/* Settings Button below Card */}
-          <div className="w-full max-w-3xl mx-auto flex justify-center mt-2 mb-4 relative z-20">
+          {/* Floating Action Buttons */}
+          <div className="w-full max-w-2xl mx-auto flex justify-center gap-3 mt-3 mb-4 relative z-20 no-print">
             <button
               onClick={() => setIsCustomizerOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-md glass border border-accent/40 shadow-md text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all hover:scale-105 active:scale-95 text-sm font-bold uppercase tracking-wider cursor-pointer font-sans"
+              className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-accent/20 shadow-lg shadow-black/5 text-[#002d62] hover:bg-[#002d62] hover:text-white hover:border-[#002d62] transition-all duration-300 hover:shadow-xl hover:shadow-[#002d62]/15 active:scale-95 cursor-pointer"
             >
-              <Settings className="w-4 h-4 text-accent animate-[spin_12s_linear_infinite]" />
-              <span>Tùy chỉnh thông tin</span>
+              <Settings className="w-4 h-4 text-accent group-hover:text-accent-light transition-colors" />
+              <span className="text-xs font-semibold tracking-wide">Tùy chỉnh</span>
+            </button>
+
+            <button
+              onClick={() => setIsExportModalOpen(true)}
+              className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white border border-[#002d62]/50 shadow-lg shadow-[#002d62]/20 hover:shadow-xl hover:shadow-[#002d62]/30 transition-all duration-300 active:scale-95 cursor-pointer"
+            >
+              <Printer className="w-4 h-4 text-accent-light" />
+              <span className="text-xs font-semibold tracking-wide">Xuất PDF</span>
             </button>
           </div>
 
@@ -109,6 +119,16 @@ export default function App() {
             defaultGuest={guestName}
             isOpen={isCustomizerOpen}
             onClose={() => setIsCustomizerOpen(false)}
+          />
+
+          {/* Export PDF Modal */}
+          <ExportModal
+            isOpen={isExportModalOpen}
+            onClose={() => setIsExportModalOpen(false)}
+            config={config}
+            onChange={setConfig}
+            guestName={guestName}
+            onGuestChange={setGuestName}
           />
         </div>
       )}
