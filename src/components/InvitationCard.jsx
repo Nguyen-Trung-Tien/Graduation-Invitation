@@ -103,7 +103,7 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
         border: "3px solid rgba(180, 140, 20, 0.35)",
         boxShadow:
           "0 0 0 1px rgba(212,175,55,0.1), 0 8px 32px rgba(0,45,98,0.12), 0 2px 8px rgba(212,175,55,0.15)",
-        padding: "clamp(1.75rem, 4vw, 2.75rem)",
+        padding: "clamp(1.25rem, 3vw, 2rem)",
       }}
     >
       {/* ─── Corner Ornaments ─── */}
@@ -113,26 +113,16 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
       <CornerOrnament position="bottom-right" />
 
       {/* Inner frame with visible border */}
-      <div className="absolute inset-3 sm:inset-5 border-2 border-accent/15 rounded-xl pointer-events-none" />
+      <div className="absolute inset-2.5 sm:inset-4 border-2 border-accent/15 rounded-xl pointer-events-none" />
 
       {/* ════════════════ HEADER ════════════════ */}
-      <div className="flex flex-col items-center text-center gap-1.5 pb-5 relative z-10">
-        {/* Logo with gold ring */}
-        <div className="relative mb-1">
-          <div className="absolute -inset-1.5 rounded-full border-2 border-accent/30 animate-[spin_25s_linear_infinite]" />
-          <img
-            src="/uth-logo.jpg"
-            alt="Logo UTH"
-            className="w-16 h-16 sm:w-18 sm:h-18 object-contain bg-white p-2 rounded-full border-2 border-accent/40 shadow-md relative z-10"
-          />
-        </div>
-
+      <div className="flex flex-col items-center text-center gap-0.5 pb-2 relative z-10">
         <p className="text-[10px] sm:text-[11px] tracking-[0.25em] font-sans font-semibold text-[#5a4a1e] uppercase">
           Trường Đại Học Giao Thông Vận Tải TP.HCM
         </p>
 
         <h1
-          className="text-xl sm:text-2xl md:text-[1.75rem] font-serif font-extrabold uppercase tracking-[0.1em] leading-tight"
+          className="text-lg sm:text-xl md:text-2xl font-serif font-extrabold uppercase tracking-[0.1em] leading-tight"
           style={{
             background:
               "linear-gradient(135deg, #002d62 0%, #1a4a8a 50%, #002d62 100%)",
@@ -144,27 +134,26 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
         </h1>
 
         {/* Flourish divider */}
-        <GoldFlourish className="w-52 sm:w-60 h-5 text-accent mt-1" />
+        <GoldFlourish className="w-40 sm:w-48 h-4 text-accent" />
       </div>
 
-      {/* ════════════════ GREETING ════════════════ */}
-      <div className="text-center py-3 px-4 relative z-10">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-accent font-bold mb-2 font-sans">
-          ✦&ensp;Kính gửi&ensp;✦
+      {/* ════════ GREETING ════════ */}
+      <div className="text-center py-1.5 relative z-10">
+        <p className="text-[9px] uppercase tracking-[0.3em] text-accent font-bold mb-1 font-sans">
+          ✦ Kính gửi ✦
         </p>
         <h2
-          className="text-2xl sm:text-3xl md:text-[2.5rem] font-handwriting text-[#002d62] font-normal leading-snug text-glow"
+          className="text-xl sm:text-2xl font-handwriting text-[#002d62] font-normal leading-snug text-glow"
           style={{ letterSpacing: "0.03em", wordSpacing: "0.12em" }}
         >
           {guestName || "Toàn thể Đại gia đình"}
         </h2>
-        <div className="w-20 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent mx-auto mt-3" />
       </div>
 
       {/* ════════════════ GRADUATE INFO ════════════════ */}
-      <div className="relative z-10 max-w-lg mx-auto mb-6">
+      <div className="relative z-10 max-w-lg mx-auto mb-3">
         <div
-          className="py-6 px-5 sm:px-8 rounded-xl flex flex-col items-center text-center gap-3"
+          className="py-3 px-4 sm:px-6 rounded-xl flex flex-col items-center text-center gap-1.5"
           style={{
             background:
               "linear-gradient(180deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
@@ -173,17 +162,17 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
           }}
         >
           {/* Graduation badge */}
-          <div className="w-14 h-14 rounded-full flex items-center justify-center relative bg-[#002d62]/5">
+          <div className="w-9 h-9 rounded-full flex items-center justify-center relative bg-[#002d62]/5">
             <div className="absolute inset-0 rounded-full border-2 border-dashed border-accent/35 animate-[spin_18s_linear_infinite]" />
-            <GraduationCap className="w-6 h-6 text-[#002d62] relative z-10" />
+            <GraduationCap className="w-4 h-4 text-[#002d62] relative z-10" />
           </div>
 
           <div>
-            <h4 className="text-xl sm:text-2xl md:text-[1.6rem] font-serif font-extrabold tracking-wide uppercase text-accent leading-tight">
+            <h4 className="text-lg sm:text-xl font-serif font-extrabold tracking-wide uppercase text-accent leading-tight">
               {config.gradName}
             </h4>
 
-            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-3 text-xs text-slate-600">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-2 text-[11px] text-slate-600">
               <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                 Ngành:{" "}
@@ -199,40 +188,29 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
               </span>
             </div>
 
-            <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-[#5a4a1e] font-sans font-bold mt-3">
+            <p className="text-[8px] uppercase tracking-[0.2em] text-[#5a4a1e] font-sans font-bold mt-1">
               Niên Khóa 2022 – 2026
             </p>
           </div>
 
-          {/* Divider */}
-          <GoldFlourish className="w-36 h-4 text-accent" />
+          <div className="w-10 h-[1px] bg-accent/30" />
 
-          {/* Message */}
-          <p className="text-xs sm:text-[13px] text-slate-600 leading-[1.85] max-w-sm px-1 font-medium">
-            <span className="text-accent text-base font-serif font-bold">
-              "
-            </span>
-            Trải qua 4 năm học tập và rèn luyện tại mái trường Đại học Giao
-            thông vận tải TP.HCM, con đã hoàn thành chặng đường tri thức đầu
-            tiên. Sự đồng hành và động viên của gia đình là điểm tựa lớn nhất.
-            Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt
-            nghiệp.
-            <span className="text-accent text-base font-serif font-bold">
-              "
-            </span>
+          <p className="text-[10px] sm:text-[11px] text-slate-600 leading-[1.6] max-w-xs italic">
+            <span className="text-accent font-serif font-bold">“</span>Trân
+            trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt
+            nghiệp.<span className="text-accent font-serif font-bold">”</span>
           </p>
         </div>
       </div>
 
       {/* ════════════════ EVENT DETAILS ════════════════ */}
-      <div className="mb-5 relative z-10">
-        {/* Section label */}
-        <div className="flex items-center gap-3 mb-3">
-          <div className="flex-1 h-[1.5px] bg-gradient-to-r from-transparent to-accent/30" />
-          <span className="text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-accent flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> Chi tiết sự kiện
+      <div className="mb-2 relative z-10">
+        <div className="flex items-center gap-2 mb-1.5">
+          <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-accent/25" />
+          <span className="text-[8px] sm:text-[9px] font-sans font-bold uppercase tracking-[0.2em] text-accent flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> Chi tiết sự kiện
           </span>
-          <div className="flex-1 h-[1.5px] bg-gradient-to-l from-transparent to-accent/30" />
+          <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-accent/25" />
         </div>
 
         <div
@@ -244,13 +222,13 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
           }}
         >
           {/* TIME */}
-          <div className="p-4 sm:p-5 sm:border-r border-b sm:border-b-0 border-accent/15">
-            <h5 className="text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-accent flex items-center gap-1.5 mb-3 pb-2 border-b border-accent/10">
+          <div className="p-3 sm:p-4 sm:border-r border-b sm:border-b-0 border-accent/15">
+            <h5 className="text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-accent flex items-center gap-1.5 mb-2 pb-1.5 border-b border-accent/10">
               <Clock className="w-3.5 h-3.5" /> Thời gian
             </h5>
-            <div className="space-y-3">
-              <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
                   <Calendar className="w-4 h-4 text-accent" />
                 </div>
                 <div>
@@ -262,9 +240,9 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
-                  <Clock className="w-4 h-4 text-accent" />
+              <div className="flex items-start gap-2">
+                <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                  <Clock className="w-3.5 h-3.5 text-accent" />
                 </div>
                 <div>
                   <p className="text-[8px] sm:text-[9px] text-slate-500 font-bold uppercase tracking-wider">
@@ -279,13 +257,13 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
           </div>
 
           {/* LOCATION */}
-          <div className="p-4 sm:p-5 sm:border-r border-b sm:border-b-0 border-accent/15">
-            <h5 className="text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-accent flex items-center gap-1.5 mb-3 pb-2 border-b border-accent/10">
+          <div className="p-3 sm:p-4 sm:border-r border-b sm:border-b-0 border-accent/15">
+            <h5 className="text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-accent flex items-center gap-1.5 mb-2 pb-1.5 border-b border-accent/10">
               <MapPin className="w-3.5 h-3.5" /> Địa điểm
             </h5>
-            <div className="space-y-3">
-              <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#002d62]/8 flex items-center justify-center shrink-0">
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <div className="w-7 h-7 rounded-lg bg-[#002d62]/8 flex items-center justify-center shrink-0">
                   <GraduationCap className="w-4 h-4 text-[#002d62]" />
                 </div>
                 <div>
@@ -297,9 +275,9 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-accent" />
+              <div className="flex items-start gap-2">
+                <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                  <MapPin className="w-3.5 h-3.5 text-accent" />
                 </div>
                 <div>
                   <p className="text-[8px] sm:text-[9px] text-slate-500 font-bold uppercase tracking-wider">

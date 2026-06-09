@@ -211,7 +211,7 @@ body {
 
 /* Print styles to export a clean PDF card */
 @media print {
-  /* Remove browser default header/footer (date, title, URL, page number) */
+  /* Remove browser default header/footer */
   @page {
     margin: 0;
     size: A4;
@@ -224,9 +224,10 @@ body {
     color: #000000 !important;
     margin: 0 !important;
     padding: 0 !important;
-    height: auto !important;
+    height: 100% !important;
     min-height: 0 !important;
     width: 100% !important;
+    overflow: hidden !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -245,14 +246,15 @@ body {
   #root > div {
     display: flex !important;
     justify-content: center !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     visibility: visible !important;
     background: #ffffff !important;
     background-image: none !important;
     min-height: 0 !important;
+    height: 100vh !important;
     padding: 0 !important;
     margin: 0 !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     width: 100% !important;
   }
 
@@ -260,45 +262,48 @@ body {
     display: none !important;
   }
 
-  /* Display only the printable invitation card — centered on A4 */
+  /* Card: centered and scaled to fit 1 A4 page */
   #printable-invitation {
     display: block !important;
     visibility: visible !important;
     position: relative !important;
-    width: 85% !important;
-    max-width: 600px !important;
-    margin: 2.5rem auto !important;
-    padding: 32px !important;
+    width: 90% !important;
+    max-width: 580px !important;
+    margin: auto !important;
+    padding: 24px !important;
     border: 3px solid rgba(212, 175, 55, 0.35) !important;
     border-radius: 12px !important;
     box-shadow: none !important;
-    background-color: #fcfbf7 !important;
+    background: linear-gradient(170deg, #FDF8EE 0%, #FAF3E3 35%, #F5EDDA 100%) !important;
     page-break-inside: avoid !important;
+    transform: scale(0.88) !important;
+    transform-origin: center center !important;
   }
 
   #printable-invitation * {
     visibility: visible !important;
   }
 
-  /* Hide the Maps link inside the card (QR code is enough) */
+  /* Hide the Maps link */
   #printable-invitation a {
     display: none !important;
   }
 
-  /* Force all parent containers to display block so #printable-invitation is shown */
+  /* Clean backgrounds */
   #printable-invitation,
-  #printable-invitation ~ *,
   #root > div > div {
     background-image: none !important;
   }
 
-  /* Ensure intermediate flex wrappers center the card */
+  /* Intermediate flex wrappers */
   .flex-1 {
     display: flex !important;
     justify-content: center !important;
+    align-items: center !important;
     visibility: visible !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
+    height: 100% !important;
   }
 }
