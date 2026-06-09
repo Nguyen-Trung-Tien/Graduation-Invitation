@@ -24,6 +24,10 @@ export default function Customizer({ config, onChange, defaultGuest, isOpen, onC
     params.set('time', config.time);
     params.set('hall', config.hall);
     params.set('address', config.address);
+    if (config.invitationText) {
+      params.set('text', config.invitationText);
+    }
+    params.set('shared', 'true');
 
     const fullUrl = `${baseUrl}?${params.toString()}`;
     
@@ -184,6 +188,20 @@ export default function Customizer({ config, onChange, defaultGuest, isOpen, onC
                 value={config.address}
                 onChange={(e) => handleFieldChange('address', e.target.value)}
                 className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+              />
+            </div>
+
+            {/* Invitation Text */}
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Nội dung thư mời
+              </label>
+              <textarea 
+                value={config.invitationText || ''}
+                onChange={(e) => handleFieldChange('invitationText', e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors resize-none"
+                placeholder="Nhập nội dung lời mời..."
               />
             </div>
 

@@ -16,7 +16,7 @@ export default function Envelope({ guestName, onOpen }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent">
+    <div className="min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent">
       {/* Decorative ambient background lights */}
       <div className="absolute top-1/4 left-1/4 w-72 h-72 sm:w-[400px] sm:h-[400px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none animate-blob"></div>
       <div className="absolute bottom-1/4 right-1/4 w-72 h-72 sm:w-[400px] sm:h-[400px] bg-rose-500/8 rounded-full blur-[100px] pointer-events-none animate-blob-delayed"></div>

@@ -187,6 +187,13 @@
 }
 
 /* Body defaults override with modern, youthful colorful gradient */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
 body {
   background-color: #f1f5f9;
   background-image:
@@ -204,9 +211,6 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
 }
 
 /* Print styles to export a clean PDF card */

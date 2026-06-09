@@ -196,9 +196,9 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
           <div className="w-10 h-[1px] bg-accent/30" />
 
           <p className="text-[10px] sm:text-[11px] text-slate-600 leading-[1.6] max-w-xs italic">
-            <span className="text-accent font-serif font-bold">“</span>Trân
-            trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt
-            nghiệp.<span className="text-accent font-serif font-bold">”</span>
+            <span className="text-accent font-serif font-bold">“</span>
+            {config.invitationText || "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."}
+            <span className="text-accent font-serif font-bold">”</span>
           </p>
         </div>
       </div>

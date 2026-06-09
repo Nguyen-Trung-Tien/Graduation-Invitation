@@ -160,6 +160,20 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
               />
             </div>
 
+            {/* Invitation Text */}
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Nội dung thư mời
+              </label>
+              <textarea 
+                value={config.invitationText || ''}
+                onChange={(e) => handleFieldChange('invitationText', e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors resize-none"
+                placeholder="Nhập nội dung lời mời..."
+              />
+            </div>
+
             <div className="mt-2 p-3 bg-blue-50/50 rounded-xl border border-blue-150 flex gap-2 items-start text-blue-800">
               <Info className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
               <p className="text-[10px] leading-normal font-medium">
