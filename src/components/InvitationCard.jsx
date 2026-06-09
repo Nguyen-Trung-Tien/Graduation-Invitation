@@ -197,7 +197,8 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
 
           <p className="text-[10px] sm:text-[11px] text-slate-600 leading-[1.6] max-w-xs italic">
             <span className="text-accent font-serif font-bold">“</span>
-            {config.invitationText || "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."}
+            {config.invitationText ||
+              "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."}
             <span className="text-accent font-serif font-bold">”</span>
           </p>
         </div>
@@ -320,8 +321,10 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
         <GoldFlourish className="w-44 h-5 text-accent mx-auto mb-3" />
         <div className="text-center text-[9px] sm:text-[10px]">
           <p className="font-sans mt-1 text-slate-500">
-            Thiết kế bởi{" "}
-            <span className="font-bold text-slate-700">Nguyễn Trung Tiến</span>
+            Designed by{" "}
+            <span className="font-bold text-slate-700 italic">
+              Nguyen Trung Tien
+            </span>
           </p>
         </div>
       </div>
