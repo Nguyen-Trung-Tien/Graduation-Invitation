@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MapPin,
   Calendar,
@@ -46,6 +46,22 @@ export default function InvitationCard({ config, guestName }) {
 
   const [shareGuestName, setShareGuestName] = useState("");
   const [copied, setCopied] = useState(false);
+
+  const uthPhotos = [
+    "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=400&auto=format&fit=crop", // Beautiful classical university building
+    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&auto=format&fit=crop", // Graduation caps in the air
+    "https://images.unsplash.com/photo-1525921429573-05911ed24129?q=80&w=400&auto=format&fit=crop", // Happy graduation group
+    "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=400&auto=format&fit=crop"  // Campus study life/library
+  ];
+
+  const [photoIndex, setPhotoIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPhotoIndex((prev) => (prev + 1) % uthPhotos.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
 
   const generateShareLink = (e) => {
     e.preventDefault();
@@ -120,21 +136,18 @@ export default function InvitationCard({ config, guestName }) {
         <div className="md:col-span-4 flex justify-center">
           <div className="bg-[#FAF9F6] p-2 pb-6 rounded-lg shadow-xl border border-accent/30 rotate-[-2deg] hover:rotate-0 hover:scale-105 transition-all duration-300 w-44 relative text-slate-900 group">
             
-            {/* Custom SVG Graduation Silhouette */}
-            <div className="aspect-square bg-slate-950 rounded border border-accent/20 flex flex-col items-center justify-center p-2 text-center text-accent relative overflow-hidden shadow-inner">
-              <svg className="w-full h-full text-accent p-2" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="50" cy="50" r="35" stroke="rgba(212, 175, 55, 0.15)" strokeWidth="1" />
-                <path d="M50,72 C50,63 42,59 42,55 C42,51 46,47 50,47 C54,47 58,51 58,55 C58,59 50,63 50,72 Z" fill="rgba(212, 175, 55, 0.12)" />
-                <path d="M50,38 L68,43 L50,48 L32,43 Z" fill="currentColor" />
-                <path d="M41,45 L41,52 C41,54 59,54 59,52 L59,45" stroke="currentColor" fill="none" />
-                <path d="M62,43 L65,49 L65,56" stroke="currentColor" strokeWidth="1" fill="none" />
-                <path d="M44,61 L56,61 C58,61 58,64 56,64 L44,64 C42,64 42,61 44,61 Z" fill="currentColor" />
-                <path d="M28,28 L29,30 L31,28 L29,26 Z" fill="currentColor" />
-                <path d="M72,26 L73,28 L75,26 L73,24 Z" fill="currentColor" />
-              </svg>
-
-              <div className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
-                <span className="text-[8px] font-bold text-accent font-sans">UTH</span>
+            {/* Auto-rotating Polaroid Photo Frame */}
+            <div className="aspect-square bg-slate-950 rounded border border-accent/20 relative overflow-hidden shadow-inner flex items-center justify-center group/photo">
+              <img
+                src={uthPhotos[photoIndex]}
+                alt="UTH Graduation Memory"
+                className="w-full h-full object-cover transition-all duration-1000 ease-in-out transform hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+              <div className="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full bg-accent/90 border border-white flex items-center justify-center shadow-sm">
+                <span className="text-[8px] font-bold text-slate-950 font-sans">
+                  UTH
+                </span>
               </div>
             </div>
 
