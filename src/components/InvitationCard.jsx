@@ -47,22 +47,6 @@ export default function InvitationCard({ config, guestName }) {
   const [shareGuestName, setShareGuestName] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const uthPhotos = [
-    "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=400&auto=format&fit=crop", // Beautiful classical university building
-    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&auto=format&fit=crop", // Graduation caps in the air
-    "https://images.unsplash.com/photo-1525921429573-05911ed24129?q=80&w=400&auto=format&fit=crop", // Happy graduation group
-    "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=400&auto=format&fit=crop"  // Campus study life/library
-  ];
-
-  const [photoIndex, setPhotoIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPhotoIndex((prev) => (prev + 1) % uthPhotos.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
   const generateShareLink = (e) => {
     e.preventDefault();
     const targetGuest = shareGuestName.trim() || "Toàn thể Đại gia đình";
@@ -130,61 +114,35 @@ export default function InvitationCard({ config, guestName }) {
       </div>
 
       {/* 3. Graduate Info Details */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center py-2 mb-5 relative z-10">
+      <div className="py-5 px-6 sm:px-8 bg-[#FAF9F6] rounded-2xl border border-accent/25 max-w-xl mx-auto mb-5 relative z-10 shadow-sm flex flex-col items-center text-center gap-3">
+        {/* Decorative Badge with Graduation Cap */}
+        <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center shadow-inner relative">
+          <GraduationCap className="w-6 h-6 text-[#002d62]" />
+          <div className="absolute -inset-0.5 border border-accent/10 rounded-full pointer-events-none"></div>
+        </div>
         
-        {/* Left Side: Graduate Portrait */}
-        <div className="md:col-span-4 flex justify-center">
-          <div className="bg-[#FAF9F6] p-2 pb-6 rounded-lg shadow-xl border border-accent/30 rotate-[-2deg] hover:rotate-0 hover:scale-105 transition-all duration-300 w-44 relative text-slate-900 group">
-            
-            {/* Auto-rotating Polaroid Photo Frame */}
-            <div className="aspect-square bg-slate-950 rounded border border-accent/20 relative overflow-hidden shadow-inner flex items-center justify-center group/photo">
-              <img
-                src={uthPhotos[photoIndex]}
-                alt="UTH Graduation Memory"
-                className="w-full h-full object-cover transition-all duration-1000 ease-in-out transform hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
-              <div className="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full bg-accent/90 border border-white flex items-center justify-center shadow-sm">
-                <span className="text-[8px] font-bold text-slate-950 font-sans">
-                  UTH
-                </span>
-              </div>
-            </div>
-
-            {/* Polaroid Label */}
-            <div className="mt-2 text-center">
-              <h5 className="font-handwriting text-xl font-bold text-[#002d62] leading-none">
-                {config.gradName}
-              </h5>
-              <p className="text-[8px] uppercase tracking-widest text-slate-500 font-sans font-bold mt-1">
-                Niên Khóa 2022 - 2026
-              </p>
-            </div>
-            
-            {/* Polaroid Pin */}
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-red-600/80 shadow-md"></div>
-          </div>
+        <div>
+          <h4 className="text-xl sm:text-2xl font-serif font-extrabold text-[#002d62] tracking-wide uppercase">
+            Tân Khoa: <span className="text-accent">{config.gradName}</span>
+          </h4>
+          <p className="text-xs sm:text-sm text-slate-600 font-medium tracking-wide mt-2">
+            Ngành học: <span className="text-slate-800 font-bold">{config.major}</span>
+            <span className="mx-2 text-accent/40 font-normal">|</span>
+            Học vị: <span className="text-slate-800 font-bold">{config.degree || "Cử nhân"} Chính quy</span>
+          </p>
+          <p className="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-400 font-sans font-bold mt-1">
+            Niên Khóa 2022 - 2026
+          </p>
         </div>
 
-        {/* Right Side: Message & Degree details */}
-        <div className="md:col-span-8 flex flex-col gap-3.5 text-left pl-2">
-          <div className="flex flex-col gap-0.5 border-l-2 border-accent/35 pl-3">
-            <h4 className="text-lg font-serif font-bold text-[#002d62]">
-              Tân Khoa: <span className="text-accent">{config.gradName}</span>
-            </h4>
-            <p className="text-xs text-slate-500 font-medium tracking-wide">
-              Ngành học: <span className="text-slate-850 font-bold">{config.major}</span>
-              <br />
-              Học vị: <span className="text-slate-850 font-bold">{config.degree || "Kỹ sư"} Chính quy</span>
-            </p>
-          </div>
+        {/* Decorative Divider */}
+        <div className="w-16 h-[1px] bg-accent/30 my-1"></div>
 
-          <div className="relative">
-            <Heart className="absolute -left-2 -top-2 w-6 h-6 text-accent/15 fill-accent/5 pointer-events-none" />
-            <p className="text-xs sm:text-sm text-slate-650 leading-relaxed italic relative z-10 pl-2">
-              "Trải qua chặng đường 4 năm học tập và rèn luyện dưới mái trường Đại học Giao thông vận tải TP.HCM (UTH), con đã hoàn thành chặng đường tri thức đầu tiên. Sự đồng hành, nuôi dưỡng và động viên của gia đình là điểm tựa lớn nhất giúp con đạt được dấu mốc này. Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp thiêng liêng."
-            </p>
-          </div>
+        <div className="relative max-w-md">
+          <Heart className="absolute -left-3.5 -top-3.5 w-6 h-6 text-accent/10 fill-accent/5 pointer-events-none" />
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic relative z-10 px-3">
+            "Trải qua chặng đường 4 năm học tập và rèn luyện dưới mái trường Đại học Giao thông vận tải TP.HCM (UTH), con đã hoàn thành chặng đường tri thức đầu tiên. Sự đồng hành, nuôi dưỡng và động viên của gia đình là điểm tựa lớn nhất giúp con đạt được dấu mốc này. Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp thiêng liêng."
+          </p>
         </div>
       </div>
 
