@@ -118,7 +118,7 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
       {/* ════════════════ HEADER ════════════════ */}
       <div className="flex flex-col items-center text-center gap-0.5 pb-2 relative z-10">
         <p className="text-[10px] sm:text-[11px] tracking-[0.25em] font-sans font-semibold text-[#5a4a1e] uppercase">
-          Trường Đại Học Giao Thông Vận Tải TP.HCM
+          Đại Học Giao Thông Vận Tải TP.HCM
         </p>
 
         <h1
@@ -319,9 +319,6 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
       <div className="relative z-10 pt-4">
         <GoldFlourish className="w-44 h-5 text-accent mx-auto mb-3" />
         <div className="text-center text-[9px] sm:text-[10px]">
-          <p className="font-serif tracking-[0.2em] uppercase text-[#5a4a1e] font-semibold">
-            Trường Đại học Giao thông vận tải TP.HCM
-          </p>
           <p className="font-sans mt-1 text-slate-500">
             Thiết kế bởi{" "}
             <span className="font-bold text-slate-700">Nguyễn Trung Tiến</span>
