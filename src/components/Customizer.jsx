@@ -1,0 +1,244 @@
+import React, { useState } from 'react';
+import { Settings, X, Copy, Check, Info } from 'lucide-react';
+
+export default function Customizer({ config, onChange, defaultGuest }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [guestName, setGuestName] = useState(defaultGuest || 'Toàn thể Đại gia đình');
+  const [copied, setCopied] = useState(false);
+
+  const handleFieldChange = (field, value) => {
+    onChange({
+      ...config,
+      [field]: value
+    });
+  };
+
+  const generateShareLink = () => {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const params = new URLSearchParams();
+    
+    params.set('guest', guestName);
+    params.set('name', config.gradName);
+    params.set('major', config.major);
+    params.set('degree', config.degree);
+    params.set('date', config.date);
+    params.set('time', config.time);
+    params.set('hall', config.hall);
+    params.set('address', config.address);
+    params.set('music', config.audioUrl);
+
+    const fullUrl = `${baseUrl}?${params.toString()}`;
+    
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    });
+  };
+
+  return (
+    <>
+      {/* Floating Gear Button */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed top-6 right-6 z-45 p-3 rounded-full glass border border-accent/40 shadow-lg cursor-pointer text-accent transition-transform hover:scale-110 active:scale-95"
+        title="Tùy chỉnh thông tin thiệp"
+      >
+        <Settings className="w-5 h-5 animate-[spin_8s_linear_infinite]" />
+      </button>
+
+      {/* Slide-over Drawer Backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm transition-opacity"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Slide-over Drawer Panel */}
+      <div 
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-[#FCFBF7] border-l border-accent/20 z-50 shadow-2xl flex flex-col transition-transform duration-300 transform ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        {/* Header */}
+        <div className="p-4 border-b border-accent/15 flex items-center justify-between bg-[#FCFBF7]">
+          <h3 className="text-lg font-serif font-bold text-[#002d62] flex items-center gap-2">
+            <Settings className="w-4 h-4 text-accent animate-spin-slow" /> Cấu Hình Thiệp Mời
+          </h3>
+          <button 
+            onClick={() => setIsOpen(false)}
+            className="p-1 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Content (Scrollable) */}
+        <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-5 text-left">
+          
+          <div className="p-3 bg-accent/5 rounded-xl border border-accent/20 flex gap-2.5 items-start">
+            <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+            <p className="text-xs text-slate-600 leading-normal">
+              <strong>Hướng dẫn:</strong> Chỉnh sửa các thông tin bên dưới để thay đổi nội dung thiệp trực tiếp. Bạn cũng có thể thiết lập người nhận mặc định và nhấn **Tạo & Sao Chép Link** để gửi riêng cho người thân đó.
+            </p>
+          </div>
+
+          {/* Form Groups */}
+          <div className="flex flex-col gap-4">
+            
+            {/* Guest personalization */}
+            <div className="p-3 bg-accent/5 rounded-xl border border-accent/15">
+              <label className="block text-xs font-bold text-[#002d62] uppercase tracking-wider mb-1">
+                Tên Khách Mời Mặc Định
+              </label>
+              <input 
+                type="text"
+                value={guestName}
+                onChange={(e) => setGuestName(e.target.value)}
+                placeholder="Ví dụ: Bác Nam, Cô Út, Gia đình anh Hai..."
+                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-350 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-accent shadow-inner transition-colors"
+              />
+              <p className="text-[10px] text-slate-500 mt-1">
+                Link chia sẻ sẽ mặc định kính gửi tên khách mời này.
+              </p>
+            </div>
+
+            {/* Graduate Name */}
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Tên Tân Khoa
+              </label>
+              <input 
+                type="text"
+                value={config.gradName}
+                onChange={(e) => handleFieldChange('gradName', e.target.value)}
+                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+              />
+            </div>
+
+            {/* Degree & Major */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                  Học Vị
+                </label>
+                <select
+                  value={config.degree}
+                  onChange={(e) => handleFieldChange('degree', e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-850 focus:outline-none focus:border-accent shadow-inner transition-colors"
+                >
+                  <option value="Cử nhân">Cử nhân</option>
+                  <option value="Kỹ sư">Kỹ sư</option>
+                  <option value="Thạc sĩ">Thạc sĩ</option>
+                  <option value="Tiến sĩ">Tiến sĩ</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                  Ngành Học
+                </label>
+                <input 
+                  type="text"
+                  value={config.major}
+                  onChange={(e) => handleFieldChange('major', e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Date and Time */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                  Ngày Lễ tốt nghiệp
+                </label>
+                <input 
+                  type="date"
+                  value={config.date}
+                  onChange={(e) => handleFieldChange('date', e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                  Giờ Khai Mạc
+                </label>
+                <input 
+                  type="time"
+                  value={config.time}
+                  onChange={(e) => handleFieldChange('time', e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Hall and Location */}
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Hội trường / Phòng lễ
+              </label>
+              <input 
+                type="text"
+                value={config.hall}
+                onChange={(e) => handleFieldChange('hall', e.target.value)}
+                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+              />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Địa điểm tổ chức
+              </label>
+              <input 
+                type="text"
+                value={config.address}
+                onChange={(e) => handleFieldChange('address', e.target.value)}
+                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+              />
+            </div>
+
+            {/* Music URL */}
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                URL Nhạc Nền (mp3)
+              </label>
+              <input 
+                type="text"
+                value={config.audioUrl}
+                onChange={(e) => handleFieldChange('audioUrl', e.target.value)}
+                placeholder="Nhập link file nhạc mp3..."
+                className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Footer with Copy Link */}
+        <div className="p-4 border-t border-accent/15 bg-[#FCFBF7] flex flex-col gap-2">
+          <button
+            onClick={generateShareLink}
+            className={`w-full py-2.5 rounded-lg text-slate-950 font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md ${
+              copied 
+                ? 'bg-emerald-500 border-emerald-400 text-white' 
+                : 'bg-gradient-to-r from-accent to-accent-light hover:shadow-lg hover:shadow-accent/20 active:scale-98'
+            }`}
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4" /> Đã sao chép link mời!
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4" /> Sao Chép Đường Dẫn Mời
+              </>
+            )}
+          </button>
+          <p className="text-[10px] text-slate-400 text-center">
+            Link chứa toàn bộ các cài đặt bạn đã chỉnh sửa.
+          </p>
+        </div>
+      </div>
+    </>
+  );
+}
