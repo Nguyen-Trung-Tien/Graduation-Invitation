@@ -18,7 +18,7 @@ export default function App() {
     major: "Công nghệ Thông tin",
     date: "2026-10-15",
     time: "08:00",
-    hall: "Hội trường A (Cơ sở chính)",
+    hall: "Cơ sở chính (Cơ sở 1)",
     address: "02 Võ Oanh, Phường 25, Quận Bình Thạnh, TP. Hồ Chí Minh",
   });
 
@@ -90,7 +90,11 @@ export default function App() {
 
           {/* Invitation Card */}
           <div className="flex-1 flex items-center justify-center">
-            <InvitationCard config={config} guestName={guestName} isPrintable={true} />
+            <InvitationCard
+              config={config}
+              guestName={guestName}
+              isPrintable={true}
+            />
           </div>
 
           {/* Floating Action Buttons */}
@@ -100,7 +104,9 @@ export default function App() {
               className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-accent/20 shadow-lg shadow-black/5 text-[#002d62] hover:bg-[#002d62] hover:text-white hover:border-[#002d62] transition-all duration-300 hover:shadow-xl hover:shadow-[#002d62]/15 active:scale-95 cursor-pointer"
             >
               <Settings className="w-4 h-4 text-accent group-hover:text-accent-light transition-colors" />
-              <span className="text-xs font-semibold tracking-wide">Tùy chỉnh</span>
+              <span className="text-xs font-semibold tracking-wide">
+                Tùy chỉnh
+              </span>
             </button>
 
             <button
@@ -108,7 +114,9 @@ export default function App() {
               className="group flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white border border-[#002d62]/50 shadow-lg shadow-[#002d62]/20 hover:shadow-xl hover:shadow-[#002d62]/30 transition-all duration-300 active:scale-95 cursor-pointer"
             >
               <Printer className="w-4 h-4 text-accent-light" />
-              <span className="text-xs font-semibold tracking-wide">Xuất PDF</span>
+              <span className="text-xs font-semibold tracking-wide">
+                Xuất PDF
+              </span>
             </button>
           </div>
 
