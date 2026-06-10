@@ -21,7 +21,8 @@ export default function App() {
     time: "08:00",
     hall: "Cơ sở chính (Cơ sở 1)",
     address: "02 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh, Việt Nam",
-    invitationText: "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.",
+    invitationText:
+      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.",
   });
 
   const [guestName, setGuestName] = useState("Toàn thể Đại gia đình");
@@ -42,7 +43,18 @@ export default function App() {
 
     if (guest) setGuestName(guest);
 
-    if (guest || name || major || degree || date || time || hall || address || text || params.get("shared") === "true") {
+    if (
+      guest ||
+      name ||
+      major ||
+      degree ||
+      date ||
+      time ||
+      hall ||
+      address ||
+      text ||
+      params.get("shared") === "true"
+    ) {
       setIsShared(true);
     }
 
@@ -54,7 +66,10 @@ export default function App() {
       time: time || prev.time,
       hall: hall || prev.hall,
       address: address || prev.address,
-      invitationText: text || prev.invitationText || "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.",
+      invitationText:
+        text ||
+        prev.invitationText ||
+        "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.",
     }));
   }, []);
 
@@ -81,7 +96,9 @@ export default function App() {
   };
 
   return (
-    <div className={`relative min-h-dvh w-full flex flex-col justify-between ${!isOpen ? "overflow-hidden" : "overflow-x-hidden"}`}>
+    <div
+      className={`relative min-h-dvh w-full flex flex-col justify-between ${!isOpen ? "overflow-hidden" : "overflow-x-hidden"}`}
+    >
       {!isOpen ? (
         /* Sealed Envelope Entrance */
         <Envelope guestName={guestName} onOpen={handleOpenEnvelope} />
@@ -124,7 +141,7 @@ export default function App() {
               >
                 <Printer className="w-4 h-4 text-accent-light" />
                 <span className="text-xs font-semibold tracking-wide">
-                  Xuất PDF
+                  Xuất
                 </span>
               </button>
             </div>

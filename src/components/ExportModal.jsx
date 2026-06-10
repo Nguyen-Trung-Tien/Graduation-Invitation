@@ -1,14 +1,25 @@
-import React from 'react';
-import { X, Printer, Info, Edit3, Eye } from 'lucide-react';
-import InvitationCard from './InvitationCard';
+import React, { useRef, useState } from "react";
+import { X, Printer, Info, Edit3, Eye, Image } from "lucide-react";
+import { toPng, toJpeg } from "html-to-image";
+import InvitationCard from "./InvitationCard";
 
-export default function ExportModal({ isOpen, onClose, config, onChange, guestName, onGuestChange }) {
+export default function ExportModal({
+  isOpen,
+  onClose,
+  config,
+  onChange,
+  guestName,
+  onGuestChange,
+}) {
   if (!isOpen) return null;
+
+  const [isExporting, setIsExporting] = useState(false);
+  const cardRef = useRef(null);
 
   const handleFieldChange = (field, value) => {
     onChange({
       ...config,
-      [field]: value
+      [field]: value,
     });
   };
 
@@ -19,9 +30,61 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
     }, 150);
   };
 
+  const handleExportImage = async (format) => {
+    if (!cardRef.current || isExporting) return;
+    setIsExporting(true);
+
+    try {
+      // Wait for fonts to be ready
+      await document.fonts.ready;
+
+      // Additional short delay to ensure browser layout is stable
+      await new Promise((resolve) => setTimeout(resolve, 250));
+
+      const cardElement = cardRef.current.querySelector(".invitation-card");
+      const targetElement = cardElement || cardRef.current;
+
+      const cleanedName = (guestName || "Gia_Dinh")
+        .trim()
+        .replace(/[\/\\?%*:|"<>\s]+/g, "_");
+      const filename = `Thiep_Moi_Tot_Nghiep_${cleanedName}.${format}`;
+
+      const options = {
+        pixelRatio: 3, // 3x scale for crispness
+        cacheBust: true,
+        style: {
+          margin: "0",
+          boxShadow: "none",
+          transform: "none",
+        },
+      };
+
+      let dataUrl;
+      if (format === "png") {
+        dataUrl = await toPng(targetElement, options);
+      } else {
+        dataUrl = await toJpeg(targetElement, {
+          ...options,
+          quality: 0.95,
+          backgroundColor: "#ffffff", // avoid black corners in JPG
+        });
+      }
+
+      const link = document.createElement("a");
+      link.download = filename;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error("Error exporting image:", error);
+      alert("Đã xảy ra lỗi khi xuất ảnh. Vui lòng thử lại!");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]">
-      <div 
+      <div
         className="w-full max-w-6xl bg-[#FCFBF7] border border-accent/30 rounded-2xl shadow-2xl flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -29,13 +92,15 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
         <div className="p-4 sm:p-5 border-b border-accent/15 flex items-center justify-between bg-[#FCFBF7]">
           <div className="text-left">
             <h3 className="text-lg sm:text-xl font-serif font-bold text-[#002d62] flex items-center gap-2">
-              <Printer className="w-5 h-5 text-accent animate-pulse" /> Xem Trước & Xuất Bản PDF
+              <Printer className="w-5 h-5 text-accent animate-pulse" /> Xem
+              Trước & Xuất Bản Thiệp
             </h3>
             <p className="text-xs text-slate-500 mt-1">
-              Chỉnh sửa thông tin nhanh bên trái và xem trước bản in PDF sắc nét bên phải.
+              Chỉnh sửa thông tin nhanh bên trái, xem trước và tải thiệp dạng
+              PDF hoặc ảnh PNG/JPG sắc nét bên phải.
             </p>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
           >
@@ -56,7 +121,7 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
               <label className="block text-xs font-bold text-[#002d62] uppercase tracking-wider mb-1">
                 Kính Gửi (Khách Mời)
               </label>
-              <input 
+              <input
                 type="text"
                 value={guestName}
                 onChange={(e) => onGuestChange(e.target.value)}
@@ -70,10 +135,10 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                 Tên Tân Khoa
               </label>
-              <input 
+              <input
                 type="text"
                 value={config.gradName}
-                onChange={(e) => handleFieldChange('gradName', e.target.value)}
+                onChange={(e) => handleFieldChange("gradName", e.target.value)}
                 className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
               />
             </div>
@@ -86,7 +151,7 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
                 </label>
                 <select
                   value={config.degree}
-                  onChange={(e) => handleFieldChange('degree', e.target.value)}
+                  onChange={(e) => handleFieldChange("degree", e.target.value)}
                   className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
                 >
                   <option value="Cử nhân">Cử nhân</option>
@@ -99,10 +164,10 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                   Ngành Học
                 </label>
-                <input 
+                <input
                   type="text"
                   value={config.major}
-                  onChange={(e) => handleFieldChange('major', e.target.value)}
+                  onChange={(e) => handleFieldChange("major", e.target.value)}
                   className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
                 />
               </div>
@@ -114,10 +179,10 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                   Ngày Lễ
                 </label>
-                <input 
+                <input
                   type="date"
                   value={config.date}
-                  onChange={(e) => handleFieldChange('date', e.target.value)}
+                  onChange={(e) => handleFieldChange("date", e.target.value)}
                   className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
                 />
               </div>
@@ -125,10 +190,10 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                   Giờ Khai Mạc
                 </label>
-                <input 
+                <input
                   type="time"
                   value={config.time}
-                  onChange={(e) => handleFieldChange('time', e.target.value)}
+                  onChange={(e) => handleFieldChange("time", e.target.value)}
                   className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
                 />
               </div>
@@ -139,10 +204,10 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                 Hội trường / Phòng lễ
               </label>
-              <input 
+              <input
                 type="text"
                 value={config.hall}
-                onChange={(e) => handleFieldChange('hall', e.target.value)}
+                onChange={(e) => handleFieldChange("hall", e.target.value)}
                 className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
               />
             </div>
@@ -152,10 +217,10 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                 Địa điểm tổ chức
               </label>
-              <input 
+              <input
                 type="text"
                 value={config.address}
-                onChange={(e) => handleFieldChange('address', e.target.value)}
+                onChange={(e) => handleFieldChange("address", e.target.value)}
                 className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors"
               />
             </div>
@@ -165,9 +230,11 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                 Nội dung thư mời
               </label>
-              <textarea 
-                value={config.invitationText || ''}
-                onChange={(e) => handleFieldChange('invitationText', e.target.value)}
+              <textarea
+                value={config.invitationText || ""}
+                onChange={(e) =>
+                  handleFieldChange("invitationText", e.target.value)
+                }
                 rows={3}
                 className="w-full px-3 py-2 text-sm rounded bg-white border border-slate-300 text-slate-800 focus:outline-none focus:border-accent shadow-inner transition-colors resize-none"
                 placeholder="Nhập nội dung lời mời..."
@@ -177,7 +244,10 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
             <div className="mt-2 p-3 bg-blue-50/50 rounded-xl border border-blue-150 flex gap-2 items-start text-blue-800">
               <Info className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
               <p className="text-[10px] leading-normal font-medium">
-                <strong>Gợi ý lưu PDF:</strong> Trong cửa sổ in hiện ra, tại mục <strong>Máy in đích (Destination)</strong>, vui lòng chọn <strong>Lưu dưới dạng PDF (Save as PDF)</strong> để tải file về máy.
+                <strong>Gợi ý lưu PDF:</strong> Trong cửa sổ in hiện ra, tại mục{" "}
+                <strong>Máy in đích (Destination)</strong>, vui lòng chọn{" "}
+                <strong>Lưu dưới dạng PDF (Save as PDF)</strong> để tải file về
+                máy.
               </p>
             </div>
           </div>
@@ -201,20 +271,58 @@ export default function ExportModal({ isOpen, onClose, config, onChange, guestNa
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-accent/15 bg-[#FCFBF7] flex justify-end gap-3">
+        <div className="p-4 border-t border-accent/15 bg-[#FCFBF7] flex flex-wrap justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold transition-all cursor-pointer"
+            disabled={isExporting}
+            className="px-4 py-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Đóng
           </button>
-          
+
           <button
             onClick={handlePrint}
-            className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-accent to-accent-light hover:shadow-lg hover:shadow-accent/20 active:scale-98 text-slate-950 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer shadow-md"
+            disabled={isExporting}
+            className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-accent to-accent-light hover:shadow-lg hover:shadow-accent/20 active:scale-98 text-slate-950 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Printer className="w-4 h-4" /> Tải File PDF / In Ngay
           </button>
+
+          <button
+            onClick={() => handleExportImage("png")}
+            disabled={isExporting}
+            className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm transition-all flex items-center gap-2 cursor-pointer shadow-md hover:shadow-emerald-500/20 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isExporting ? (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <Image className="w-4 h-4" />
+            )}
+            {isExporting ? "Đang xuất PNG..." : "Xuất Ảnh PNG"}
+          </button>
+
+          <button
+            onClick={() => handleExportImage("jpg")}
+            disabled={isExporting}
+            className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-500 hover:from-indigo-500 hover:to-purple-400 text-white font-bold text-sm transition-all flex items-center gap-2 cursor-pointer shadow-md hover:shadow-indigo-500/20 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isExporting ? (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <Image className="w-4 h-4" />
+            )}
+            {isExporting ? "Đang xuất JPG..." : "Xuất Ảnh JPG"}
+          </button>
+        </div>
+      </div>
+
+      {/* Off-screen invitation container for exporting high-resolution images */}
+      <div
+        className="absolute -left-[9999px] -top-[9999px] pointer-events-none"
+        style={{ width: "672px" }}
+      >
+        <div ref={cardRef}>
+          <InvitationCard config={config} guestName={guestName} />
         </div>
       </div>
     </div>
