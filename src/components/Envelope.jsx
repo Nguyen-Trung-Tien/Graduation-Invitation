@@ -20,22 +20,23 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
 
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent">
-      {/* Dynamic Merged Atmospheric Backdrop (100% Sharp & Bright) */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#0b1329] transition-all duration-500">
+      {/* Dynamic Merged Atmospheric Backdrop (100% Sharp & HD on Desktop & Mobile) */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#0f172a] transition-all duration-500">
         {/* Theme: combined or uth-campus */}
         {(bgTheme === "combined" || bgTheme === "uth-campus") && (
           <div
             className={`absolute inset-y-0 left-0 ${
-              bgTheme === "combined" ? "w-full sm:w-1/2" : "w-full"
+              bgTheme === "combined" ? "w-1/2" : "w-full"
             } overflow-hidden transition-all duration-500 opacity-100`}
           >
             <img
               src={uthCampusImg}
               alt="UTH Campus Background"
-              className="w-full h-full object-cover object-center scale-100 filter brightness-105 contrast-105"
+              className="w-full h-full object-cover object-center scale-100"
+              style={{ imageRendering: "-webkit-optimize-contrast" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-[#0b1329]/80" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+            {/* Clean edge gradient fade */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/30" />
           </div>
         )}
 
@@ -43,36 +44,29 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
         {(bgTheme === "combined" || bgTheme === "graduate-portrait") && (
           <div
             className={`absolute inset-y-0 right-0 ${
-              bgTheme === "combined" ? "w-full sm:w-1/2" : "w-full"
+              bgTheme === "combined" ? "w-1/2" : "w-full"
             } overflow-hidden transition-all duration-500 opacity-100`}
           >
             <img
               src={gradPortraitImg}
               alt="Graduate Portrait Background"
-              className="w-full h-full object-cover object-top scale-100 filter brightness-105 contrast-105"
+              className="w-full h-full object-cover object-top scale-100"
+              style={{ imageRendering: "-webkit-optimize-contrast" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-[#0b1329]/80" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+            {/* Clean edge gradient fade */}
+            <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-black/30" />
           </div>
         )}
 
-        {/* Light ambient center shadow for contrast */}
-        <div
-          className="absolute inset-0 pointer-events-none z-1"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, transparent 30%, rgba(11,19,41,0.45) 80%, rgba(11,19,41,0.75) 100%)",
-          }}
-        />
+        {/* Soft subtle outer vignette */}
+        <div className="absolute inset-0 pointer-events-none z-1 bg-gradient-to-b from-black/15 via-transparent to-black/25" />
+      </div>
 
         {/* Ambient Glowing Light Blobs */}
         <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-indigo-500/15 rounded-full blur-[120px] pointer-events-none animate-blob" />
         <div className="absolute bottom-1/4 right-1/6 w-96 h-96 bg-amber-500/12 rounded-full blur-[120px] pointer-events-none animate-blob-delayed" />
 
         <div className="stars" />
-      </div>
-
-      <div className="stars" />
 
       <motion.div
         initial={{ opacity: 0, y: 40 }}

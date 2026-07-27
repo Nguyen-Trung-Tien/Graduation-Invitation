@@ -112,23 +112,23 @@ export default function App() {
       ) : (
         /* Main Invitation Content */
         <div className="flex-1 w-full flex flex-col justify-between py-1 sm:py-3 px-1.5 sm:px-4 relative z-10 animate-[fadeIn_1s_ease-out] gap-1 sm:gap-2">
-          {/* Global Dynamic Background Layer (100% Sharp, Crisp & Bright) */}
-          <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#0b1329] transition-all duration-500">
+          {/* Global Dynamic Background Layer (100% Sharp, Crisp & HD on Desktop & Mobile) */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#0f172a] transition-all duration-500">
             {/* Theme: combined or uth-campus */}
             {(bgTheme === "combined" || bgTheme === "uth-campus") && (
               <div
                 className={`absolute inset-y-0 left-0 ${
-                  bgTheme === "combined" ? "w-full sm:w-1/2" : "w-full"
+                  bgTheme === "combined" ? "w-1/2" : "w-full"
                 } overflow-hidden transition-all duration-500 opacity-100`}
               >
                 <img
                   src={uthCampusImg}
                   alt="UTH Campus Heritage"
-                  className="w-full h-full object-cover object-center scale-100 filter brightness-105 contrast-105"
+                  className="w-full h-full object-cover object-center scale-100"
+                  style={{ imageRendering: "-webkit-optimize-contrast" }}
                 />
-                {/* Subtle soft edge gradient fade */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-[#0b1329]/80" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+                {/* Clean edge gradient fade */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/30" />
               </div>
             )}
 
@@ -136,28 +136,22 @@ export default function App() {
             {(bgTheme === "combined" || bgTheme === "graduate-portrait") && (
               <div
                 className={`absolute inset-y-0 right-0 ${
-                  bgTheme === "combined" ? "w-full sm:w-1/2" : "w-full"
+                  bgTheme === "combined" ? "w-1/2" : "w-full"
                 } overflow-hidden transition-all duration-500 opacity-100`}
               >
                 <img
                   src={gradPortraitImg}
                   alt="Graduate Portrait"
-                  className="w-full h-full object-cover object-top scale-100 filter brightness-105 contrast-105"
+                  className="w-full h-full object-cover object-top scale-100"
+                  style={{ imageRendering: "-webkit-optimize-contrast" }}
                 />
-                {/* Subtle soft edge gradient fade */}
-                <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-[#0b1329]/80" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+                {/* Clean edge gradient fade */}
+                <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-black/30" />
               </div>
             )}
 
-            {/* Light ambient center shadow for contrast */}
-            <div
-              className="absolute inset-0 pointer-events-none z-1"
-              style={{
-                background:
-                  "radial-gradient(ellipse at center, transparent 30%, rgba(11,19,41,0.45) 80%, rgba(11,19,41,0.75) 100%)",
-              }}
-            />
+            {/* Soft subtle outer vignette */}
+            <div className="absolute inset-0 pointer-events-none z-1 bg-gradient-to-b from-black/15 via-transparent to-black/25" />
 
             <div className="stars" />
           </div>
