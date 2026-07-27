@@ -5,7 +5,9 @@
   --color-secondary: #172a45;
   --color-accent: #d4af37; /* Gold */
   --color-accent-light: #f3e5ab;
-  --color-uth-navy: #002d62;
+  --color-accent-dark: #997a15;
+  --color-uth-navy: #001d42;
+  --color-uth-royal: #002d62;
   --color-uth-red: #c8102e;
 
   --font-serif: "Playfair Display", "Cormorant Garamond", Georgia, serif;
@@ -15,30 +17,68 @@
 
 /* Custom styles for background animations, glassmorphism, envelope folding */
 @utility glass {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1.5px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+@utility glass-dark {
+  background: rgba(0, 29, 66, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
 }
 
 @utility glass-light {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
 }
 
 @utility text-glow {
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.35), 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-@utility border-glow {
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+@utility gold-border-glow {
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), 0 0 8px rgba(212, 175, 55, 0.25);
 }
 
-@utility text-glow-red {
-  text-shadow: 0 0 10px rgba(200, 16, 46, 0.4);
+/* Gold Foil Text Effect */
+.gold-foil-text {
+  background: linear-gradient(
+    135deg,
+    #bf953f 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #aa771c 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gold Foil Border Gradient */
+.gold-foil-border {
+  border-image: linear-gradient(
+    135deg,
+    #bf953f 0%,
+    #fcf6ba 30%,
+    #b38728 70%,
+    #aa771c 100%
+  ) 1;
+}
+
+/* Luxury Linen Cardstock Texture Overlay */
+.card-paper-texture {
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 75%),
+    radial-gradient(ellipse at 50% 100%, rgba(245, 237, 218, 0.6) 0%, transparent 75%),
+    linear-gradient(170deg, #FFFDF7 0%, #FAF4E6 40%, #F5ECCF 100%);
 }
 
 /* 3D Envelope folding transitions */
@@ -100,9 +140,11 @@
 .gold-shimmer {
   background: linear-gradient(
     90deg,
-    rgba(212, 175, 55, 0.8) 25%,
-    rgba(255, 243, 191, 0.9) 50%,
-    rgba(212, 175, 55, 0.8) 75%
+    #bf953f 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #aa771c 100%
   );
   background-size: 200% auto;
   color: transparent;
@@ -195,15 +237,12 @@ html, body {
 }
 
 body {
-  background-color: #f1f5f9;
+  background-color: #0f172a;
   background-image:
     radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.22) 0px, transparent 60%),
-    /* Indigo */
     radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.18) 0px, transparent 60%),
-    /* Rose */
     radial-gradient(at 50% 100%, rgba(20, 184, 166, 0.18) 0px, transparent 60%),
-    /* Teal */
-    radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.18) 0px, transparent 60%); /* Purple */
+    radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.18) 0px, transparent 60%);
   background-attachment: fixed;
   color: #1e293b;
   font-family:
@@ -215,7 +254,6 @@ body {
 
 /* Print styles to export a clean PDF card */
 @media print {
-  /* Remove browser default header/footer */
   @page {
     margin: 0;
     size: A4;
@@ -236,7 +274,6 @@ body {
     print-color-adjust: exact !important;
   }
 
-  /* Hide ALL non-essential elements */
   .stars,
   .no-print,
   .animate-blob,
@@ -266,21 +303,20 @@ body {
     display: none !important;
   }
 
-  /* Card: centered and scaled to fit 1 A4 page */
   #printable-invitation {
     display: block !important;
     visibility: visible !important;
     position: relative !important;
-    width: 90% !important;
-    max-width: 580px !important;
+    width: 92% !important;
+    max-width: 620px !important;
     margin: auto !important;
-    padding: 24px !important;
-    border: 3px solid rgba(212, 175, 55, 0.35) !important;
-    border-radius: 12px !important;
+    padding: 28px !important;
+    border: 3px solid rgba(212, 175, 55, 0.4) !important;
+    border-radius: 16px !important;
     box-shadow: none !important;
-    background: linear-gradient(170deg, #FDF8EE 0%, #FAF3E3 35%, #F5EDDA 100%) !important;
+    background: linear-gradient(170deg, #FFFDF7 0%, #FAF4E6 40%, #F5ECCF 100%) !important;
     page-break-inside: avoid !important;
-    transform: scale(0.88) !important;
+    transform: scale(0.92) !important;
     transform-origin: center center !important;
   }
 
@@ -288,18 +324,15 @@ body {
     visibility: visible !important;
   }
 
-  /* Hide the Maps link */
   #printable-invitation a {
     display: none !important;
   }
 
-  /* Clean backgrounds */
   #printable-invitation,
   #root > div > div {
     background-image: none !important;
   }
 
-  /* Intermediate flex wrappers */
   .flex-1 {
     display: flex !important;
     justify-content: center !important;
@@ -311,3 +344,4 @@ body {
     height: 100% !important;
   }
 }
+

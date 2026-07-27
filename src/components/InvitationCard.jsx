@@ -1,31 +1,32 @@
 import React from "react";
-import { MapPin, Calendar, Clock, GraduationCap, Sparkles } from "lucide-react";
+import { MapPin, Calendar, Clock, GraduationCap, Sparkles, Award } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 
-/* ── Reusable SVG ornament flourish ── */
+/* ── Reusable SVG Art Deco / Royal Gold Flourish ── */
 function GoldFlourish({ className = "" }) {
   return (
-    <svg viewBox="0 0 200 20" className={className} fill="none">
+    <svg viewBox="0 0 300 24" className={className} fill="none">
       <path
-        d="M100 10 C85 10, 75 2, 55 2 C35 2, 25 8, 10 8 C5 8, 2 6, 0 5"
+        d="M150 12 C125 12, 110 3, 80 3 C50 3, 35 12, 15 12 C8 12, 3 9, 0 7"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
       />
       <path
-        d="M100 10 C115 10, 125 2, 145 2 C165 2, 175 8, 190 8 C195 8, 198 6, 200 5"
+        d="M150 12 C175 12, 190 3, 220 3 C250 3, 265 12, 285 12 C292 12, 297 9, 300 7"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
       />
-      <circle cx="100" cy="10" r="3" fill="currentColor" />
-      <circle cx="55" cy="2" r="1.8" fill="currentColor" opacity="0.7" />
-      <circle cx="145" cy="2" r="1.8" fill="currentColor" opacity="0.7" />
+      <circle cx="150" cy="12" r="3.5" fill="currentColor" />
+      <circle cx="80" cy="3" r="2" fill="currentColor" opacity="0.85" />
+      <circle cx="220" cy="3" r="2" fill="currentColor" opacity="0.85" />
+      <path d="M150 4 L153 12 L150 20 L147 12 Z" fill="currentColor" opacity="0.9" />
     </svg>
   );
 }
 
-/* ── Corner ornament ── */
+/* ── Intricate Royal Corner Ornament (Mobile Responsive) ── */
 function CornerOrnament({ position }) {
   const rotations = {
     "top-left": "rotate(0)",
@@ -34,34 +35,57 @@ function CornerOrnament({ position }) {
     "bottom-left": "rotate(270deg)",
   };
   const positions = {
-    "top-left": "top-2 left-2",
-    "top-right": "top-2 right-2",
-    "bottom-right": "bottom-2 right-2",
-    "bottom-left": "bottom-2 left-2",
+    "top-left": "top-2 left-2 sm:top-3 sm:left-3",
+    "top-right": "top-2 right-2 sm:top-3 sm:right-3",
+    "bottom-right": "bottom-2 right-2 sm:bottom-3 sm:right-3",
+    "bottom-left": "bottom-2 left-2 sm:bottom-3 sm:left-3",
   };
   return (
     <svg
-      viewBox="0 0 40 40"
-      className={`absolute ${positions[position]} w-9 h-9 sm:w-11 sm:h-11 text-accent pointer-events-none`}
+      viewBox="0 0 50 50"
+      className={`absolute ${positions[position]} w-7 h-7 sm:w-10 sm:h-10 text-[#b38728] pointer-events-none z-20 opacity-90`}
       style={{ transform: rotations[position] }}
       fill="none"
     >
+      {/* Outer corner frame */}
       <path
-        d="M2 22 Q2 2, 22 2"
+        d="M3 28 V7 C3 4.8 4.8 3 7 3 H28"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
       />
+      {/* Inner ornamental filigree */}
       <path
-        d="M7 15 Q7 7, 15 7"
+        d="M9 20 V11 C9 9.9 9.9 9 11 9 H20"
         stroke="currentColor"
         strokeWidth="1.2"
         strokeLinecap="round"
-        opacity="0.6"
+        opacity="0.75"
       />
-      <circle cx="2" cy="22" r="2" fill="currentColor" />
-      <circle cx="22" cy="2" r="2" fill="currentColor" />
+      <path
+        d="M3 16 Q16 16, 16 3"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        opacity="0.65"
+      />
+      <circle cx="3" cy="28" r="2.2" fill="currentColor" />
+      <circle cx="28" cy="3" r="2.2" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.8" />
     </svg>
+  );
+}
+
+/* ── University Emblem Crest Badge ── */
+function UniversityCrest() {
+  return (
+    <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-1 no-print">
+      <div className="h-[1px] w-8 sm:w-16 bg-gradient-to-r from-transparent to-[#b38728]/50" />
+      <div className="flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#001d42]/5 border border-[#b38728]/30 shadow-xs">
+        <GraduationCap className="w-3.5 h-3.5 text-[#002d62]" />
+      </div>
+      <div className="h-[1px] w-8 sm:w-16 bg-gradient-to-l from-transparent to-[#b38728]/50" />
+    </div>
   );
 }
 
@@ -95,37 +119,38 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
   return (
     <div
       id={isPrintable ? "printable-invitation" : undefined}
-      className="invitation-card w-full max-w-2xl mx-auto my-3 relative overflow-hidden text-slate-800"
+      className="invitation-card w-full max-w-2xl mx-auto my-1 sm:my-2 relative overflow-hidden text-slate-800 transition-all duration-500 card-paper-texture shadow-2xl"
       style={{
-        background:
-          "linear-gradient(170deg, #FDF8EE 0%, #FAF3E3 35%, #F5EDDA 100%)",
         borderRadius: "1.25rem",
-        border: "3px solid rgba(180, 140, 20, 0.35)",
+        border: "3px solid rgba(179, 135, 40, 0.45)",
         boxShadow:
-          "0 0 0 1px rgba(212,175,55,0.1), 0 8px 32px rgba(0,45,98,0.12), 0 2px 8px rgba(212,175,55,0.15)",
-        padding: "clamp(1.25rem, 3vw, 2rem)",
+          "0 0 0 1px rgba(212,175,55,0.3), 0 20px 48px rgba(0,29,66,0.28), 0 6px 18px rgba(212,175,55,0.22)",
+        padding: "clamp(1rem, 2.2vh, 1.75rem) clamp(1.25rem, 3vw, 2rem)",
       }}
     >
-      {/* ─── Corner Ornaments ─── */}
+      {/* Royal Corner Ornaments */}
       <CornerOrnament position="top-left" />
       <CornerOrnament position="top-right" />
       <CornerOrnament position="bottom-left" />
       <CornerOrnament position="bottom-right" />
 
-      {/* Inner frame with visible border */}
-      <div className="absolute inset-2.5 sm:inset-4 border-2 border-accent/15 rounded-xl pointer-events-none" />
+      {/* Multi-layered Double Gold Foil Inner Border Frame */}
+      <div className="absolute inset-2.5 sm:inset-3 border-2 border-[#b38728]/30 rounded-xl pointer-events-none z-10" />
+      <div className="absolute inset-[13px] sm:inset-[16px] border border-[#b38728]/15 rounded-lg pointer-events-none z-10" />
 
-      {/* ════════════════ HEADER ════════════════ */}
-      <div className="flex flex-col items-center text-center gap-0.5 pb-2 relative z-10">
-        <p className="text-[10px] sm:text-[11px] tracking-[0.25em] font-sans font-semibold text-[#5a4a1e] uppercase">
-          Đại Học Giao Thông Vận Tải TP.HCM
+      {/* ════════════════ TIER 1: HEADER & TITLE ════════════════ */}
+      <div className="flex flex-col items-center text-center gap-0.5 pb-0.5 relative z-10">
+        <UniversityCrest />
+
+        <p className="text-[9.5px] sm:text-[10.5px] tracking-[0.26em] font-sans font-extrabold text-[#002d62] uppercase leading-none">
+          Đại Học Giao Thông Vận Tải TP.Hồ Chí Minh
         </p>
 
         <h1
-          className="text-lg sm:text-xl md:text-2xl font-serif font-extrabold uppercase tracking-[0.1em] leading-tight"
+          className="text-xl sm:text-2xl md:text-3xl font-serif font-black uppercase tracking-[0.06em] leading-snug py-1 drop-shadow-xs inline-block"
           style={{
             background:
-              "linear-gradient(135deg, #002d62 0%, #1a4a8a 50%, #002d62 100%)",
+              "linear-gradient(135deg, #001d42 0%, #003a80 50%, #001d42 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
@@ -133,123 +158,149 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
           Thư Mời Dự Lễ Tốt Nghiệp
         </h1>
 
-        {/* Flourish divider */}
-        <GoldFlourish className="w-40 sm:w-48 h-4 text-accent" />
+        {/* Flourish Divider */}
+        <GoldFlourish className="w-40 sm:w-48 h-3.5 text-[#b38728] opacity-90 my-0.5" />
       </div>
 
-      {/* ════════ GREETING ════════ */}
-      <div className="text-center py-1.5 relative z-10">
-        <p className="text-[9px] uppercase tracking-[0.3em] text-accent font-bold mb-1 font-sans">
-          ✦ Kính gửi ✦
-        </p>
+      {/* ════════════════ TIER 2: GUEST PERSONALIZATION ════════════════ */}
+      <div className="text-center py-1 relative z-10">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#b38728]/10 border border-[#b38728]/25 mb-1">
+          <Sparkles className="w-2.5 h-2.5 text-[#b38728]" />
+          <span className="text-[8.5px] sm:text-[9px] uppercase tracking-[0.26em] text-[#7a5c10] font-bold font-sans">
+            Trân Trọng Kính Mời
+          </span>
+          <Sparkles className="w-2.5 h-2.5 text-[#b38728]" />
+        </div>
+
         <h2
-          className="text-xl sm:text-2xl font-handwriting text-[#002d62] font-normal leading-snug text-glow"
-          style={{ letterSpacing: "0.03em", wordSpacing: "0.12em" }}
+          className="text-xl sm:text-2xl md:text-3xl font-handwriting text-[#002d62] font-normal leading-tight text-glow px-2"
+          style={{ letterSpacing: "0.04em", wordSpacing: "0.12em" }}
         >
           {guestName || "Toàn thể Đại gia đình"}
         </h2>
       </div>
 
-      {/* ════════════════ GRADUATE INFO ════════════════ */}
-      <div className="relative z-10 max-w-lg mx-auto mb-3">
+      {/* ════════════════ TIER 3: HERO GRADUATE CENTERPIECE ════════════════ */}
+      <div className="relative z-10 max-w-lg mx-auto my-1.5">
         <div
-          className="py-3 px-4 sm:px-6 rounded-xl flex flex-col items-center text-center gap-1.5"
+          className="py-2.5 sm:py-3 px-3 sm:px-5 rounded-xl flex flex-col items-center text-center gap-1.5 relative overflow-hidden"
           style={{
             background:
-              "linear-gradient(180deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.02) 100%)",
-            border: "2px solid rgba(212,175,55,0.2)",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5)",
+              "linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,248,238,0.92) 100%)",
+            border: "1.5px solid rgba(179,135,40,0.35)",
+            boxShadow:
+              "0 8px 24px rgba(0,29,66,0.07), inset 0 1px 0 rgba(255,255,255,0.9)",
           }}
         >
-          {/* Graduation badge */}
-          <div className="w-9 h-9 rounded-full flex items-center justify-center relative bg-[#002d62]/5">
-            <div className="absolute inset-0 rounded-full border-2 border-dashed border-accent/35 animate-[spin_18s_linear_infinite]" />
-            <GraduationCap className="w-4 h-4 text-[#002d62] relative z-10" />
+          {/* Graduation Cap Badge */}
+          <div className="w-9 h-9 rounded-full flex items-center justify-center relative bg-[#002d62]/10 border border-[#b38728]/40 shadow-xs">
+            <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#b38728]/40 animate-[spin_25s_linear_infinite]" />
+            <GraduationCap className="w-4.5 h-4.5 text-[#002d62] relative z-10" />
           </div>
 
+          {/* Graduate Info */}
           <div>
-            <h4 className="text-lg sm:text-xl font-serif font-extrabold tracking-wide uppercase text-accent leading-tight">
-              {config.gradName}
-            </h4>
+            <span className="text-[8.5px] uppercase tracking-[0.22em] text-[#7a5c10] font-sans font-bold block mb-0.5">
+              Tân Cử Nhân
+            </span>
 
-            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-2 text-[11px] text-slate-600">
-              <span className="inline-flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <h3
+              className="text-xl sm:text-2xl font-serif font-black tracking-wide uppercase leading-snug text-glow pt-1.5 pb-0.5 px-1 inline-block"
+              style={{
+                background:
+                  "linear-gradient(135deg, #b38728 0%, #002d62 60%, #b38728 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {config.gradName}
+            </h3>
+
+            {/* Academic Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-1.5 mt-1.5 text-[10px] text-slate-800 font-medium">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/15">
+                <span className="w-1.2 h-1.2 rounded-full bg-[#b38728]" />
                 Ngành:{" "}
-                <span className="font-bold text-slate-800">{config.major}</span>
+                <span className="font-extrabold text-[#002d62]">{config.major}</span>
               </span>
-              <span className="text-accent font-bold">|</span>
-              <span className="inline-flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/15">
+                <span className="w-1.2 h-1.2 rounded-full bg-[#b38728]" />
                 Học vị:{" "}
-                <span className="font-bold text-slate-800">
-                  {config.degree || "Cử nhân"} Chính quy
+                <span className="font-extrabold text-[#002d62]">
+                  {config.degree || "Cử nhân"}
                 </span>
               </span>
             </div>
 
-            <p className="text-[8px] uppercase tracking-[0.2em] text-[#5a4a1e] font-sans font-bold mt-1">
+            <p className="text-[8.5px] uppercase tracking-[0.22em] text-[#7a5c10] font-sans font-bold mt-1">
               Niên Khóa 2022 – 2026
             </p>
           </div>
 
-          <div className="w-10 h-[1px] bg-accent/30" />
+          {/* Golden Gradient Divider */}
+          <div className="w-16 h-[1.5px] bg-gradient-to-r from-transparent via-[#b38728] to-transparent my-0.5" />
 
-          <p className="text-[10px] sm:text-[11px] text-slate-600 leading-[1.6] max-w-xs italic">
-            <span className="text-accent font-serif font-bold">“</span>
+          {/* Personal Invitation Text */}
+          <p className="text-[10.5px] sm:text-[11px] text-slate-700 leading-[1.5] max-w-md italic px-1 font-serif">
+            <span className="text-[#b38728] font-serif font-bold text-sm">“</span>
             {config.invitationText ||
               "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."}
-            <span className="text-accent font-serif font-bold">”</span>
+            <span className="text-[#b38728] font-serif font-bold text-sm">”</span>
           </p>
         </div>
       </div>
 
-      {/* ════════════════ EVENT DETAILS ════════════════ */}
-      <div className="mb-2 relative z-10">
+      {/* ════════════════ EVENT DETAILS MODULES ════════════════ */}
+      <div className="my-1.5 relative z-10">
+        {/* Section Header */}
         <div className="flex items-center gap-2 mb-1.5">
-          <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-accent/25" />
-          <span className="text-[8px] sm:text-[9px] font-sans font-bold uppercase tracking-[0.2em] text-accent flex items-center gap-1">
-            <Sparkles className="w-3 h-3" /> Chi tiết sự kiện
+          <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#b38728]/35" />
+          <span className="text-[8.5px] sm:text-[9.5px] font-sans font-extrabold uppercase tracking-[0.22em] text-[#7a5c10] flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-[#b38728]" /> Thông Tin Lễ Tốt Nghiệp
           </span>
-          <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-accent/25" />
+          <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#b38728]/35" />
         </div>
 
+        {/* Modular Grid Layout: 2 Columns on Mobile, 3 Columns on Desktop */}
         <div
-          className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-0 rounded-xl overflow-hidden"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[1fr_1fr_auto] gap-1.5 sm:gap-2 rounded-xl overflow-hidden p-1.5 sm:p-2"
           style={{
-            background: "rgba(255,255,255,0.85)",
-            border: "2px solid rgba(212,175,55,0.2)",
-            boxShadow: "0 4px 20px rgba(0,45,98,0.06)",
+            background: "rgba(255,255,255,0.92)",
+            border: "1.5px solid rgba(179,135,40,0.3)",
+            boxShadow: "0 4px 18px rgba(0,29,66,0.05)",
           }}
         >
-          {/* TIME */}
-          <div className="p-3 sm:p-4 sm:border-r border-b sm:border-b-0 border-accent/15">
-            <h5 className="text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-accent flex items-center gap-1.5 mb-2 pb-1.5 border-b border-accent/10">
-              <Clock className="w-3.5 h-3.5" /> Thời gian
+          {/* TIME CARD */}
+          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#fdfbf7] to-[#f7f2e6] border border-[#b38728]/20 flex flex-col justify-between">
+            <h5 className="text-[8.5px] sm:text-[9px] font-sans font-extrabold uppercase tracking-[0.16em] text-[#7a5c10] flex items-center gap-1 pb-1 border-b border-[#b38728]/15">
+              <Clock className="w-3 h-3 text-[#b38728]" /> Thời Gian
             </h5>
-            <div className="space-y-2">
-              <div className="flex items-start gap-2">
-                <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
-                  <Calendar className="w-4 h-4 text-accent" />
+
+            <div className="space-y-1.5 mt-1">
+              <div className="flex items-start gap-1.5 sm:gap-2">
+                <div className="w-6 h-6 sm:w-6.5 sm:h-6.5 rounded-md bg-[#b38728]/12 flex items-center justify-center shrink-0 border border-[#b38728]/20">
+                  <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#7a5c10]" />
                 </div>
                 <div>
-                  <p className="text-[8px] sm:text-[9px] text-slate-500 font-bold uppercase tracking-wider">
-                    Ngày
+                  <p className="text-[7px] sm:text-[7.5px] text-slate-500 font-bold uppercase tracking-wider">
+                    Ngày Diễn Ra
                   </p>
-                  <p className="text-xs font-bold text-slate-800 mt-0.5 leading-snug">
+                  <p className="text-[10.5px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
                     {formatVietnameseDate(config.date)}
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-2">
-                <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
-                  <Clock className="w-3.5 h-3.5 text-accent" />
+
+              <div className="flex items-start gap-1.5 sm:gap-2">
+                <div className="w-6 h-6 sm:w-6.5 sm:h-6.5 rounded-md bg-[#b38728]/12 flex items-center justify-center shrink-0 border border-[#b38728]/20">
+                  <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#7a5c10]" />
                 </div>
                 <div>
-                  <p className="text-[8px] sm:text-[9px] text-slate-500 font-bold uppercase tracking-wider">
-                    Giờ khai mạc
+                  <p className="text-[7px] sm:text-[7.5px] text-slate-500 font-bold uppercase tracking-wider">
+                    Giờ Khai Mạc
                   </p>
-                  <p className="text-xs font-bold text-slate-800 mt-0.5">
+                  <p className="text-[10.5px] sm:text-xs font-extrabold text-[#002d62] mt-0.5">
                     {config.time}
                   </p>
                 </div>
@@ -257,34 +308,36 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
             </div>
           </div>
 
-          {/* LOCATION */}
-          <div className="p-3 sm:p-4 sm:border-r border-b sm:border-b-0 border-accent/15">
-            <h5 className="text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-[0.15em] text-accent flex items-center gap-1.5 mb-2 pb-1.5 border-b border-accent/10">
-              <MapPin className="w-3.5 h-3.5" /> Địa điểm
+          {/* LOCATION CARD */}
+          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#fdfbf7] to-[#f7f2e6] border border-[#b38728]/20 flex flex-col justify-between">
+            <h5 className="text-[8.5px] sm:text-[9px] font-sans font-extrabold uppercase tracking-[0.16em] text-[#7a5c10] flex items-center gap-1 pb-1 border-b border-[#b38728]/15">
+              <MapPin className="w-3 h-3 text-[#b38728]" /> Địa Điểm
             </h5>
-            <div className="space-y-2">
-              <div className="flex items-start gap-2">
-                <div className="w-7 h-7 rounded-lg bg-[#002d62]/8 flex items-center justify-center shrink-0">
-                  <GraduationCap className="w-4 h-4 text-[#002d62]" />
+
+            <div className="space-y-1.5 mt-1">
+              <div className="flex items-start gap-1.5 sm:gap-2">
+                <div className="w-6 h-6 sm:w-6.5 sm:h-6.5 rounded-md bg-[#002d62]/10 flex items-center justify-center shrink-0 border border-[#002d62]/20">
+                  <GraduationCap className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#002d62]" />
                 </div>
                 <div>
-                  <p className="text-[8px] sm:text-[9px] text-slate-500 font-bold uppercase tracking-wider">
-                    Hội trường
+                  <p className="text-[7px] sm:text-[7.5px] text-slate-500 font-bold uppercase tracking-wider">
+                    Hội Trường
                   </p>
-                  <p className="text-xs font-extrabold text-[#002d62] mt-0.5">
+                  <p className="text-[10.5px] sm:text-xs font-extrabold text-[#002d62] mt-0.5">
                     {config.hall}
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-2">
-                <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
-                  <MapPin className="w-3.5 h-3.5 text-accent" />
+
+              <div className="flex items-start gap-1.5 sm:gap-2">
+                <div className="w-6 h-6 sm:w-6.5 sm:h-6.5 rounded-md bg-[#b38728]/12 flex items-center justify-center shrink-0 border border-[#b38728]/20">
+                  <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#7a5c10]" />
                 </div>
                 <div>
-                  <p className="text-[8px] sm:text-[9px] text-slate-500 font-bold uppercase tracking-wider">
-                    Địa chỉ
+                  <p className="text-[7px] sm:text-[7.5px] text-slate-500 font-bold uppercase tracking-wider">
+                    Địa Chỉ Chi Tiết
                   </p>
-                  <p className="text-xs font-bold text-slate-700 mt-0.5 leading-snug">
+                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-700 mt-0.5 leading-snug">
                     {config.address}
                   </p>
                 </div>
@@ -292,38 +345,44 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
             </div>
           </div>
 
-          {/* QR CODE */}
-          <div className="p-4 flex flex-row sm:flex-col items-center justify-center gap-3 sm:w-38 bg-accent/5">
-            <div className="p-2 bg-white rounded-lg border-2 border-accent/25 shadow-md">
+          {/* QR MAP PASS CARD (HORIZONTAL STRIP ON MOBILE) */}
+          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#001d42] to-[#002d62] border border-[#b38728]/40 text-white flex flex-row md:flex-col items-center justify-between sm:justify-center gap-2 shadow-sm sm:col-span-2 md:col-span-1 md:w-32">
+            <div className="p-1 sm:p-1.5 bg-white rounded-md border border-[#b38728] shadow-inner shrink-0">
               <QRCodeSVG
                 value={googleMapsUrl}
-                size={82}
+                size={62}
                 bgColor="#ffffff"
-                fgColor="#002d62"
-                level="L"
-                includeMargin={true}
+                fgColor="#001d42"
+                level="M"
+                includeMargin={false}
               />
             </div>
-            <a
-              href={googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[9px] font-bold text-white bg-[#002d62] hover:bg-[#003a80] px-4 py-2 rounded-md transition-colors cursor-pointer uppercase tracking-wider no-underline shadow-md"
-            >
-              Chỉ đường
-            </a>
+            
+            <div className="flex flex-col items-end sm:items-center gap-1">
+              <span className="text-[7.5px] uppercase tracking-[0.18em] font-bold text-[#f3e5ab]">
+                Bản Đồ Định Vị
+              </span>
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[8.5px] font-bold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 px-2.5 py-1 rounded transition-all cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95"
+              >
+                Chỉ Đường
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ════════════════ FOOTER ════════════════ */}
-      <div className="relative z-10 pt-4">
-        <GoldFlourish className="w-44 h-5 text-accent mx-auto mb-3" />
-        <div className="text-center text-[9px] sm:text-[10px]">
-          <p className="font-sans mt-1 text-slate-500">
-            Designed by{" "}
-            <span className="font-bold text-slate-700 italic">
-              Nguyen Trung Tien
+      {/* ════════════════ FOOTER & SIGNATURE ════════════════ */}
+      <div className="relative z-10 pt-1 text-center">
+        <GoldFlourish className="w-40 h-4 text-[#b38728] opacity-85 mx-auto mb-1" />
+        <div className="text-[9px] text-slate-500 font-sans">
+          <p>
+            Trân trọng kính mời & đón tiếp •{" "}
+            <span className="font-extrabold text-[#002d62] italic">
+              Nguyễn Trung Tiến
             </span>
           </p>
         </div>

@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { Settings, X, Copy, Check, Info } from 'lucide-react';
+import { Settings, X, Copy, Check, Info, Palette, Image as ImageIcon } from 'lucide-react';
 
-export default function Customizer({ config, onChange, defaultGuest, isOpen, onClose }) {
+export default function Customizer({
+  config,
+  onChange,
+  defaultGuest,
+  bgTheme = "combined",
+  onBgThemeChange,
+  isOpen,
+  onClose,
+}) {
   const [guestName, setGuestName] = useState(defaultGuest || 'Toàn thể Đại gia đình');
   const [copied, setCopied] = useState(false);
 
@@ -27,6 +35,9 @@ export default function Customizer({ config, onChange, defaultGuest, isOpen, onC
     if (config.invitationText) {
       params.set('text', config.invitationText);
     }
+    if (bgTheme) {
+      params.set('theme', bgTheme);
+    }
     params.set('shared', 'true');
 
     const fullUrl = `${baseUrl}?${params.toString()}`;
@@ -36,6 +47,29 @@ export default function Customizer({ config, onChange, defaultGuest, isOpen, onC
       setTimeout(() => setCopied(false), 3000);
     });
   };
+
+  const themes = [
+    {
+      id: "combined",
+      name: "👑 Combined Luxury Gold",
+      desc: "Nền UTH Campus + Khung Chân dung Tân khoa",
+    },
+    {
+      id: "uth-campus",
+      name: "🏛️ UTH Campus Theme",
+      desc: "Nền toàn cảnh khuôn viên UTH hoành tráng",
+    },
+    {
+      id: "graduate-portrait",
+      name: "🎓 Graduate Portrait Theme",
+      desc: "Nền Chân dung Tân khoa mượt mà",
+    },
+    {
+      id: "classic",
+      name: "📜 Classic Parchment",
+      desc: "Phong cách Giấy da Hoàng gia cổ điển",
+    },
+  ];
 
   return (
     <>
@@ -72,8 +106,38 @@ export default function Customizer({ config, onChange, defaultGuest, isOpen, onC
           <div className="p-3 bg-accent/5 rounded-xl border border-accent/20 flex gap-2.5 items-start">
             <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
             <p className="text-xs text-slate-600 leading-normal">
-              <strong>Hướng dẫn:</strong> Chỉnh sửa các thông tin bên dưới để thay đổi nội dung thiệp trực tiếp. Bạn cũng có thể thiết lập người nhận mặc định và nhấn **Tạo & Sao Chép Link** để gửi riêng cho người thân đó.
+              <strong>Hướng dẫn:</strong> Chọn Theme hình nền bên dưới và chỉnh sửa các thông tin để tùy biến thiệp. Sau đó nhấn **Sao Chép Link** để gửi riêng cho từng người.
             </p>
+          </div>
+
+          {/* Background Theme Selector */}
+          <div className="p-3.5 bg-gradient-to-br from-accent/10 to-transparent rounded-xl border border-accent/25">
+            <label className="block text-xs font-bold text-[#002d62] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <Palette className="w-3.5 h-3.5 text-accent" /> Chọn Theme / Hình Nền Thiệp
+            </label>
+            <div className="grid grid-cols-1 gap-2">
+              {themes.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => onBgThemeChange && onBgThemeChange(t.id)}
+                  className={`p-2.5 rounded-lg border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
+                    bgTheme === t.id
+                      ? "bg-[#002d62] text-white border-accent shadow-md"
+                      : "bg-white text-slate-700 border-slate-200 hover:border-accent/50 hover:bg-amber-50/50"
+                  }`}
+                >
+                  <span className="text-xs font-bold">{t.name}</span>
+                  <span
+                    className={`text-[10px] ${
+                      bgTheme === t.id ? "text-amber-200" : "text-slate-500"
+                    }`}
+                  >
+                    {t.desc}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Form Groups */}
