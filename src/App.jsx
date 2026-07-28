@@ -21,8 +21,8 @@ export default function App() {
     gradName: "Nguyễn Trung Tiến",
     degree: "Cử nhân",
     major: "Công nghệ Thông tin",
-    date: "2026-10-15",
-    time: "08:00",
+    date: "Đang cập nhật",
+    time: "Đang cập nhật",
     hall: "Cơ sở chính (Cơ sở 1)",
     address: "02 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh, Việt Nam",
     invitationText:
