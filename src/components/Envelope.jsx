@@ -225,10 +225,10 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
               <div className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#b38728]/25 blur-md animate-pulse pointer-events-none" />
 
               {/* Metallic Wax Circle */}
-              <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#aa771c] border-2 border-[#f3e5ab]/80 flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.65)] group-hover/seal:scale-110 transition-all duration-300 relative z-10">
-                <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full border-2 border-dashed border-[#001d42]/35 flex flex-col items-center justify-center text-[#001d42] font-serif bg-gradient-to-b from-transparent to-[#000000]/12">
-                  <GraduationCap className="w-4 h-4 text-[#001d42]" />
-                  <span className="text-[8.5px] font-black tracking-widest font-sans mt-0.5 uppercase">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#aa771c] border-2 border-[#f3e5ab]/90 flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.65)] group-hover/seal:scale-110 transition-all duration-300 relative z-10 p-1">
+                <div className="w-full h-full rounded-full border-2 border-dashed border-[#001d42]/40 flex flex-col items-center justify-center text-[#001d42] font-serif bg-gradient-to-b from-transparent to-[#000000]/12 px-1">
+                  <GraduationCap className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#001d42] shrink-0" />
+                  <span className="text-[8.5px] sm:text-[9.5px] font-sans font-black tracking-wider text-[#001d42] uppercase whitespace-nowrap mt-0.5 leading-none">
                     MỞ THIỆP
                   </span>
                 </div>
