@@ -113,22 +113,30 @@ export default function App() {
         /* Main Invitation Content */
         <div className="flex-1 w-full flex flex-col justify-between py-1 sm:py-3 px-1.5 sm:px-4 relative z-10 animate-[fadeIn_1s_ease-out] gap-1 sm:gap-2">
           {/* Global Dynamic Background Layer (100% Sharp, Crisp & HD on Desktop & Mobile) */}
-          <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#0f172a] transition-all duration-500">
+          <div className={`fixed inset-0 overflow-hidden pointer-events-none z-0 transition-all duration-700 ${bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"}`}>
             {/* Theme: combined or uth-campus */}
             {(bgTheme === "combined" || bgTheme === "uth-campus") && (
               <div
                 className={`absolute inset-y-0 left-0 ${
                   bgTheme === "combined" ? "w-1/2" : "w-full"
-                } overflow-hidden transition-all duration-500 opacity-100`}
+                } overflow-hidden transition-all duration-700 opacity-100 group/campus`}
               >
                 <img
                   src={uthCampusImg}
                   alt="UTH Campus Heritage"
-                  className="w-full h-full object-cover object-center scale-100"
-                  style={{ imageRendering: "-webkit-optimize-contrast" }}
+                  loading="eager"
+                  decoding="async"
+                  className="w-full h-full object-cover object-center scale-100 animate-kenburns"
+                  style={{
+                    imageRendering: "-webkit-optimize-contrast",
+                    filter: "brightness(0.92) contrast(1.1) saturate(1.18)",
+                  }}
                 />
+                {/* Royal Navy & Golden Hour Cinematic Blend Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#001d42]/65 via-[#002d62]/25 to-amber-500/15 mix-blend-multiply pointer-events-none" />
+                
                 {/* Clean edge gradient fade */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/40 pointer-events-none" />
               </div>
             )}
 
@@ -137,23 +145,41 @@ export default function App() {
               <div
                 className={`absolute inset-y-0 right-0 ${
                   bgTheme === "combined" ? "w-1/2" : "w-full"
-                } overflow-hidden transition-all duration-500 opacity-100`}
+                } overflow-hidden transition-all duration-700 opacity-100`}
               >
                 <img
                   src={gradPortraitImg}
                   alt="Graduate Portrait"
+                  loading="eager"
+                  decoding="async"
                   className="w-full h-full object-cover object-top scale-100"
                   style={{ imageRendering: "-webkit-optimize-contrast" }}
                 />
                 {/* Clean edge gradient fade */}
-                <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-l from-black/15 via-transparent to-black/35" />
+              </div>
+            )}
+
+            {/* Theme: Bright Luxury Classic Royal Parchment & Gold Atmosphere */}
+            {bgTheme === "classic" && (
+              <div
+                className="absolute inset-0 transition-all duration-700 overflow-hidden"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at 50% 35%, #FFFDF7 0%, #F8EED3 50%, #EBD8A3 100%)",
+                }}
+              >
+                {/* Radiant Golden Light Centerpiece */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.32)_0%,rgba(179,135,40,0.12)_50%,transparent_75%)] rounded-full blur-3xl animate-pulse pointer-events-none" />
+                {/* Subtle Decorative Royal Grid Pattern */}
+                <div className="absolute inset-0 bg-[radial-gradient(#b38728_1.2px,transparent_1.2px)] [background-size:28px_28px] opacity-20 pointer-events-none" />
               </div>
             )}
 
             {/* Soft subtle outer vignette */}
-            <div className="absolute inset-0 pointer-events-none z-1 bg-gradient-to-b from-black/15 via-transparent to-black/25" />
+            <div className={`absolute inset-0 pointer-events-none z-1 ${bgTheme === "classic" ? "bg-gradient-to-b from-[#b38728]/10 via-transparent to-[#b38728]/15" : "bg-gradient-to-b from-black/20 via-transparent to-black/30"}`} />
 
-            <div className="stars" />
+            {bgTheme !== "classic" && <div className="stars" />}
           </div>
 
           {/* Invitation Card Container */}

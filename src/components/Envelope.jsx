@@ -21,22 +21,30 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent">
       {/* Dynamic Merged Atmospheric Backdrop (100% Sharp & HD on Desktop & Mobile) */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#0f172a] transition-all duration-500">
+      <div className={`absolute inset-0 z-0 pointer-events-none overflow-hidden transition-all duration-700 ${bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"}`}>
         {/* Theme: combined or uth-campus */}
         {(bgTheme === "combined" || bgTheme === "uth-campus") && (
           <div
             className={`absolute inset-y-0 left-0 ${
               bgTheme === "combined" ? "w-1/2" : "w-full"
-            } overflow-hidden transition-all duration-500 opacity-100`}
+            } overflow-hidden transition-all duration-700 opacity-100`}
           >
             <img
               src={uthCampusImg}
               alt="UTH Campus Background"
-              className="w-full h-full object-cover object-center scale-100"
-              style={{ imageRendering: "-webkit-optimize-contrast" }}
+              loading="eager"
+              decoding="async"
+              className="w-full h-full object-cover object-center scale-100 animate-kenburns"
+              style={{
+                imageRendering: "-webkit-optimize-contrast",
+                filter: "brightness(0.92) contrast(1.1) saturate(1.18)",
+              }}
             />
+            {/* Royal Navy & Golden Hour Cinematic Blend Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#001d42]/65 via-[#002d62]/25 to-amber-500/15 mix-blend-multiply pointer-events-none" />
+            
             {/* Clean edge gradient fade */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/40 pointer-events-none" />
           </div>
         )}
 
@@ -45,28 +53,46 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
           <div
             className={`absolute inset-y-0 right-0 ${
               bgTheme === "combined" ? "w-1/2" : "w-full"
-            } overflow-hidden transition-all duration-500 opacity-100`}
+            } overflow-hidden transition-all duration-700 opacity-100`}
           >
             <img
               src={gradPortraitImg}
               alt="Graduate Portrait Background"
+              loading="eager"
+              decoding="async"
               className="w-full h-full object-cover object-top scale-100"
               style={{ imageRendering: "-webkit-optimize-contrast" }}
             />
             {/* Clean edge gradient fade */}
-            <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/15 via-transparent to-black/35" />
+          </div>
+        )}
+
+        {/* Theme: Bright Luxury Classic Royal Parchment & Gold Atmosphere */}
+        {bgTheme === "classic" && (
+          <div
+            className="absolute inset-0 transition-all duration-700 overflow-hidden"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 35%, #FFFDF7 0%, #F8EED3 50%, #EBD8A3 100%)",
+            }}
+          >
+            {/* Radiant Golden Light Centerpiece */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.35)_0%,rgba(179,135,40,0.15)_50%,transparent_75%)] rounded-full blur-3xl animate-pulse pointer-events-none" />
+            {/* Subtle Decorative Royal Grid Pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(#b38728_1.2px,transparent_1.2px)] [background-size:28px_28px] opacity-20 pointer-events-none" />
           </div>
         )}
 
         {/* Soft subtle outer vignette */}
-        <div className="absolute inset-0 pointer-events-none z-1 bg-gradient-to-b from-black/15 via-transparent to-black/25" />
+        <div className={`absolute inset-0 pointer-events-none z-1 ${bgTheme === "classic" ? "bg-gradient-to-b from-[#b38728]/10 via-transparent to-[#b38728]/15" : "bg-gradient-to-b from-black/20 via-transparent to-black/30"}`} />
       </div>
 
-        {/* Ambient Glowing Light Blobs */}
-        <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-indigo-500/15 rounded-full blur-[120px] pointer-events-none animate-blob" />
-        <div className="absolute bottom-1/4 right-1/6 w-96 h-96 bg-amber-500/12 rounded-full blur-[120px] pointer-events-none animate-blob-delayed" />
+      {/* Ambient Glowing Light Blobs */}
+      <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-indigo-500/15 rounded-full blur-[120px] pointer-events-none animate-blob" />
+      <div className="absolute bottom-1/4 right-1/6 w-96 h-96 bg-amber-500/12 rounded-full blur-[120px] pointer-events-none animate-blob-delayed" />
 
-        <div className="stars" />
+      {bgTheme !== "classic" && <div className="stars" />}
 
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -185,7 +211,7 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
               }}
             />
 
-            {/* Gold Metallic 3D Wax Seal */}
+            {/* Gold Metallic 3D Wax Seal Button */}
             <motion.div
               animate={
                 isOpening
@@ -193,28 +219,63 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
                   : { scale: 1, opacity: 1 }
               }
               transition={{ duration: 0.4 }}
-              className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center"
+              className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
             >
+              {/* Elegant Glowing Aura */}
+              <div className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#b38728]/25 blur-md animate-pulse pointer-events-none" />
+
               {/* Metallic Wax Circle */}
-              <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#aa771c] border-2 border-[#f3e5ab]/60 flex items-center justify-center shadow-[0_6px_20px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-transform duration-200">
-                <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full border-2 border-dashed border-[#001d42]/30 flex flex-col items-center justify-center text-[#001d42] font-serif bg-gradient-to-b from-transparent to-[#000000]/10">
-                  <span className="text-sm">🎓</span>
-                  <span className="text-[8.5px] font-black tracking-widest font-sans mt-0.5">
-                    UTH
+              <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#aa771c] border-2 border-[#f3e5ab]/80 flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.65)] group-hover/seal:scale-110 transition-all duration-300 relative z-10">
+                <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full border-2 border-dashed border-[#001d42]/35 flex flex-col items-center justify-center text-[#001d42] font-serif bg-gradient-to-b from-transparent to-[#000000]/12">
+                  <GraduationCap className="w-4 h-4 text-[#001d42]" />
+                  <span className="text-[8.5px] font-black tracking-widest font-sans mt-0.5 uppercase">
+                    MỞ THIỆP
                   </span>
                 </div>
               </div>
+
+              {/* Sleek Golden Hand Tap Indicator Directly Attached to Seal */}
+              <motion.div
+                animate={{
+                  x: [4, 0, 4],
+                  y: [4, 0, 4],
+                  scale: [1, 0.9, 1],
+                }}
+                transition={{
+                  duration: 1.4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute -bottom-1 -right-2 z-20 pointer-events-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
+              >
+                <svg
+                  className="w-6 h-6 sm:w-7 sm:h-7 text-[#fcf6ba] transform -rotate-12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#001d42"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path
+                    d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8M18 8a2 2 0 0 1 2 2v4a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"
+                    fill="#fcf6ba"
+                  />
+                </svg>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Small Instruction Banner */}
+        {/* Clean Elegant Instruction Banner */}
         <motion.p
           animate={{ opacity: isOpening ? 0 : [0.5, 1, 0.5] }}
-          transition={{ duration: 2.2, repeat: Infinity }}
-          className="text-xs text-[#f3e5ab] font-medium mt-1 flex items-center gap-2 pointer-events-none"
+          transition={{ duration: 2, repeat: Infinity }}
+          className="text-xs sm:text-sm text-[#f3e5ab] font-medium tracking-wide mt-2 flex items-center gap-1.5 pointer-events-none drop-shadow-sm select-none"
         >
-          <MailOpen className="w-4 h-4 text-[#b38728]" /> Chạm vào phong bì để mở thư
+          <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
+          <span>Chạm vào phong bì để mở thiệp</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
         </motion.p>
       </motion.div>
     </div>

@@ -211,6 +211,24 @@
   }
 }
 
+/* Ken Burns slow cinematic background zoom */
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.06) translate(-0.8%, -0.8%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.animate-kenburns {
+  will-change: transform;
+  animation: kenburns 35s ease-in-out infinite alternate;
+}
+
 .animate-blob {
   will-change: transform;
   animation: float-blob 15s ease-in-out infinite;
