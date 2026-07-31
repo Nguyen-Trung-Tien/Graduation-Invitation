@@ -21,12 +21,12 @@ export default function App() {
     gradName: "Nguyễn Trung Tiến",
     degree: "Cử nhân",
     major: "Công nghệ Thông tin",
-    date: "Đang cập nhật",
-    time: "Đang cập nhật",
+    date: "2026-12-26 (dự kiến)",
+    time: "16:30",
     hall: "Cơ sở chính (Cơ sở 1)",
-    address: "02 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh, Việt Nam",
+    address: "Số 2 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh",
     invitationText:
-      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.",
+      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."
   });
 
   const [guestName, setGuestName] = useState("Toàn thể Đại gia đình");

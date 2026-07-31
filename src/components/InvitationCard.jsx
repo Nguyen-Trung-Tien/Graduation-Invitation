@@ -141,7 +141,7 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
   };
 
   const formatVietnameseDate = (dateStr) => {
-    if (!dateStr || dateStr === "Đang cập nhật") return "Chủ Nhật, ngày 26 tháng 07 năm 2026";
+    if (!dateStr || dateStr === "Đang cập nhật") return "Thứ Bảy, ngày 26 tháng 12 năm 2026";
     try {
       const dateObj = new Date(dateStr);
       if (isNaN(dateObj.getTime())) return dateStr;
@@ -163,8 +163,7 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
     }
   };
 
-  const googleMapsUrl =
-    "https://www.google.com/maps/search/?api=1&query=Truong+Dai+hoc+Giao+thong+van+tai+TPHCM+02+Vo+Oanh";
+  const googleMapsUrl = "https://maps.app.goo.gl/SrCYzQdAPC5invdt8";
 
   // Google Calendar URL Generator
   const createGoogleCalendarUrl = () => {
@@ -174,13 +173,13 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
     const details = encodeURIComponent(
       `Trân trọng kính mời ${guestName || "quý khách"} đến tham dự và chia vui cùng Tân Cử Nhân ${config.gradName} trong Lễ Tốt Nghiệp Ngành ${config.major}.\n\n` +
       `📌 Địa điểm: ${config.hall} - ${config.address}\n` +
-      `🕒 Giờ khai mạc: ${config.time || "07:30"}\n\n` +
+      `🕒 Giờ khai mạc: ${config.time || "16:30 (dự kiến)"}\n\n` +
       `Lời chúc: "${config.invitationText || ""}"`
     );
     const location = encodeURIComponent(`${config.hall}, ${config.address}`);
 
-    let startDateStr = "20260726T073000";
-    let endDateStr = "20260726T113000";
+    let startDateStr = "20261226T163000";
+    let endDateStr = "20261226T193000";
 
     if (config.date && config.date !== "Đang cập nhật") {
       const d = new Date(config.date);
@@ -188,8 +187,18 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
         const yyyy = d.getFullYear();
         const mm = String(d.getMonth() + 1).padStart(2, "0");
         const dd = String(d.getDate()).padStart(2, "0");
-        startDateStr = `${yyyy}${mm}${dd}T073000`;
-        endDateStr = `${yyyy}${mm}${dd}T113000`;
+
+        let timeHour = "16";
+        let timeMin = "30";
+        if (config.time && config.time.includes(":")) {
+          const parts = config.time.split(":");
+          timeHour = parts[0].padStart(2, "0");
+          timeMin = parts[1].slice(0, 2).padStart(2, "0");
+        }
+
+        startDateStr = `${yyyy}${mm}${dd}T${timeHour}${timeMin}00`;
+        const endHour = String(Math.min(23, parseInt(timeHour, 10) + 3)).padStart(2, "0");
+        endDateStr = `${yyyy}${mm}${dd}T${endHour}${timeMin}00`;
       }
     }
 
@@ -389,7 +398,8 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
                       Ngày Diễn Ra
                     </p>
                     <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
-                      {formatVietnameseDate(config.date)}
+                      {formatVietnameseDate(config.date)}{" "}
+                      <span className="text-[10px] text-amber-700 font-semibold italic">(dự kiến)</span>
                     </p>
                   </div>
                 </div>
@@ -403,7 +413,8 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
                       Giờ Khai Mạc
                     </p>
                     <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5">
-                      {config.time || "07:30 Sáng"}
+                      {config.time || "16:30"}{" "}
+                      <span className="text-[10px] text-amber-700 font-semibold italic">(dự kiến)</span>
                     </p>
                   </div>
                 </div>
