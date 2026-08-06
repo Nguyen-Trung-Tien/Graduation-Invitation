@@ -7,14 +7,13 @@ import Customizer from "./components/Customizer";
 import ExportModal from "./components/ExportModal";
 
 import uthCampusImg from "./assets/Hinh_UTH.jpg";
-import gradPortraitImg from "./assets/1000011633-9970-7187.jpg";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isShared, setIsShared] = useState(false);
-  const [bgTheme, setBgTheme] = useState("combined"); // 'combined', 'uth-campus', 'graduate-portrait', 'classic'
+  const [bgTheme, setBgTheme] = useState("uth-campus"); // 'uth-campus', 'classic'
 
   // Initial invitation configuration, loaded from URL params if present
   const [config, setConfig] = useState({
@@ -26,7 +25,7 @@ export default function App() {
     hall: "Cơ sở chính (Cơ sở 1)",
     address: "Số 2 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh",
     invitationText:
-      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."
+      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.\nLưu ý: Khi tham gia lễ phải có vé tham gia (tối đa 5 vé)"
   });
 
   const [guestName, setGuestName] = useState("Toàn thể Đại gia đình");
@@ -76,7 +75,7 @@ export default function App() {
       invitationText:
         text ||
         prev.invitationText ||
-        "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.",
+        "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.\nLưu ý: Khi tham gia lễ phải có vé tham gia (tối đa 5 vé)",
     }));
   }, []);
 
@@ -114,12 +113,10 @@ export default function App() {
         <div className="flex-1 w-full flex flex-col justify-between py-1 sm:py-3 px-1.5 sm:px-4 relative z-10 animate-[fadeIn_1s_ease-out] gap-1 sm:gap-2">
           {/* Global Dynamic Background Layer (100% Sharp, Crisp & HD on Desktop & Mobile) */}
           <div className={`fixed inset-0 overflow-hidden pointer-events-none z-0 transition-all duration-700 ${bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"}`}>
-            {/* Theme: combined or uth-campus */}
-            {(bgTheme === "combined" || bgTheme === "uth-campus") && (
+            {/* Theme: uth-campus or default */}
+            {bgTheme !== "classic" && (
               <div
-                className={`absolute inset-y-0 left-0 ${
-                  bgTheme === "combined" ? "w-1/2" : "w-full"
-                } overflow-hidden transition-all duration-700 opacity-100 group/campus`}
+                className="absolute inset-0 overflow-hidden transition-all duration-700 opacity-100 group/campus"
               >
                 <img
                   src={uthCampusImg}
@@ -137,26 +134,6 @@ export default function App() {
                 
                 {/* Clean edge gradient fade */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/40 pointer-events-none" />
-              </div>
-            )}
-
-            {/* Theme: combined or graduate-portrait */}
-            {(bgTheme === "combined" || bgTheme === "graduate-portrait") && (
-              <div
-                className={`absolute inset-y-0 right-0 ${
-                  bgTheme === "combined" ? "w-1/2" : "w-full"
-                } overflow-hidden transition-all duration-700 opacity-100`}
-              >
-                <img
-                  src={gradPortraitImg}
-                  alt="Graduate Portrait"
-                  loading="eager"
-                  decoding="async"
-                  className="w-full h-full object-cover object-top scale-100"
-                  style={{ imageRendering: "-webkit-optimize-contrast" }}
-                />
-                {/* Clean edge gradient fade */}
-                <div className="absolute inset-0 bg-gradient-to-l from-black/15 via-transparent to-black/35" />
               </div>
             )}
 

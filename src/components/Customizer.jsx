@@ -50,19 +50,9 @@ export default function Customizer({
 
   const themes = [
     {
-      id: "combined",
-      name: "👑 Combined Luxury Gold",
-      desc: "Nền UTH Campus + Khung Chân dung Tân khoa",
-    },
-    {
       id: "uth-campus",
       name: "🏛️ UTH Campus Theme",
       desc: "Nền toàn cảnh khuôn viên UTH hoành tráng",
-    },
-    {
-      id: "graduate-portrait",
-      name: "🎓 Graduate Portrait Theme",
-      desc: "Nền Chân dung Tân khoa mượt mà",
     },
     {
       id: "classic",

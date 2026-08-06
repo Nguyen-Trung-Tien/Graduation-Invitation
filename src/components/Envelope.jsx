@@ -3,9 +3,8 @@ import { motion } from "framer-motion";
 import { MailOpen, Sparkles, GraduationCap } from "lucide-react";
 
 import uthCampusImg from "../assets/Hinh_UTH.jpg";
-import gradPortraitImg from "../assets/1000011633-9970-7187.jpg";
 
-export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
+export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen }) {
   const [isOpening, setIsOpening] = useState(false);
 
   const handleOpen = () => {
@@ -22,12 +21,10 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
     <div className="min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent">
       {/* Dynamic Merged Atmospheric Backdrop (100% Sharp & HD on Desktop & Mobile) */}
       <div className={`absolute inset-0 z-0 pointer-events-none overflow-hidden transition-all duration-700 ${bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"}`}>
-        {/* Theme: combined or uth-campus */}
-        {(bgTheme === "combined" || bgTheme === "uth-campus") && (
+        {/* Theme: uth-campus or non-classic */}
+        {bgTheme !== "classic" && (
           <div
-            className={`absolute inset-y-0 left-0 ${
-              bgTheme === "combined" ? "w-1/2" : "w-full"
-            } overflow-hidden transition-all duration-700 opacity-100`}
+            className="absolute inset-0 overflow-hidden transition-all duration-700 opacity-100"
           >
             <img
               src={uthCampusImg}
@@ -45,26 +42,6 @@ export default function Envelope({ guestName, bgTheme = "combined", onOpen }) {
             
             {/* Clean edge gradient fade */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/40 pointer-events-none" />
-          </div>
-        )}
-
-        {/* Theme: combined or graduate-portrait */}
-        {(bgTheme === "combined" || bgTheme === "graduate-portrait") && (
-          <div
-            className={`absolute inset-y-0 right-0 ${
-              bgTheme === "combined" ? "w-1/2" : "w-full"
-            } overflow-hidden transition-all duration-700 opacity-100`}
-          >
-            <img
-              src={gradPortraitImg}
-              alt="Graduate Portrait Background"
-              loading="eager"
-              decoding="async"
-              className="w-full h-full object-cover object-top scale-100"
-              style={{ imageRendering: "-webkit-optimize-contrast" }}
-            />
-            {/* Clean edge gradient fade */}
-            <div className="absolute inset-0 bg-gradient-to-l from-black/15 via-transparent to-black/35" />
           </div>
         )}
 

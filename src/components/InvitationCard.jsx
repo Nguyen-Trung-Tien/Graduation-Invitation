@@ -338,10 +338,10 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
           <div className="w-20 h-[1.5px] bg-gradient-to-r from-transparent via-[#b38728] to-transparent my-0.5" />
 
           {/* Personal Invitation Text */}
-          <p className="text-[11px] sm:text-[11.5px] text-slate-700 leading-[1.55] max-w-md italic px-1 font-serif">
+          <p className="text-[11px] sm:text-[11.5px] text-slate-700 leading-[1.55] max-w-md italic px-1 font-serif whitespace-pre-line">
             <span className="text-[#b38728] font-serif font-bold text-base mr-0.5">“</span>
             {config.invitationText ||
-              "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."}
+              "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.\nLưu ý: Khi tham gia lễ phải có vé tham gia (tối đa 5 vé)"}
             <span className="text-[#b38728] font-serif font-bold text-base ml-0.5">”</span>
           </p>
         </div>
