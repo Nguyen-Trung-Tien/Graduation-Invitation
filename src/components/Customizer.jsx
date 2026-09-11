@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Settings, X, Copy, Check, Info, Palette } from "lucide-react";
+import { INVITATION_DEFAULTS } from "../config/invitationDefaults";
 
 export default function Customizer({
   config,
@@ -21,17 +22,16 @@ export default function Customizer({
   };
 
   const DEFAULTS = {
-    guestName: "Toàn thể Đại gia đình",
-    gradName: "Nguyễn Trung Tiến",
-    degree: "Cử nhân",
-    major: "Công nghệ Thông tin",
-    date: "2026-12-26",
-    time: "16:30",
-    hall: "Cơ sở chính (Cơ sở 1)",
-    address: "Số 2 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh",
-    invitationText:
-      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.\nLưu ý: Khi tham gia lễ phải có vé tham gia (tối đa 5 vé)",
-    bgTheme: "uth-campus",
+    guestName: INVITATION_DEFAULTS.guestName,
+    gradName: INVITATION_DEFAULTS.config.gradName,
+    degree: INVITATION_DEFAULTS.config.degree,
+    major: INVITATION_DEFAULTS.config.major,
+    date: INVITATION_DEFAULTS.config.date,
+    time: INVITATION_DEFAULTS.config.time,
+    hall: INVITATION_DEFAULTS.config.hall,
+    address: INVITATION_DEFAULTS.config.address,
+    invitationText: INVITATION_DEFAULTS.config.invitationText,
+    bgTheme: INVITATION_DEFAULTS.bgTheme,
   };
 
   const getShareUrl = () => {
