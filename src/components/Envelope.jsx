@@ -190,13 +190,37 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
               className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
             >
               {/* Elegant Glowing Aura */}
-              <div className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#b38728]/25 blur-md pointer-events-none" />
+              <div className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#b38728]/35 blur-xl pointer-events-none group-hover/seal:scale-110 transition-transform duration-500 animate-pulse" />
 
-              {/* Metallic Wax Circle */}
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#aa771c] border-2 border-[#f3e5ab]/90 flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.65)] group-hover/seal:scale-105 transition-all duration-300 relative z-10 p-1">
-                <div className="w-full h-full rounded-full border-2 border-dashed border-[#001d42]/40 flex flex-col items-center justify-center text-[#001d42] font-serif bg-gradient-to-b from-transparent to-[#000000]/12 px-1">
-                  <GraduationCap className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#001d42] shrink-0" />
-                  <span className="text-[10px] sm:text-[11px] font-sans font-black tracking-wider text-[#001d42] uppercase whitespace-nowrap mt-0.5 leading-none">
+              {/* Metallic Wax Circle with Authentic Stamp Depth */}
+              <div
+                className="w-[72px] h-[72px] sm:w-[86px] sm:h-[86px] rounded-full bg-gradient-to-tr from-[#8a5d15] via-[#dfb755] to-[#fef0b3] p-1.5 flex items-center justify-center transition-all duration-300 relative z-10 group-hover/seal:scale-108 active:scale-95"
+                style={{
+                  boxShadow:
+                    "0 12px 30px rgba(0, 15, 40, 0.65), 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.7), inset 0 -3px 6px rgba(90, 50, 0, 0.5)",
+                }}
+              >
+                {/* Inner Pressed Coin Well */}
+                <div
+                  className="w-full h-full rounded-full border border-[#8a5d15]/40 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-b from-[#f9e59b] via-[#d4a843] to-[#aa771c] p-1"
+                  style={{
+                    boxShadow:
+                      "inset 0 3px 6px rgba(0, 0, 0, 0.35), inset 0 -1px 2px rgba(255, 255, 255, 0.5)",
+                  }}
+                >
+                  {/* Concentric Decorative Ring */}
+                  <div className="absolute inset-[3px] rounded-full border border-dashed border-[#001d42]/30 pointer-events-none" />
+
+                  {/* Graduation Cap Crest */}
+                  <GraduationCap
+                    className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#001d42] drop-shadow-[0_1px_0_rgba(255,255,255,0.5)] shrink-0 transition-transform duration-300 group-hover/seal:-translate-y-0.5"
+                    strokeWidth={2.2}
+                  />
+
+                  {/* Embossed Luxury Typography */}
+                  <span
+                    className="text-[9.5px] sm:text-[11px] font-sans font-black tracking-[0.18em] text-[#001d42] uppercase whitespace-nowrap mt-0.5 leading-none select-none drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]"
+                  >
                     MỞ THIỆP
                   </span>
                 </div>
@@ -235,12 +259,16 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
           </motion.div>
         </div>
 
-        {/* Clean Elegant Instruction Banner */}
-        <p className="text-xs sm:text-sm text-[#f3e5ab] font-medium tracking-wide flex items-center gap-1.5 pointer-events-none drop-shadow-sm select-none">
+        {/* Clean Elegant Instruction Banner with Breathing Animation */}
+        <motion.p
+          animate={{ opacity: isOpening ? 0 : [0.65, 1, 0.65], scale: isOpening ? 0.95 : [1, 1.02, 1] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          className="text-xs sm:text-sm text-[#f3e5ab] font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none drop-shadow-md select-none"
+        >
           <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
           <span>Chạm vào phong bì để mở thiệp</span>
           <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
-        </p>
+        </motion.p>
       </motion.div>
     </div>
   );
