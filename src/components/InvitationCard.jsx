@@ -1,4 +1,3 @@
-import { useState, useRef } from "react";
 import {
   MapPin,
   Calendar,
@@ -89,7 +88,7 @@ function CornerOrnament({ position }) {
 /* ── University Emblem Crest Badge ── */
 function UniversityCrest() {
   return (
-    <div className="flex items-center justify-center gap-1.5 mb-0.5 no-print">
+    <div className="flex items-center justify-center gap-1.5 mb-0.5 no-print print:hidden">
       <div className="h-[1px] w-6 sm:w-12 bg-gradient-to-r from-transparent to-[#b38728]/60" />
       <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#001d42]/5 border border-[#b38728]/40 shadow-2xs">
         <GraduationCap className="w-3.5 h-3.5 text-[#002d62]" />
@@ -99,47 +98,12 @@ function UniversityCrest() {
   );
 }
 
-export default function InvitationCard({ config, guestName, isPrintable }) {
-  const cardRef = useRef(null);
-  const [tiltStyle, setTiltStyle] = useState({
-    transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
-    shineX: 50,
-    shineY: 50,
-    isHovered: false,
-  });
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current || window.innerWidth < 768) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -1.8;
-    const rotateY = ((x - centerX) / centerX) * 1.8;
-
-    const shineX = (x / rect.width) * 100;
-    const shineY = (y / rect.height) * 100;
-
-    setTiltStyle({
-      transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`,
-      shineX,
-      shineY,
-      isHovered: true,
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setTiltStyle({
-      transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
-      shineX: 50,
-      shineY: 50,
-      isHovered: false,
-    });
-  };
-
+export default function InvitationCard({
+  config,
+  guestName,
+  isPrintable,
+  hideCalendar = false,
+}) {
   const formatVietnameseDate = (dateStr) => {
     if (!dateStr || dateStr === "Đang cập nhật") return "Thứ Bảy, ngày 26 tháng 12 năm 2026";
     const cleanDateStr = dateStr.replace(/\s*\(dự kiến\)/gi, "").trim();
@@ -212,31 +176,16 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
 
   return (
     <article
-      ref={cardRef}
       id={isPrintable ? "printable-invitation" : undefined}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="invitation-card w-full max-w-[620px] mx-auto my-0.5 relative overflow-hidden text-slate-800 transition-all duration-300 ease-out card-paper-texture shadow-2xl"
+      className="invitation-card w-full max-w-[620px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl"
       style={{
         borderRadius: "1.2rem",
         border: "3px solid rgba(179, 135, 40, 0.45)",
-        boxShadow: tiltStyle.isHovered
-          ? "0 20px 50px rgba(0, 29, 66, 0.28), 0 0 18px rgba(179, 135, 40, 0.24)"
-          : "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
+        boxShadow:
+          "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
         padding: "clamp(0.85rem, 1.8vh, 1.25rem) clamp(1.1rem, 2.5vw, 1.6rem)",
-        transform: tiltStyle.transform,
       }}
     >
-      {/* Subtle Gold Shimmer Spot Follower on Desktop */}
-      {tiltStyle.isHovered && (
-        <div
-          className="absolute inset-0 pointer-events-none z-20 transition-opacity duration-300"
-          style={{
-            background: `radial-gradient(circle 320px at ${tiltStyle.shineX}% ${tiltStyle.shineY}%, rgba(255, 245, 205, 0.2) 0%, rgba(179, 135, 40, 0.05) 50%, transparent 80%)`,
-          }}
-        />
-      )}
-
       {/* Royal Corner Ornaments */}
       <CornerOrnament position="top-left" />
       <CornerOrnament position="top-right" />
@@ -314,21 +263,21 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
           </h3>
 
           {/* Academic Info */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-slate-800 font-medium">
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#b38728]" />
-              Ngành: <strong className="font-extrabold text-[#002d62]">{config.major}</strong>
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-1 text-xs text-slate-800 font-medium">
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#b38728] shrink-0" />
+              <span>Ngành: <strong className="font-extrabold text-[#002d62]">{config.major}</strong></span>
             </span>
 
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs">
-              <Award className="w-3 h-3 text-[#b38728]" />
-              Học vị: <strong className="font-extrabold text-[#002d62]">{config.degree || "Cử nhân"}</strong>
-            </span>
-
-            <span className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-[#7a5c10] font-sans font-bold">
-              • Khóa 2022–2026
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
+              <Award className="w-3.5 h-3.5 text-[#b38728] shrink-0" />
+              <span>Học vị: <strong className="font-extrabold text-[#002d62]">{config.degree || "Cử nhân"}</strong></span>
             </span>
           </div>
+
+          <p className="text-[10.5px] sm:text-[11px] uppercase tracking-wider text-[#7a5c10] font-sans font-bold mt-1">
+            Niên Khóa 2022 – 2026
+          </p>
 
           {/* Golden Gradient Divider */}
           <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-[#b38728] to-transparent my-0.5" />
@@ -361,17 +310,19 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
                   <Clock className="w-3 h-3 text-[#b38728]" /> Thời Gian
                 </h4>
 
-                {/* Google Calendar Link Button */}
-                <a
-                  href={createGoogleCalendarUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="no-print inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 px-2 py-0.5 rounded border border-[#b38728]/30 transition-all cursor-pointer no-underline active:scale-95"
-                  title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
-                >
-                  <CalendarPlus className="w-2.5 h-2.5 text-[#7a5c10]" />
-                  <span>Lưu Lịch</span>
-                </a>
+                {/* Google Calendar Link Button (Hidden in export/PDF) */}
+                {!hideCalendar && (
+                  <a
+                    href={createGoogleCalendarUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="no-print calendar-btn print:hidden inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 px-2 py-0.5 rounded border border-[#b38728]/30 transition-all cursor-pointer no-underline active:scale-95"
+                    title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
+                  >
+                    <CalendarPlus className="w-2.5 h-2.5 text-[#7a5c10]" />
+                    <span>Lưu Lịch</span>
+                  </a>
+                )}
               </div>
 
               <div className="space-y-1 mt-1">
@@ -476,7 +427,7 @@ export default function InvitationCard({ config, guestName, isPrintable }) {
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-print text-[10px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 px-2 py-0.5 rounded transition-all cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 flex items-center gap-1"
+                className="no-print print:hidden text-[10px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 px-2 py-0.5 rounded transition-all cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 flex items-center gap-1"
               >
                 <span>Chỉ Đường</span>
                 <ExternalLink className="w-2.5 h-2.5" />

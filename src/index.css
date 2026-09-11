@@ -136,11 +136,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Clean Print Styles for A4 Single Page ── */
+/* ── Clean Print Styles for A5 Invitation Card ── */
 @media print {
   @page {
-    margin: 0;
-    size: A4 portrait;
+    margin: 4mm;
+    size: A5 portrait;
   }
 
   html,
@@ -165,43 +165,56 @@ body {
   }
 
   #root,
-  #root > div {
+  #root > div,
+  main {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     visibility: visible !important;
-    background: #ffffff !important;
+    background: transparent !important;
     background-image: none !important;
+    width: 100% !important;
+    height: 100% !important;
     min-height: 0 !important;
-    height: 100vh !important;
     padding: 0 !important;
     margin: 0 !important;
     overflow: hidden !important;
-    width: 100% !important;
   }
 
   #printable-invitation {
     display: block !important;
     visibility: visible !important;
     position: relative !important;
-    width: 90% !important;
-    max-width: 630px !important;
+    width: 100% !important;
+    max-width: 138mm !important;
     margin: auto !important;
-    padding: 28px 32px !important;
-    border: 3px solid rgba(179, 135, 40, 0.5) !important;
-    border-radius: 16px !important;
+    padding: 14px 18px 12px !important;
+    border: 2.5px solid rgba(179, 135, 40, 0.55) !important;
+    border-radius: 12px !important;
     box-shadow: none !important;
     background: linear-gradient(170deg, #FFFDF7 0%, #FAF4E6 45%, #F4EAD2 100%) !important;
     page-break-inside: avoid !important;
-    transform: scale(0.94) !important;
-    transform-origin: center center !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    transform: none !important;
   }
 
   #printable-invitation * {
-    visibility: visible !important;
+    visibility: visible;
+  }
+
+  #printable-invitation .no-print,
+  #printable-invitation .calendar-btn,
+  #printable-invitation a.no-print,
+  #printable-invitation a.calendar-btn,
+  .print\:hidden,
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
   }
 
   #printable-invitation a {
     text-decoration: none !important;
   }
 }
+

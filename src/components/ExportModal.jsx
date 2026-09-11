@@ -249,7 +249,7 @@ export default function ExportModal({
               <Info className="w-4 h-4 shrink-0 mt-0.5 text-[#B38728]" />
               <p className="text-[11px] leading-relaxed">
                 <strong>Gợi ý lưu PDF:</strong> Trong hộp thoại in, chọn{" "}
-                <strong>Lưu dưới dạng PDF (Save as PDF)</strong> để tải thiệp chất lượng cao về máy.
+                <strong>Lưu dưới dạng PDF (Save as PDF)</strong>. Khổ giấy in chuẩn là <strong>A5 (vừa khít thiệp mời, không thừa giấy)</strong>.
               </p>
             </div>
           </div>
@@ -263,7 +263,7 @@ export default function ExportModal({
             <div className="flex-1 flex items-start justify-center overflow-x-hidden min-h-[320px]">
               <div className="w-full origin-top scale-[0.85] sm:scale-95 flex justify-center">
                 <div className="w-full pointer-events-none">
-                  <InvitationCard config={config} guestName={guestName} />
+                  <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
                 </div>
               </div>
             </div>
@@ -321,7 +321,7 @@ export default function ExportModal({
         style={{ width: "672px" }}
       >
         <div ref={cardRef}>
-          <InvitationCard config={config} guestName={guestName} />
+          <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
         </div>
       </div>
     </div>
