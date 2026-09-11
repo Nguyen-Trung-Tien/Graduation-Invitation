@@ -91,6 +91,7 @@ export default function App() {
   }, [isCardHidden]);
 
   const handleOpenEnvelope = () => {
+    setIsCardHidden(false);
     setIsOpen(true);
 
     // Single gentle celebratory confetti burst
@@ -172,27 +173,29 @@ export default function App() {
         />
       </div>
 
-      {/* Floating Toggle Button (Top-Left, Icon only) */}
-      <button
-        type="button"
-        aria-label={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsCardHidden((prev) => !prev);
-        }}
-        className={`fixed top-[max(0.75rem,env(safe-area-inset-top))] left-[max(0.75rem,env(safe-area-inset-left))] sm:top-4 sm:left-4 z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center backdrop-blur-md border shadow-lg shadow-black/15 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer no-print group ${
-          isCardHidden
-            ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
-            : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/45"
-        }`}
-        title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
-      >
-        {isCardHidden ? (
-          <EyeOff className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#f3e5ab]" />
-        ) : (
-          <Eye className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
-        )}
-      </button>
+      {/* Floating Toggle Button (Top-Left, Icon only - Only visible on the sealed envelope screen) */}
+      {!isOpen && (
+        <button
+          type="button"
+          aria-label={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsCardHidden((prev) => !prev);
+          }}
+          className={`fixed top-[max(0.75rem,env(safe-area-inset-top))] left-[max(0.75rem,env(safe-area-inset-left))] sm:top-4 sm:left-4 z-40 w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center backdrop-blur-md border shadow-md shadow-black/10 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer no-print group ${
+            isCardHidden
+              ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
+              : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/40"
+          }`}
+          title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
+        >
+          {isCardHidden ? (
+            <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f3e5ab]" />
+          ) : (
+            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
+          )}
+        </button>
+      )}
 
       {!isOpen ? (
         /* Sealed Envelope Entrance */
