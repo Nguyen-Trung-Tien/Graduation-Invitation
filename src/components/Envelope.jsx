@@ -151,12 +151,12 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
             />
 
             {/* Guest Name Card Tag (Embossed Paper Label) */}
-            <div className="absolute bottom-[9%] left-1/2 -translate-x-1/2 w-[78%] sm:w-[68%] bg-gradient-to-b from-[#FFFDF7] to-[#FAF3E3] border-2 border-double border-[#b38728]/50 rounded-xl p-3 text-center shadow-xl pointer-events-none z-22 select-none">
-              <span className="text-[11px] tracking-wider text-[#7a5c10] font-bold font-sans uppercase block mb-0.5">
+            <div className="absolute bottom-[3.5%] sm:bottom-[7%] left-1/2 -translate-x-1/2 w-[84%] sm:w-[68%] bg-gradient-to-b from-[#FFFDF7] to-[#FAF3E3] border-2 border-double border-[#b38728]/50 rounded-xl py-1.5 px-3 sm:py-2.5 sm:px-4 text-center shadow-xl pointer-events-none z-22 select-none">
+              <span className="text-[9.5px] sm:text-[11px] tracking-wider text-[#7a5c10] font-bold font-sans uppercase block leading-none mb-0.5">
                 ✦ Kính gửi ✦
               </span>
               <p
-                className="text-xl sm:text-2xl font-handwriting text-[#002d62] font-normal leading-normal text-glow"
+                className="text-lg sm:text-2xl font-handwriting text-[#002d62] font-normal leading-tight text-glow mt-0.5 truncate"
                 style={{ letterSpacing: "0.02em" }}
               >
                 {guestName || "Toàn thể Đại gia đình"}
@@ -187,39 +187,39 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
                   : { scale: 1, opacity: 1 }
               }
               transition={{ duration: 0.4 }}
-              className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
+              className="absolute top-[46%] sm:top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
             >
               {/* Elegant Glowing Aura */}
-              <div className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#b38728]/35 blur-xl pointer-events-none group-hover/seal:scale-110 transition-transform duration-500 animate-pulse" />
+              <div className="absolute w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#b38728]/35 blur-xl pointer-events-none group-hover/seal:scale-110 transition-transform duration-500 animate-pulse" />
 
               {/* Metallic Wax Circle with Authentic Stamp Depth */}
               <div
-                className="w-[72px] h-[72px] sm:w-[86px] sm:h-[86px] rounded-full bg-gradient-to-tr from-[#8a5d15] via-[#dfb755] to-[#fef0b3] p-1.5 flex items-center justify-center transition-all duration-300 relative z-10 group-hover/seal:scale-108 active:scale-95"
+                className="w-[58px] h-[58px] sm:w-[84px] sm:h-[84px] rounded-full bg-gradient-to-tr from-[#8a5d15] via-[#dfb755] to-[#fef0b3] p-1 sm:p-1.5 flex items-center justify-center transition-all duration-300 relative z-10 group-hover/seal:scale-108 active:scale-95"
                 style={{
                   boxShadow:
-                    "0 12px 30px rgba(0, 15, 40, 0.65), 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.7), inset 0 -3px 6px rgba(90, 50, 0, 0.5)",
+                    "0 10px 24px rgba(0, 15, 40, 0.65), 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.7), inset 0 -3px 6px rgba(90, 50, 0, 0.5)",
                 }}
               >
                 {/* Inner Pressed Coin Well */}
                 <div
-                  className="w-full h-full rounded-full border border-[#8a5d15]/40 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-b from-[#f9e59b] via-[#d4a843] to-[#aa771c] p-1"
+                  className="w-full h-full rounded-full border border-[#8a5d15]/40 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-b from-[#f9e59b] via-[#d4a843] to-[#aa771c] p-0.5 sm:p-1"
                   style={{
                     boxShadow:
-                      "inset 0 3px 6px rgba(0, 0, 0, 0.35), inset 0 -1px 2px rgba(255, 255, 255, 0.5)",
+                      "inset 0 2px 5px rgba(0, 0, 0, 0.35), inset 0 -1px 2px rgba(255, 255, 255, 0.5)",
                   }}
                 >
                   {/* Concentric Decorative Ring */}
-                  <div className="absolute inset-[3px] rounded-full border border-dashed border-[#001d42]/30 pointer-events-none" />
+                  <div className="absolute inset-[2.5px] sm:inset-[3px] rounded-full border border-dashed border-[#001d42]/30 pointer-events-none" />
 
                   {/* Graduation Cap Crest */}
                   <GraduationCap
-                    className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#001d42] drop-shadow-[0_1px_0_rgba(255,255,255,0.5)] shrink-0 transition-transform duration-300 group-hover/seal:-translate-y-0.5"
+                    className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-[#001d42] drop-shadow-[0_1px_0_rgba(255,255,255,0.5)] shrink-0 transition-transform duration-300 group-hover/seal:-translate-y-0.5"
                     strokeWidth={2.2}
                   />
 
                   {/* Embossed Luxury Typography */}
                   <span
-                    className="text-[9.5px] sm:text-[11px] font-sans font-black tracking-[0.18em] text-[#001d42] uppercase whitespace-nowrap mt-0.5 leading-none select-none drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]"
+                    className="text-[7px] sm:text-[8.5px] font-sans font-bold tracking-[0.12em] sm:tracking-[0.16em] text-[#001d42] uppercase whitespace-nowrap mt-0.5 leading-none select-none drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]"
                   >
                     MỞ THIỆP
                   </span>
@@ -238,10 +238,10 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="absolute -bottom-1 -right-2 z-20 pointer-events-none filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
+                className="absolute -bottom-0.5 -right-1 sm:-bottom-1 sm:-right-2 z-20 pointer-events-none filter drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]"
               >
                 <svg
-                  className="w-6 h-6 sm:w-7 sm:h-7 text-[#fcf6ba] transform -rotate-12"
+                  className="w-5 h-5 sm:w-7 sm:h-7 text-[#fcf6ba] transform -rotate-12"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="#001d42"
