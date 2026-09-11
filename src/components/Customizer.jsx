@@ -20,27 +20,70 @@ export default function Customizer({
     });
   };
 
-  const generateShareLink = () => {
+  const DEFAULTS = {
+    guestName: "Toàn thể Đại gia đình",
+    gradName: "Nguyễn Trung Tiến",
+    degree: "Cử nhân",
+    major: "Công nghệ Thông tin",
+    date: "2026-12-26",
+    time: "16:30",
+    hall: "Cơ sở chính (Cơ sở 1)",
+    address: "Số 2 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh",
+    invitationText:
+      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.\nLưu ý: Khi tham gia lễ phải có vé tham gia (tối đa 5 vé)",
+    bgTheme: "uth-campus",
+  };
+
+  const getShareUrl = () => {
+    if (typeof window === "undefined") return "";
     const baseUrl = window.location.origin + window.location.pathname;
     const params = new URLSearchParams();
 
-    params.set("guest", guestName);
-    params.set("name", config.gradName);
-    params.set("major", config.major);
-    params.set("degree", config.degree);
-    params.set("date", config.date);
-    params.set("time", config.time);
-    params.set("hall", config.hall);
-    params.set("address", config.address);
-    if (config.invitationText) {
-      params.set("text", config.invitationText);
+    // 1. Guest name is the primary personalized parameter
+    if (guestName && guestName.trim()) {
+      params.set("guest", guestName.trim());
     }
-    if (bgTheme) {
+
+    // 2. Only include other parameters IF they differ from system defaults
+    if (config.gradName && config.gradName.trim() !== DEFAULTS.gradName) {
+      params.set("name", config.gradName.trim());
+    }
+    if (config.major && config.major.trim() !== DEFAULTS.major) {
+      params.set("major", config.major.trim());
+    }
+    if (config.degree && config.degree.trim() !== DEFAULTS.degree) {
+      params.set("degree", config.degree.trim());
+    }
+    if (config.date && config.date !== DEFAULTS.date) {
+      params.set("date", config.date);
+    }
+    if (config.time && config.time !== DEFAULTS.time) {
+      params.set("time", config.time);
+    }
+    if (config.hall && config.hall.trim() !== DEFAULTS.hall) {
+      params.set("hall", config.hall.trim());
+    }
+    if (config.address && config.address.trim() !== DEFAULTS.address) {
+      params.set("address", config.address.trim());
+    }
+    if (
+      config.invitationText &&
+      config.invitationText.trim() !== DEFAULTS.invitationText.trim()
+    ) {
+      params.set("text", config.invitationText.trim());
+    }
+    if (bgTheme && bgTheme !== DEFAULTS.bgTheme) {
       params.set("theme", bgTheme);
     }
-    params.set("shared", "true");
 
-    const fullUrl = `${baseUrl}?${params.toString()}`;
+    // Always include shared=1 so receiver views in presentation mode
+    params.set("shared", "1");
+
+    return `${baseUrl}?${params.toString()}`;
+  };
+
+  const generateShareLink = () => {
+    const fullUrl = getShareUrl();
 
     navigator.clipboard.writeText(fullUrl).then(() => {
       setCopied(true);
@@ -263,7 +306,16 @@ export default function Customizer({
         </div>
 
         {/* Footer with Copy Link */}
-        <div className="p-4 border-t border-[#B38728]/20 bg-[#FAF6ED] flex flex-col gap-2">
+        <div className="p-4 border-t border-[#B38728]/20 bg-[#FAF6ED] flex flex-col gap-2.5">
+          <div className="flex flex-col gap-1">
+            <span className="text-[11px] font-bold text-[#002D62] uppercase tracking-wider">
+              Link mời cá nhân hóa (rút gọn siêu ngắn):
+            </span>
+            <div className="p-2 rounded bg-white border border-[#B38728]/30 text-[11px] font-mono text-slate-600 truncate select-all">
+              {getShareUrl()}
+            </div>
+          </div>
+
           <button
             type="button"
             onClick={generateShareLink}

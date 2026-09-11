@@ -32,7 +32,7 @@ function getInitialStateFromUrl() {
   }
 
   const params = new URLSearchParams(window.location.search);
-  const guest = params.get("guest");
+  const guest = params.get("guest") || params.get("to");
   const name = params.get("name");
   const major = params.get("major");
   const degree = params.get("degree");
@@ -42,6 +42,7 @@ function getInitialStateFromUrl() {
   const address = params.get("address");
   const text = params.get("text");
   const theme = params.get("theme");
+  const sharedParam = params.get("shared");
 
   const isShared = Boolean(
     guest ||
@@ -54,7 +55,8 @@ function getInitialStateFromUrl() {
       address ||
       text ||
       theme ||
-      params.get("shared") === "true"
+      sharedParam === "true" ||
+      sharedParam === "1"
   );
 
   const cleanDate = rawDate
@@ -186,34 +188,25 @@ export default function App() {
         />
       </div>
 
-      {/* Floating Toggle Button (Top-Right) */}
+      {/* Floating Toggle Button (Top-Left, Icon only) */}
       <button
         type="button"
+        aria-label={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
         onClick={(e) => {
           e.stopPropagation();
           setIsCardHidden((prev) => !prev);
         }}
-        className={`fixed top-[max(0.75rem,env(safe-area-inset-top))] right-[max(0.75rem,env(safe-area-inset-right))] sm:top-4 sm:right-4 z-40 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full backdrop-blur-md border shadow-lg shadow-black/15 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-bold no-print group ${
+        className={`fixed top-[max(0.75rem,env(safe-area-inset-top))] left-[max(0.75rem,env(safe-area-inset-left))] sm:top-4 sm:left-4 z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center backdrop-blur-md border shadow-lg shadow-black/15 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer no-print group ${
           isCardHidden
             ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
             : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/45"
         }`}
-        title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư"}
+        title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
       >
         {isCardHidden ? (
-          <>
-            <EyeOff className="w-3.5 h-3.5 text-[#f3e5ab]" />
-            <span className="text-xs font-semibold tracking-wide">
-              Hiện thư
-            </span>
-          </>
+          <EyeOff className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#f3e5ab]" />
         ) : (
-          <>
-            <Eye className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
-            <span className="text-xs font-semibold tracking-wide">
-              Ẩn thư
-            </span>
-          </>
+          <Eye className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
         )}
       </button>
 
