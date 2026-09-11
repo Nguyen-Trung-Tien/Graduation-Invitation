@@ -1,53 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0a192f;
-  --color-secondary: #172a45;
-  --color-accent: #d4af37; /* Gold */
+  --color-primary: #002d62;
+  --color-secondary: #001d42;
+  --color-accent: #b38728; /* Gold Accent */
   --color-accent-light: #f3e5ab;
-  --color-accent-dark: #997a15;
-  --color-uth-navy: #001d42;
-  --color-uth-royal: #002d62;
-  --color-uth-red: #c8102e;
+  --color-accent-dark: #8c6719;
+  --color-uth-navy: #002d62;
+  --color-uth-royal: #001d42;
 
   --font-serif: "Playfair Display", "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-handwriting: "Great Vibes", "Alex Brush", cursive;
+  --font-handwriting: "Great Vibes", cursive;
 }
 
-/* Custom styles for background animations, glassmorphism, envelope folding */
+/* ── Global Accessibility Focus Ring ── */
+:focus-visible {
+  outline: 2px solid #b38728;
+  outline-offset: 2px;
+}
+
+/* ── Ceremonial Glass & Depth Utilities ── */
 @utility glass {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1.5px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-}
-
-@utility glass-dark {
-  background: rgba(0, 29, 66, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1.5px solid rgba(212, 175, 55, 0.45);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-}
-
-@utility glass-light {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(179, 135, 40, 0.35);
+  box-shadow: 0 15px 35px rgba(0, 29, 66, 0.08);
 }
 
 @utility text-glow {
-  text-shadow: 0 0 12px rgba(212, 175, 55, 0.35), 0 2px 4px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 0 10px rgba(179, 135, 40, 0.28), 0 2px 4px rgba(0, 29, 66, 0.12);
 }
 
-@utility gold-border-glow {
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), 0 0 8px rgba(212, 175, 55, 0.25);
-}
-
-/* Gold Foil Text Effect */
+/* ── Gold Foil Text Effect ── */
 .gold-foil-text {
   background: linear-gradient(
     135deg,
@@ -62,26 +48,16 @@
   color: transparent;
 }
 
-/* Gold Foil Border Gradient */
-.gold-foil-border {
-  border-image: linear-gradient(
-    135deg,
-    #bf953f 0%,
-    #fcf6ba 30%,
-    #b38728 70%,
-    #aa771c 100%
-  ) 1;
-}
-
-/* Luxury Linen Cardstock Texture Overlay */
+/* ── Rich Luxury Linen & Warm Ivory Cardstock Texture ── */
 .card-paper-texture {
+  background-color: #FFFDF7;
   background-image: 
-    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 75%),
-    radial-gradient(ellipse at 50% 100%, rgba(245, 237, 218, 0.6) 0%, transparent 75%),
-    linear-gradient(170deg, #FFFDF7 0%, #FAF4E6 40%, #F5ECCF 100%);
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.95) 0%, transparent 75%),
+    radial-gradient(ellipse at 50% 100%, rgba(245, 237, 218, 0.65) 0%, transparent 75%),
+    linear-gradient(170deg, #FFFDF7 0%, #FAF4E6 45%, #F4EAD2 100%);
 }
 
-/* 3D Envelope folding transitions */
+/* ── 3D Envelope Transformations ── */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -94,66 +70,7 @@
   backface-visibility: hidden;
 }
 
-/* Audio wave animations */
-@keyframes wave {
-  0%,
-  100% {
-    transform: scaleY(0.3);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.audio-bar {
-  display: inline-block;
-  width: 3px;
-  height: 18px;
-  background-color: var(--color-accent);
-  margin: 0 1.5px;
-  transform-origin: bottom;
-  animation: wave 1.2s ease-in-out infinite;
-}
-
-.audio-bar:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.audio-bar:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.audio-bar:nth-child(4) {
-  animation-delay: 0.45s;
-}
-
-/* Shimmer effect for gold details */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.gold-shimmer {
-  background: linear-gradient(
-    90deg,
-    #bf953f 0%,
-    #fcf6ba 25%,
-    #b38728 50%,
-    #fbf5b7 75%,
-    #aa771c 100%
-  );
-  background-size: 200% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shimmer 4s linear infinite;
-}
-
-/* Particle backdrop style */
+/* ── Atmospheric Star Particles ── */
 .stars {
   position: absolute;
   top: 0;
@@ -162,62 +79,22 @@
   height: 100%;
   pointer-events: none;
   background-image:
-    radial-gradient(
-      1px 1px at 20px 30px,
-      rgba(15, 23, 42, 0.12),
-      rgba(0, 0, 0, 0)
-    ),
-    radial-gradient(
-      1px 1px at 40px 70px,
-      rgba(15, 23, 42, 0.08),
-      rgba(0, 0, 0, 0)
-    ),
-    radial-gradient(
-      1.5px 1.5px at 50px 160px,
-      rgba(212, 175, 55, 0.5),
-      rgba(0, 0, 0, 0)
-    ),
-    radial-gradient(
-      1px 1px at 80px 120px,
-      rgba(15, 23, 42, 0.08),
-      rgba(0, 0, 0, 0)
-    ),
-    radial-gradient(
-      2px 2px at 150px 30px,
-      rgba(212, 175, 55, 0.6),
-      rgba(0, 0, 0, 0)
-    ),
-    radial-gradient(
-      1px 1px at 250px 50px,
-      rgba(15, 23, 42, 0.12),
-      rgba(0, 0, 0, 0)
-    );
+    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 80px 120px, rgba(212, 175, 55, 0.45), transparent),
+    radial-gradient(1.5px 1.5px at 150px 70px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 240px 190px, rgba(212, 175, 55, 0.35), transparent);
   background-repeat: repeat;
   background-size: 300px 300px;
-  opacity: 0.6;
+  opacity: 0.65;
 }
 
-/* Floating Blobs Keyframe Animations - optimized using translate3d for GPU acceleration */
-@keyframes float-blob {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  33% {
-    transform: translate3d(-10px, -30px, 0);
-  }
-  66% {
-    transform: translate3d(10px, 15px, 0);
-  }
-}
-
-/* Ken Burns slow cinematic background zoom */
+/* ── Atmospheric Animations ── */
 @keyframes kenburns {
   0% {
     transform: scale(1) translate(0, 0);
   }
   50% {
-    transform: scale(1.06) translate(-0.8%, -0.8%);
+    transform: scale(1.05) translate(-0.6%, -0.6%);
   }
   100% {
     transform: scale(1) translate(0, 0);
@@ -229,52 +106,41 @@
   animation: kenburns 35s ease-in-out infinite alternate;
 }
 
-.animate-blob {
-  will-change: transform;
-  animation: float-blob 15s ease-in-out infinite;
+/* ── Respect Prefers-Reduced-Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-kenburns {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
-.animate-blob-delayed {
-  will-change: transform;
-  animation: float-blob 20s ease-in-out infinite;
-  animation-delay: 4s;
-}
-
-.animate-blob-slow {
-  will-change: transform;
-  animation: float-blob 25s ease-in-out infinite;
-  animation-delay: 8s;
-}
-
-/* Body defaults override with modern, youthful colorful gradient */
-html, body {
+/* ── Base Page Styles ── */
+html,
+body {
   margin: 0;
   padding: 0;
   min-height: 100dvh;
   overflow-x: hidden;
-}
-
-body {
-  background-color: #0f172a;
-  background-image:
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.22) 0px, transparent 60%),
-    radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.18) 0px, transparent 60%),
-    radial-gradient(at 50% 100%, rgba(20, 184, 166, 0.18) 0px, transparent 60%),
-    radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.18) 0px, transparent 60%);
-  background-attachment: fixed;
+  background-color: #0b1329;
   color: #1e293b;
-  font-family:
-    "Inter",
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Print styles to export a clean PDF card */
+/* ── Clean Print Styles for A4 Single Page ── */
 @media print {
   @page {
     margin: 0;
-    size: A4;
+    size: A4 portrait;
   }
 
   html,
@@ -294,10 +160,7 @@ body {
 
   .stars,
   .no-print,
-  .animate-blob,
-  .animate-blob-delayed,
-  .animate-blob-slow,
-  .fixed {
+  .fixed:not(#printable-invitation) {
     display: none !important;
   }
 
@@ -317,24 +180,20 @@ body {
     width: 100% !important;
   }
 
-  #root > div > *:not(.flex-1):not(#printable-invitation) {
-    display: none !important;
-  }
-
   #printable-invitation {
     display: block !important;
     visibility: visible !important;
     position: relative !important;
-    width: 92% !important;
-    max-width: 620px !important;
+    width: 90% !important;
+    max-width: 630px !important;
     margin: auto !important;
-    padding: 28px !important;
-    border: 3px solid rgba(212, 175, 55, 0.4) !important;
+    padding: 28px 32px !important;
+    border: 3px solid rgba(179, 135, 40, 0.5) !important;
     border-radius: 16px !important;
     box-shadow: none !important;
-    background: linear-gradient(170deg, #FFFDF7 0%, #FAF4E6 40%, #F5ECCF 100%) !important;
+    background: linear-gradient(170deg, #FFFDF7 0%, #FAF4E6 45%, #F4EAD2 100%) !important;
     page-break-inside: avoid !important;
-    transform: scale(0.92) !important;
+    transform: scale(0.94) !important;
     transform-origin: center center !important;
   }
 
@@ -343,23 +202,6 @@ body {
   }
 
   #printable-invitation a {
-    display: none !important;
-  }
-
-  #printable-invitation,
-  #root > div > div {
-    background-image: none !important;
-  }
-
-  .flex-1 {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    visibility: visible !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+    text-decoration: none !important;
   }
 }
-

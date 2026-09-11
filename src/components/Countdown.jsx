@@ -1,61 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+
+function calculateTimeLeft(targetDate) {
+  const difference = +new Date(targetDate) - +new Date();
+  if (difference <= 0 || isNaN(difference)) {
+    return null;
+  }
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / 1000 / 60) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+  };
+}
 
 export default function Countdown({ targetDate }) {
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [isExpired, setIsExpired] = useState(false);
-
-  function calculateTimeLeft() {
-    const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0
-    };
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60)
-      };
-    } else {
-      return null;
-    }
-
-    return timeLeft;
-  }
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(targetDate));
 
   useEffect(() => {
-    // Initial check
-    const initial = calculateTimeLeft();
-    if (!initial) {
-      setIsExpired(true);
-      return;
-    }
-
     const timer = setInterval(() => {
-      const remaining = calculateTimeLeft();
-      if (!remaining) {
-        setIsExpired(true);
-        clearInterval(timer);
-      } else {
-        setTimeLeft(remaining);
-      }
+      const remaining = calculateTimeLeft(targetDate);
+      setTimeLeft(remaining);
     }, 1000);
 
     return () => clearInterval(timer);
   }, [targetDate]);
 
-  const addLeadingZero = (num) => {
-    return String(num).padStart(2, '0');
-  };
+  const addLeadingZero = (num) => String(num).padStart(2, "0");
 
-  if (isExpired) {
+  if (!timeLeft) {
     return (
-      <div className="flex flex-col items-center justify-center p-6 text-center border border-accent/20 rounded-xl glass-light max-w-md mx-auto">
-        <span className="text-xl font-serif text-accent text-glow animate-pulse">
+      <div className="flex flex-col items-center justify-center p-5 text-center border border-[#B38728]/30 rounded-xl bg-white/80 max-w-md mx-auto shadow-xs">
+        <span className="text-base sm:text-lg font-serif text-[#002D62] font-semibold">
           🎓 Buổi lễ đang diễn ra hoặc đã kết thúc tốt đẹp!
         </span>
       </div>
@@ -63,53 +38,49 @@ export default function Countdown({ targetDate }) {
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto flex flex-col items-center gap-4">
-      <h4 className="text-xs tracking-[0.2em] font-medium uppercase text-slate-400">
-        Đếm ngược đến ngày trọng đại
+    <div className="w-full max-w-lg mx-auto flex flex-col items-center gap-3">
+      <h4 className="text-xs tracking-wider font-semibold uppercase text-slate-500">
+        Đếm ngược đến ngày khai mạc
       </h4>
-      <div className="grid grid-cols-4 gap-2 sm:gap-4 w-full">
+      <div className="grid grid-cols-4 gap-2 sm:gap-3 w-full">
         {/* Days */}
-        <div className="flex flex-col items-center p-3 rounded-lg glass-light border border-accent/10 relative overflow-hidden group hover:border-accent/30 transition-colors">
-          <span className="text-2xl sm:text-4xl font-bold font-serif text-accent text-glow">
+        <div className="flex flex-col items-center p-2.5 sm:p-3 rounded-xl bg-white border border-[#B38728]/25 shadow-xs">
+          <span className="text-xl sm:text-3xl font-bold font-serif text-[#002D62]">
             {addLeadingZero(timeLeft.days)}
           </span>
-          <span className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-widest mt-1">
+          <span className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mt-0.5">
             Ngày
           </span>
-          <div className="absolute inset-0 bg-gradient-to-t from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
 
         {/* Hours */}
-        <div className="flex flex-col items-center p-3 rounded-lg glass-light border border-accent/10 relative overflow-hidden group hover:border-accent/30 transition-colors">
-          <span className="text-2xl sm:text-4xl font-bold font-serif text-accent text-glow">
+        <div className="flex flex-col items-center p-2.5 sm:p-3 rounded-xl bg-white border border-[#B38728]/25 shadow-xs">
+          <span className="text-xl sm:text-3xl font-bold font-serif text-[#002D62]">
             {addLeadingZero(timeLeft.hours)}
           </span>
-          <span className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-widest mt-1">
+          <span className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mt-0.5">
             Giờ
           </span>
-          <div className="absolute inset-0 bg-gradient-to-t from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
 
         {/* Minutes */}
-        <div className="flex flex-col items-center p-3 rounded-lg glass-light border border-accent/10 relative overflow-hidden group hover:border-accent/30 transition-colors">
-          <span className="text-2xl sm:text-4xl font-bold font-serif text-accent text-glow">
+        <div className="flex flex-col items-center p-2.5 sm:p-3 rounded-xl bg-white border border-[#B38728]/25 shadow-xs">
+          <span className="text-xl sm:text-3xl font-bold font-serif text-[#002D62]">
             {addLeadingZero(timeLeft.minutes)}
           </span>
-          <span className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-widest mt-1">
+          <span className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mt-0.5">
             Phút
           </span>
-          <div className="absolute inset-0 bg-gradient-to-t from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
 
         {/* Seconds */}
-        <div className="flex flex-col items-center p-3 rounded-lg glass-light border border-accent/10 relative overflow-hidden group hover:border-accent/30 transition-colors">
-          <span className="text-2xl sm:text-4xl font-bold font-serif text-accent text-glow">
+        <div className="flex flex-col items-center p-2.5 sm:p-3 rounded-xl bg-white border border-[#B38728]/25 shadow-xs">
+          <span className="text-xl sm:text-3xl font-bold font-serif text-[#B38728]">
             {addLeadingZero(timeLeft.seconds)}
           </span>
-          <span className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-widest mt-1">
+          <span className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-wider mt-0.5">
             Giây
           </span>
-          <div className="absolute inset-0 bg-gradient-to-t from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
       </div>
     </div>

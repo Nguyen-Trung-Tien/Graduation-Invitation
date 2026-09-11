@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 
 export default function MusicPlayer({ isPlaying, togglePlay, audioUrl }) {
   const audioRef = useRef(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.4; // set gentle volume
+      audioRef.current.volume = 0.35;
       if (isPlaying) {
-        audioRef.current.play().catch(err => {
-          console.log("Autoplay was blocked by browser. User interaction required.", err);
+        audioRef.current.play().catch((err) => {
+          console.log("Autoplay blocked by browser. User interaction required.", err);
         });
       } else {
         audioRef.current.pause();
@@ -18,51 +17,28 @@ export default function MusicPlayer({ isPlaying, togglePlay, audioUrl }) {
     }
   }, [isPlaying]);
 
-  const handleCanPlay = () => {
-    setLoading(false);
-  };
-
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+    <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 no-print">
       {/* Audio Element */}
       <audio
         ref={audioRef}
         src={audioUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"}
         loop
-        onCanPlay={handleCanPlay}
       />
 
-      {/* Audio Visualizer Waves (Shown only when playing) */}
-      {isPlaying && (
-        <div className="flex items-end h-[20px] px-2 py-1 rounded-full bg-slate-900/60 border border-slate-700/50 backdrop-blur-md">
-          <span className="audio-bar"></span>
-          <span className="audio-bar"></span>
-          <span className="audio-bar"></span>
-          <span className="audio-bar"></span>
-        </div>
-      )}
-
-      {/* Spinning Disc Button */}
+      {/* Button */}
       <button
+        type="button"
         onClick={togglePlay}
-        className={`relative flex items-center justify-center w-12 h-12 rounded-full glass border border-accent/40 shadow-lg cursor-pointer transition-transform duration-300 hover:scale-110 active:scale-95 ${
-          isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''
-        }`}
+        className="w-10 h-10 rounded-full bg-[#002D62] border border-[#B38728]/50 text-[#DFC479] flex items-center justify-center shadow-lg hover:bg-[#001D42] transition-colors cursor-pointer"
         title={isPlaying ? "Tắt nhạc nền" : "Bật nhạc nền"}
+        aria-label={isPlaying ? "Tắt nhạc nền" : "Bật nhạc nền"}
       >
-        {/* Inner Vinyl Label */}
-        <div className="w-10 h-10 rounded-full bg-slate-950 flex items-center justify-center border border-slate-800">
-          <div className="w-4 h-4 rounded-full bg-accent/30 flex items-center justify-center">
-            {isPlaying ? (
-              <Volume2 className="w-3.5 h-3.5 text-accent" />
-            ) : (
-              <VolumeX className="w-3.5 h-3.5 text-slate-400" />
-            )}
-          </div>
-        </div>
-        
-        {/* Tiny center hole */}
-        <div className="absolute w-1.5 h-1.5 rounded-full bg-[#0a192f] border border-accent/60"></div>
+        {isPlaying ? (
+          <Volume2 className="w-4 h-4 text-[#DFC479]" />
+        ) : (
+          <VolumeX className="w-4 h-4 text-slate-400" />
+        )}
       </button>
     </div>
   );
