@@ -193,7 +193,7 @@ export default function App() {
           e.stopPropagation();
           setIsCardHidden((prev) => !prev);
         }}
-        className={`fixed top-3 right-3 sm:top-4 sm:right-4 z-40 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full backdrop-blur-md border shadow-lg shadow-black/15 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-bold no-print group ${
+        className={`fixed top-[max(0.75rem,env(safe-area-inset-top))] right-[max(0.75rem,env(safe-area-inset-right))] sm:top-4 sm:right-4 z-40 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full backdrop-blur-md border shadow-lg shadow-black/15 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-bold no-print group ${
           isCardHidden
             ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
             : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/45"

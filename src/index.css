@@ -14,7 +14,15 @@
   --font-handwriting: "Great Vibes", cursive;
 }
 
-/* ── Global Accessibility Focus Ring ── */
+/* ── Global Accessibility & Touch Optimizations ── */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, [role="button"] {
+  touch-action: manipulation;
+}
+
 :focus-visible {
   outline: 2px solid #b38728;
   outline-offset: 2px;
