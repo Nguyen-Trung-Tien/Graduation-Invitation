@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Sparkles, GraduationCap } from "lucide-react";
 import uthCampusImg from "../assets/Hinh_UTH.jpg";
 
-export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen }) {
+export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, isCardHidden = false }) {
   const [isOpening, setIsOpening] = useState(false);
 
   const handleOpen = () => {
@@ -24,7 +24,7 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen }) 
   };
 
   return (
-    <div className="min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent">
+    <div className={`min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}>
       {/* Dynamic Merged Atmospheric Backdrop */}
       <div
         className={`absolute inset-0 z-0 pointer-events-none overflow-hidden transition-all duration-700 ${

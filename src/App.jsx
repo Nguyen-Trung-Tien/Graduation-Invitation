@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
-import { Settings, Printer } from "lucide-react";
+import { Settings, Printer, Eye, EyeOff } from "lucide-react";
 import Envelope from "./components/Envelope";
 import InvitationCard from "./components/InvitationCard";
 import Customizer from "./components/Customizer";
@@ -84,6 +84,7 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isCardHidden, setIsCardHidden] = useState(false);
 
   // Lazy initialize state from URL query parameters
   const [initialData] = useState(getInitialStateFromUrl);
@@ -91,6 +92,17 @@ export default function App() {
   const [guestName, setGuestName] = useState(initialData.guestName);
   const [bgTheme, setBgTheme] = useState(initialData.bgTheme);
   const isShared = initialData.isShared;
+
+  // Restore card on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isCardHidden) {
+        setIsCardHidden(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isCardHidden]);
 
   const handleOpenEnvelope = () => {
     setIsOpen(true);
@@ -107,59 +119,121 @@ export default function App() {
 
   return (
     <div
+      onClick={() => {
+        if (isCardHidden) setIsCardHidden(false);
+      }}
       className={`relative min-h-dvh w-full flex flex-col justify-between ${
         !isOpen ? "overflow-hidden" : "overflow-x-hidden"
-      }`}
+      } ${isCardHidden ? "cursor-pointer" : ""}`}
     >
+      {/* Global Dynamic Background Layer */}
+      <div
+        className={`fixed inset-0 overflow-hidden pointer-events-none z-0 transition-all duration-700 ${
+          bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"
+        }`}
+      >
+        {/* Campus Theme with Royal Navy & Golden Hour Blend */}
+        {bgTheme !== "classic" && (
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              src={uthCampusImg}
+              alt="UTH Campus Heritage"
+              loading="eager"
+              decoding="async"
+              className="w-full h-full object-cover object-center scale-100 animate-kenburns transition-all duration-700"
+              style={{
+                filter: isCardHidden
+                  ? "brightness(1) contrast(1.02) saturate(1.06)"
+                  : "brightness(0.92) contrast(1.1) saturate(1.18)",
+              }}
+            />
+            {/* Royal Navy & Golden Hour Blend Overlay - Fades out completely when hidden so full photo shows */}
+            <div
+              className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
+                isCardHidden
+                  ? "opacity-0"
+                  : "opacity-100 bg-gradient-to-tr from-[#001d42]/65 via-[#002d62]/25 to-amber-500/15 mix-blend-multiply"
+              }`}
+            />
+            <div
+              className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
+                isCardHidden
+                  ? "opacity-0"
+                  : "opacity-100 bg-gradient-to-r from-black/20 via-transparent to-black/40"
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Classic Royal Parchment & Gold Atmosphere */}
+        {bgTheme === "classic" && (
+          <div
+            className="absolute inset-0 transition-all duration-700 overflow-hidden"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 35%, #FFFDF7 0%, #F8EED3 50%, #EBD8A3 100%)",
+            }}
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.32)_0%,rgba(179,135,40,0.12)_50%,transparent_75%)] rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(#b38728_1.2px,transparent_1.2px)] [background-size:28px_28px] opacity-20 pointer-events-none" />
+          </div>
+        )}
+
+        <div
+          className={`stars transition-opacity duration-700 ${
+            isCardHidden ? "opacity-20" : "opacity-100"
+          }`}
+        />
+      </div>
+
+      {/* Floating Toggle Button (Top-Right) */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsCardHidden((prev) => !prev);
+        }}
+        className={`fixed top-3 right-3 sm:top-4 sm:right-4 z-40 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full backdrop-blur-md border shadow-lg shadow-black/15 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer text-xs font-bold no-print group ${
+          isCardHidden
+            ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+            : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/45"
+        }`}
+        title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư"}
+      >
+        {isCardHidden ? (
+          <>
+            <EyeOff className="w-3.5 h-3.5 text-[#f3e5ab]" />
+            <span className="text-xs font-semibold tracking-wide">
+              Hiện thư
+            </span>
+          </>
+        ) : (
+          <>
+            <Eye className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
+            <span className="text-xs font-semibold tracking-wide">
+              Ẩn thư
+            </span>
+          </>
+        )}
+      </button>
+
       {!isOpen ? (
         /* Sealed Envelope Entrance */
-        <Envelope guestName={guestName} bgTheme={bgTheme} onOpen={handleOpenEnvelope} />
+        <Envelope
+          guestName={guestName}
+          bgTheme={bgTheme}
+          onOpen={handleOpenEnvelope}
+          isCardHidden={isCardHidden}
+        />
       ) : (
         /* Main Invitation Content */
-        <div className="flex-1 w-full flex flex-col justify-center items-center py-1 sm:py-2 px-1.5 sm:px-3 relative z-10 animate-[fadeIn_0.7s_ease-out] gap-1">
-          {/* Global Dynamic Background Layer */}
-          <div
-            className={`fixed inset-0 overflow-hidden pointer-events-none z-0 transition-all duration-700 ${
-              bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"
-            }`}
-          >
-            {/* Campus Theme with Royal Navy & Golden Hour Blend */}
-            {bgTheme !== "classic" && (
-              <div className="absolute inset-0 overflow-hidden">
-                <img
-                  src={uthCampusImg}
-                  alt="UTH Campus Heritage"
-                  loading="eager"
-                  decoding="async"
-                  className="w-full h-full object-cover object-center scale-100 animate-kenburns"
-                  style={{
-                    filter: "brightness(0.92) contrast(1.1) saturate(1.18)",
-                  }}
-                />
-                {/* Royal Navy & Golden Hour Cinematic Blend Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#001d42]/65 via-[#002d62]/25 to-amber-500/15 mix-blend-multiply pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/40 pointer-events-none" />
-              </div>
-            )}
-
-            {/* Classic Royal Parchment & Gold Atmosphere */}
-            {bgTheme === "classic" && (
-              <div
-                className="absolute inset-0 transition-all duration-700 overflow-hidden"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at 50% 35%, #FFFDF7 0%, #F8EED3 50%, #EBD8A3 100%)",
-                }}
-              >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.32)_0%,rgba(179,135,40,0.12)_50%,transparent_75%)] rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute inset-0 bg-[radial-gradient(#b38728_1.2px,transparent_1.2px)] [background-size:28px_28px] opacity-20 pointer-events-none" />
-              </div>
-            )}
-
-            <div className="stars" />
-          </div>
-
-          {/* Invitation Card Container */}
+        <div
+          className={`flex-1 w-full flex flex-col justify-center items-center py-1 sm:py-2 px-1.5 sm:px-3 relative z-10 animate-[fadeIn_0.7s_ease-out] gap-1 transition-all duration-500 ${
+            isCardHidden
+              ? "opacity-0 scale-95 pointer-events-none select-none"
+              : "opacity-100 scale-100"
+          }`}
+        >
           <main className="w-full flex items-center justify-center relative z-10 my-auto">
             <InvitationCard
               config={config}
@@ -171,7 +245,7 @@ export default function App() {
 
           {/* Ceremonial Action Buttons */}
           {!isShared && (
-            <div className="w-full max-w-xl mx-auto flex justify-center gap-2 sm:gap-3 my-0.5 relative z-20 no-print">
+            <div className="w-full max-w-xl mx-auto flex flex-wrap justify-center gap-2 sm:gap-3 my-0.5 relative z-20 no-print">
               <button
                 type="button"
                 onClick={() => setIsCustomizerOpen(true)}
@@ -195,29 +269,29 @@ export default function App() {
               </button>
             </div>
           )}
-
-          {/* Configuration Drawer */}
-          <Customizer
-            config={config}
-            onChange={setConfig}
-            defaultGuest={guestName}
-            bgTheme={bgTheme}
-            onBgThemeChange={setBgTheme}
-            isOpen={isCustomizerOpen}
-            onClose={() => setIsCustomizerOpen(false)}
-          />
-
-          {/* Export PDF & Image Modal */}
-          <ExportModal
-            isOpen={isExportModalOpen}
-            onClose={() => setIsExportModalOpen(false)}
-            config={config}
-            onChange={setConfig}
-            guestName={guestName}
-            onGuestChange={setGuestName}
-          />
         </div>
       )}
+
+      {/* Configuration Drawer */}
+      <Customizer
+        config={config}
+        onChange={setConfig}
+        defaultGuest={guestName}
+        bgTheme={bgTheme}
+        onBgThemeChange={setBgTheme}
+        isOpen={isCustomizerOpen}
+        onClose={() => setIsCustomizerOpen(false)}
+      />
+
+      {/* Export PDF & Image Modal */}
+      <ExportModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        config={config}
+        onChange={setConfig}
+        guestName={guestName}
+        onGuestChange={setGuestName}
+      />
     </div>
   );
 }
