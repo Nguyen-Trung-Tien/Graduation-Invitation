@@ -208,13 +208,13 @@ export default function App() {
       ) : (
         /* Main Invitation Content */
         <div
-          className={`flex-1 w-full flex flex-col justify-center items-center py-1 sm:py-2 px-1.5 sm:px-3 relative z-10 animate-[fadeIn_0.7s_ease-out] gap-1 transition-all duration-500 ${
+          className={`flex-1 w-full flex flex-col justify-center items-center py-2 sm:py-4 px-2 sm:px-4 relative z-10 animate-[fadeIn_0.5s_ease-out] gap-1.5 transition-all duration-500 ${
             isCardHidden
               ? "opacity-0 scale-95 pointer-events-none select-none"
               : "opacity-100 scale-100"
           }`}
         >
-          <main className="w-full flex items-center justify-center relative z-10 my-auto">
+          <main className="w-full flex items-center justify-center relative z-10 m-auto">
             <InvitationCard
               config={config}
               guestName={guestName}

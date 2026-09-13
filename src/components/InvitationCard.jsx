@@ -177,13 +177,13 @@ export default function InvitationCard({
   return (
     <article
       id={isPrintable ? "printable-invitation" : undefined}
-      className="invitation-card w-full max-w-[620px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl"
+      className="@container invitation-card w-full max-w-[620px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl"
       style={{
         borderRadius: "1.2rem",
         border: "3px solid rgba(179, 135, 40, 0.45)",
         boxShadow:
           "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
-        padding: "clamp(0.85rem, 1.8vh, 1.25rem) clamp(1.1rem, 2.5vw, 1.6rem)",
+        padding: "clamp(0.85rem, 2vw, 1.25rem) clamp(1.1rem, 2.5vw, 1.6rem)",
       }}
     >
       {/* Royal Corner Ornaments */}
@@ -295,7 +295,7 @@ export default function InvitationCard({
       {/* ════════════════ TIER 4: EVENT DETAILS MODULES ════════════════ */}
       <section className="my-1 relative z-10">
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[1fr_1fr_auto] gap-1.5 rounded-xl overflow-hidden p-1.5"
+          className="grid grid-cols-1 @[480px]:grid-cols-2 @[560px]:grid-cols-[1fr_1fr_auto] gap-1.5 rounded-xl overflow-hidden p-1.5"
           style={{
             background: "rgba(255,255,255,0.94)",
             border: "1.5px solid rgba(179,135,40,0.32)",
@@ -407,7 +407,7 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#001d42] via-[#002654] to-[#002d62] border border-[#b38728]/50 text-white flex flex-row md:flex-col items-center justify-between sm:justify-center gap-1.5 shadow-sm sm:col-span-2 md:col-span-1 md:w-30">
+          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#001d42] via-[#002654] to-[#002d62] border border-[#b38728]/50 text-white flex flex-row @[560px]:flex-col items-center justify-between sm:justify-center gap-1.5 shadow-sm @[480px]:col-span-2 @[560px]:col-span-1 @[560px]:w-28">
             <div className="p-1 bg-white rounded border border-[#b38728]/40 shrink-0">
               <QRCodeSVG
                 value={googleMapsUrl}

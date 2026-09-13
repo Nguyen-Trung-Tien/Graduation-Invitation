@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, GraduationCap } from "lucide-react";
-import uthCampusImg from "../assets/Hinh_UTH.jpg";
 
-export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, isCardHidden = false }) {
+export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
   const [isOpening, setIsOpening] = useState(false);
+  const [canHover, setCanHover] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+      setCanHover(mq.matches);
+      const handler = (e) => setCanHover(e.matches);
+      mq.addEventListener("change", handler);
+      return () => mq.removeEventListener("change", handler);
+    }
+  }, []);
 
   const handleOpen = () => {
     if (isOpening) return;
@@ -25,50 +35,10 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
 
   return (
     <div className={`min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}>
-      {/* Dynamic Merged Atmospheric Backdrop */}
-      <div
-        className={`absolute inset-0 z-0 pointer-events-none overflow-hidden transition-all duration-700 ${
-          bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"
-        }`}
-      >
-        {bgTheme !== "classic" && (
-          <div className="absolute inset-0 overflow-hidden opacity-100">
-            <img
-              src={uthCampusImg}
-              alt="UTH Campus Background"
-              loading="eager"
-              decoding="async"
-              className="w-full h-full object-cover object-center scale-100 animate-kenburns"
-              style={{
-                filter: "brightness(0.92) contrast(1.1) saturate(1.15)",
-              }}
-            />
-            {/* Royal Navy & Golden Hour Cinematic Blend Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#001d42]/70 via-[#002d62]/30 to-amber-500/15 mix-blend-multiply pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/35 pointer-events-none" />
-          </div>
-        )}
-
-        {bgTheme === "classic" && (
-          <div
-            className="absolute inset-0 overflow-hidden"
-            style={{
-              background:
-                "radial-gradient(ellipse at 50% 35%, #FFFDF7 0%, #F8EED3 50%, #EBD8A3 100%)",
-            }}
-          >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.3)_0%,rgba(179,135,40,0.1)_50%,transparent_75%)] rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(#b38728_1.2px,transparent_1.2px)] [background-size:28px_28px] opacity-20 pointer-events-none" />
-          </div>
-        )}
-
-        <div className="stars" />
-      </div>
-
       <motion.div
-        initial={{ opacity: 0, y: 35 }}
+        initial={{ opacity: 0, y: 25 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.7 }}
         className="w-full max-w-[520px] flex flex-col items-center gap-6 z-10"
       >
         {/* Header Invitation Tagline */}
@@ -97,13 +67,15 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
           aria-label="Chạm vào phong bì để mở thiệp"
           onClick={handleOpen}
           onKeyDown={handleKeyDown}
-          className="w-full aspect-[1.52/1] relative perspective-1000 cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#b38728] focus-visible:outline-none rounded-2xl"
+          className="w-full aspect-[1.52/1] relative perspective-1000 cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#b38728] focus-visible:outline-none rounded-2xl select-none"
         >
           {/* Flap & Envelope Wrapper */}
           <motion.div
-            whileHover={!isOpening ? { scale: 1.02, rotateY: 1.5, rotateX: 1.5 } : {}}
-            transition={{ type: "spring", stiffness: 300, damping: 22 }}
+            whileHover={!isOpening && canHover ? { scale: 1.015 } : {}}
+            whileTap={!isOpening ? { scale: 0.985 } : {}}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="w-full h-full relative preserve-3d"
+            style={{ transform: "translateZ(0)" }}
           >
             {/* Back Interior Layer */}
             <div className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/45 shadow-[0_25px_60px_rgba(0,0,0,0.55)] flex items-center justify-center overflow-hidden">
@@ -116,6 +88,7 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
               animate={isOpening ? { y: "-46%", scale: 1, z: 10 } : {}}
               transition={{ delay: 0.45, duration: 1.0, ease: "easeInOut" }}
               className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border-2 border-[#b38728]/35 shadow-xl p-3 sm:p-4 flex flex-col items-center justify-between text-slate-900 pointer-events-none z-10"
+              style={{ transform: "translateZ(0)" }}
             >
               <div className="w-11 h-11 rounded-full border-2 border-[#b38728] bg-[#001d42]/8 flex items-center justify-center shadow-xs">
                 <GraduationCap className="w-5 h-5 text-[#002d62]" />
@@ -165,17 +138,19 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
 
             {/* Top Flap (Rotating 3D Flap) */}
             <motion.div
-              style={{ originY: 0 }}
               animate={
                 isOpening
                   ? { rotateX: 180, zIndex: 0 }
                   : { rotateX: 0, zIndex: 25 }
               }
               transition={{ duration: 0.65, ease: "easeInOut" }}
-              className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#003c80] via-[#002a5c] to-[#001a3d] rounded-t-2xl border-t-2 border-x border-[#b38728]/35 pointer-events-none origin-top shadow-md"
+              className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#003c80] via-[#002a5c] to-[#001a3d] rounded-t-2xl border-t-2 border-x border-[#b38728]/35 pointer-events-none shadow-md"
               style={{
                 clipPath: "polygon(0% 0%, 100% 0%, 50% 100%)",
                 originY: 0,
+                transformOrigin: "top center",
+                WebkitBackfaceVisibility: "hidden",
+                backfaceVisibility: "hidden",
               }}
             />
 
@@ -186,15 +161,15 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
                   ? { scale: 0, opacity: 0, y: 35 }
                   : { scale: 1, opacity: 1 }
               }
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               className="absolute top-[46%] sm:top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
             >
               {/* Elegant Glowing Aura */}
-              <div className="absolute w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#b38728]/35 blur-xl pointer-events-none group-hover/seal:scale-110 transition-transform duration-500 animate-pulse" />
+              <div className="absolute w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#b38728]/30 blur-xl pointer-events-none group-hover/seal:scale-110 transition-transform duration-500" />
 
               {/* Metallic Wax Circle with Authentic Stamp Depth */}
               <div
-                className="w-[58px] h-[58px] sm:w-[84px] sm:h-[84px] rounded-full bg-gradient-to-tr from-[#8a5d15] via-[#dfb755] to-[#fef0b3] p-1 sm:p-1.5 flex items-center justify-center transition-all duration-300 relative z-10 group-hover/seal:scale-108 active:scale-95"
+                className="w-[58px] h-[58px] sm:w-[84px] sm:h-[84px] rounded-full bg-gradient-to-tr from-[#8a5d15] via-[#dfb755] to-[#fef0b3] p-1 sm:p-1.5 flex items-center justify-center transition-all duration-300 relative z-10 group-hover/seal:scale-105 active:scale-95"
                 style={{
                   boxShadow:
                     "0 10px 24px rgba(0, 15, 40, 0.65), 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.7), inset 0 -3px 6px rgba(90, 50, 0, 0.5)",
@@ -229,12 +204,11 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
               {/* Golden Hand Tap Indicator */}
               <motion.div
                 animate={{
-                  x: [4, 0, 4],
-                  y: [4, 0, 4],
-                  scale: [1, 0.9, 1],
+                  x: [2, 0, 2],
+                  y: [2, 0, 2],
                 }}
                 transition={{
-                  duration: 1.4,
+                  duration: 1.6,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
@@ -259,9 +233,9 @@ export default function Envelope({ guestName, bgTheme = "uth-campus", onOpen, is
           </motion.div>
         </div>
 
-        {/* Clean Elegant Instruction Banner with Breathing Animation */}
+        {/* Clean Elegant Instruction Banner */}
         <motion.p
-          animate={{ opacity: isOpening ? 0 : [0.65, 1, 0.65], scale: isOpening ? 0.95 : [1, 1.02, 1] }}
+          animate={{ opacity: isOpening ? 0 : [0.7, 1, 0.7] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
           className="text-xs sm:text-sm text-[#f3e5ab] font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none drop-shadow-md select-none"
         >
