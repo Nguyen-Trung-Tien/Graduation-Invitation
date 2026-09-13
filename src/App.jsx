@@ -106,22 +106,31 @@ export default function App() {
 
   return (
     <div
-      onClick={() => {
-        if (isCardHidden) setIsCardHidden(false);
-      }}
       className={`relative min-h-dvh w-full flex flex-col justify-between ${
-        !isOpen ? "overflow-hidden" : "overflow-x-hidden"
-      } ${isCardHidden ? "cursor-pointer" : ""}`}
+        !isOpen ? "overflow-hidden" : ""
+      }`}
     >
-      {/* Global Dynamic Background Layer */}
+      {/* Tap anywhere backdrop when card is hidden to restore */}
+      {isCardHidden && (
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label="Hiện lại thiệp"
+          onClick={() => setIsCardHidden(false)}
+          className="fixed inset-0 z-35 cursor-pointer bg-transparent"
+        />
+      )}
+
+      {/* Global Dynamic Background Layer (Isolated Composite Layer) */}
       <div
         className={`fixed inset-0 overflow-hidden pointer-events-none z-0 transition-all duration-700 ${
           bgTheme === "classic" ? "bg-[#F9F3E3]" : "bg-[#0b1329]"
         }`}
+        style={{ contain: "strict", transform: "translateZ(0)" }}
       >
         {/* Campus Theme with Royal Navy & Golden Hour Blend */}
         {bgTheme !== "classic" && (
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden" style={{ transform: "translateZ(0)" }}>
             <img
               src={uthCampusImg}
               alt="UTH Campus Heritage"
@@ -129,24 +138,24 @@ export default function App() {
               decoding="async"
               className="w-full h-full object-cover object-center scale-100 animate-kenburns transition-all duration-700"
               style={{
-                filter: isCardHidden
-                  ? "brightness(1) contrast(1.02) saturate(1.06)"
-                  : "brightness(0.92) contrast(1.1) saturate(1.18)",
+                transform: "translate3d(0, 0, 0)",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
               }}
             />
-            {/* Royal Navy & Golden Hour Blend Overlay - Fades out completely when hidden so full photo shows */}
+            {/* Royal Navy & Golden Hour Blend Overlay - Hardware-accelerated without mix-blend penalty */}
             <div
               className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
                 isCardHidden
                   ? "opacity-0"
-                  : "opacity-100 bg-gradient-to-tr from-[#001d42]/65 via-[#002d62]/25 to-amber-500/15 mix-blend-multiply"
+                  : "opacity-100 bg-gradient-to-tr from-[#001d42]/80 via-[#002d62]/40 to-amber-600/20"
               }`}
             />
             <div
               className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
                 isCardHidden
                   ? "opacity-0"
-                  : "opacity-100 bg-gradient-to-r from-black/20 via-transparent to-black/40"
+                  : "opacity-100 bg-gradient-to-r from-black/25 via-transparent to-black/40"
               }`}
             />
           </div>

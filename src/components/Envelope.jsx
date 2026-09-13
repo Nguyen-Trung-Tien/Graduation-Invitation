@@ -72,10 +72,8 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
           {/* Flap & Envelope Wrapper */}
           <motion.div
             whileHover={!isOpening && canHover ? { scale: 1.015 } : {}}
-            whileTap={!isOpening ? { scale: 0.985 } : {}}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="w-full h-full relative preserve-3d"
-            style={{ transform: "translateZ(0)" }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="w-full h-full relative preserve-3d active:scale-[0.988] transition-transform duration-150"
           >
             {/* Back Interior Layer */}
             <div className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/45 shadow-[0_25px_60px_rgba(0,0,0,0.55)] flex items-center justify-center overflow-hidden">

@@ -184,6 +184,8 @@ export default function InvitationCard({
         boxShadow:
           "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
         padding: "clamp(0.85rem, 2vw, 1.25rem) clamp(1.1rem, 2.5vw, 1.6rem)",
+        isolation: "isolate",
+        contain: "paint",
       }}
     >
       {/* Royal Corner Ornaments */}
