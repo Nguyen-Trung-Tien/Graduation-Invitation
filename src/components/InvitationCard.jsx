@@ -1,3 +1,4 @@
+import { useState, useCallback } from "react";
 import {
   MapPin,
   Calendar,
@@ -174,20 +175,69 @@ export default function InvitationCard({
   const isExpectedDate = config.isExpectedDate !== false;
   const isExpectedTime = config.isExpectedTime !== false;
 
+  const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50, isHovered: false });
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (isPrintable) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      setTilt({
+        x: (0.5 - y) * 8,
+        y: (x - 0.5) * 8,
+        glareX: x * 100,
+        glareY: y * 100,
+        isHovered: true,
+      });
+    },
+    [isPrintable]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ x: 0, y: 0, glareX: 50, glareY: 50, isHovered: false });
+  }, []);
+
   return (
     <article
       id={isPrintable ? "printable-invitation" : undefined}
-      className="@container invitation-card w-full max-w-[620px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="@container invitation-card w-full max-w-[620px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl will-change-transform select-none"
       style={{
         borderRadius: "1.2rem",
         border: "3px solid rgba(179, 135, 40, 0.45)",
-        boxShadow:
-          "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
+        boxShadow: tilt.isHovered
+          ? "0 0 0 1px rgba(179, 135, 40, 0.35), 0 24px 50px rgba(0, 29, 66, 0.28), 0 8px 20px rgba(179, 135, 40, 0.22)"
+          : "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
+        transform: tilt.isHovered
+          ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.012, 1.012, 1.012)`
+          : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+        transition: tilt.isHovered
+          ? "transform 0.1s ease-out, box-shadow 0.2s ease-out"
+          : "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease-out",
         padding: "clamp(0.65rem, 1.8vw, 1.25rem) clamp(0.85rem, 2.2vw, 1.5rem)",
         isolation: "isolate",
         contain: "paint",
       }}
     >
+      {/* Cinematic Anamorphic Gold Foil Light Sweep */}
+      {!isPrintable && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-25 rounded-[1.2rem]">
+          <div className="w-[50%] h-full bg-gradient-to-r from-transparent via-amber-200/25 to-transparent animate-cinematic-sweep" />
+        </div>
+      )}
+
+      {/* Interactive Specular Glare Reflection */}
+      {!isPrintable && tilt.isHovered && (
+        <div
+          className="absolute inset-0 pointer-events-none z-20 rounded-[1.2rem] transition-opacity duration-200"
+          style={{
+            background: `radial-gradient(circle 280px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,245,215,0.3) 0%, transparent 70%)`,
+          }}
+        />
+      )}
+
       {/* Royal Corner Ornaments */}
       <CornerOrnament position="top-left" />
       <CornerOrnament position="top-right" />

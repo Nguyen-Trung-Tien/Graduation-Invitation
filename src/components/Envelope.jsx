@@ -69,11 +69,12 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
           onKeyDown={handleKeyDown}
           className="w-full aspect-[1.52/1] relative perspective-1000 cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#b38728] focus-visible:outline-none rounded-2xl select-none"
         >
-          {/* Flap & Envelope Wrapper */}
+          {/* Flap & Envelope Wrapper - Cinematic Camera Dolly Motion */}
           <motion.div
+            animate={isOpening ? { scale: 1.04, y: 16 } : { scale: 1, y: 0 }}
             whileHover={!isOpening && canHover ? { scale: 1.015 } : {}}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="w-full h-full relative preserve-3d active:scale-[0.988] transition-transform duration-150"
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full h-full relative preserve-3d active:scale-[0.988]"
           >
             {/* Back Interior Layer */}
             <div className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/45 shadow-[0_25px_60px_rgba(0,0,0,0.55)] flex items-center justify-center overflow-hidden">
