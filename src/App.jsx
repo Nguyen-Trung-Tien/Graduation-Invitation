@@ -182,28 +182,30 @@ export default function App() {
         />
       </div>
 
-      {/* Floating Toggle Button (Top-Left, Icon only - Only visible on the sealed envelope screen) */}
+      {/* Floating Toggle Header (Top-Left - Only visible on the sealed envelope screen) */}
       {!isOpen && (
-        <button
-          type="button"
-          aria-label={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsCardHidden((prev) => !prev);
-          }}
-          className={`fixed top-[max(0.75rem,env(safe-area-inset-top))] left-[max(0.75rem,env(safe-area-inset-left))] sm:top-4 sm:left-4 z-40 w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center backdrop-blur-md border shadow-md shadow-black/10 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer no-print group ${
-            isCardHidden
-              ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
-              : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/40"
-          }`}
-          title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
-        >
-          {isCardHidden ? (
-            <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f3e5ab]" />
-          ) : (
-            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
-          )}
-        </button>
+        <header className="fixed top-0 left-0 z-40 p-3 sm:p-4 pointer-events-none no-print">
+          <button
+            type="button"
+            aria-label={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsCardHidden((prev) => !prev);
+            }}
+            className={`pointer-events-auto w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center backdrop-blur-md border shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer group ${
+              isCardHidden
+                ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
+                : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/40"
+            }`}
+            title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
+          >
+            {isCardHidden ? (
+              <EyeOff className="w-4 h-4 text-[#f3e5ab]" />
+            ) : (
+              <Eye className="w-4 h-4 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
+            )}
+          </button>
+        </header>
       )}
 
       {!isOpen ? (
@@ -215,32 +217,39 @@ export default function App() {
           isCardHidden={isCardHidden}
         />
       ) : (
-        /* Main Invitation Content */
-        <div
-          className={`flex-1 w-full flex flex-col justify-center items-center py-2 sm:py-4 px-2 sm:px-4 relative z-10 animate-[fadeIn_0.5s_ease-out] gap-1.5 transition-all duration-500 ${
+        /* Main Invitation Content - Semantic Macro Layout with 8pt Grid */
+        <main
+          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center py-4 sm:py-6 px-4 sm:px-6 relative z-10 animate-[fadeIn_0.5s_ease-out] gap-4 sm:gap-6 transition-all duration-500 min-w-0 ${
             isCardHidden
               ? "opacity-0 scale-95 pointer-events-none select-none"
               : "opacity-100 scale-100"
           }`}
         >
-          <main className="w-full flex items-center justify-center relative z-10 m-auto">
+          {/* Card Presentation Section */}
+          <section
+            aria-label="Nội dung thiệp mời chính"
+            className="w-full min-w-0 flex-1 flex items-center justify-center relative z-10 m-auto"
+          >
             <InvitationCard
               config={config}
               guestName={guestName}
               isPrintable={true}
               bgTheme={bgTheme}
             />
-          </main>
+          </section>
 
-          {/* Ceremonial Action Buttons */}
+          {/* Action Footer Navigation */}
           {!isShared && (
-            <div className="w-full max-w-xl mx-auto flex flex-wrap justify-center gap-2 sm:gap-3 my-0.5 relative z-20 no-print">
+            <footer
+              aria-label="Tùy chọn tương tác thiệp"
+              className="w-full max-w-xl mx-auto flex flex-wrap items-center justify-center gap-3 sm:gap-4 my-1 relative z-20 no-print"
+            >
               <button
                 type="button"
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-white/90 backdrop-blur-md border border-[#b38728]/40 shadow-lg shadow-black/5 text-[#002d62] hover:bg-[#002d62] hover:text-white hover:border-[#002d62] transition-all duration-300 hover:shadow-xl hover:shadow-[#002d62]/15 active:scale-95 cursor-pointer font-bold"
+                className="group flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-[#b38728]/40 shadow-sm text-[#002d62] hover:bg-[#002d62] hover:text-white hover:border-[#002d62] transition-all duration-300 hover:shadow-lg active:scale-95 cursor-pointer font-bold"
               >
-                <Settings className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
+                <Settings className="w-4 h-4 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
                 <span className="text-xs font-semibold tracking-wide">
                   Tùy chỉnh thiệp
                 </span>
@@ -249,16 +258,16 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsExportModalOpen(true)}
-                className="group flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white border border-[#002d62]/50 shadow-lg shadow-[#002d62]/20 hover:shadow-xl hover:shadow-[#002d62]/30 transition-all duration-300 active:scale-95 cursor-pointer font-bold"
+                className="group flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white border border-[#002d62]/50 shadow-sm hover:shadow-lg transition-all duration-300 active:scale-95 cursor-pointer font-bold"
               >
-                <Printer className="w-3.5 h-3.5 text-[#f3e5ab]" />
+                <Printer className="w-4 h-4 text-[#f3e5ab]" />
                 <span className="text-xs font-semibold tracking-wide">
                   Xuất PDF / In
                 </span>
               </button>
-            </div>
+            </footer>
           )}
-        </div>
+        </main>
       )}
 
       {/* Configuration Drawer */}
