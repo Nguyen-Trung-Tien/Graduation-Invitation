@@ -183,7 +183,7 @@ export default function InvitationCard({
         border: "3px solid rgba(179, 135, 40, 0.45)",
         boxShadow:
           "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
-        padding: "clamp(0.85rem, 2vw, 1.25rem) clamp(1.1rem, 2.5vw, 1.6rem)",
+        padding: "clamp(0.65rem, 1.8vw, 1.25rem) clamp(0.85rem, 2.2vw, 1.5rem)",
         isolation: "isolate",
         contain: "paint",
       }}
@@ -195,8 +195,8 @@ export default function InvitationCard({
       <CornerOrnament position="bottom-right" />
 
       {/* Multi-layered Double Gold Foil Inner Border Frame */}
-      <div className="absolute inset-2 sm:inset-2.5 border-2 border-[#b38728]/35 rounded-xl pointer-events-none z-10" />
-      <div className="absolute inset-[10px] sm:inset-[13px] border border-[#b38728]/20 rounded-lg pointer-events-none z-10" />
+      <div className="absolute inset-1.5 sm:inset-2.5 border-2 border-[#b38728]/35 rounded-xl pointer-events-none z-10" />
+      <div className="absolute inset-[8px] sm:inset-[13px] border border-[#b38728]/20 rounded-lg pointer-events-none z-10" />
 
       {/* ════════════════ TIER 1: HEADER & TITLE ════════════════ */}
       <header className="flex flex-col items-center text-center gap-0 pb-0.5 relative z-10">
@@ -224,12 +224,12 @@ export default function InvitationCard({
 
       {/* ════════════════ TIER 2: GUEST PERSONALIZATION ════════════════ */}
       <section className="text-center py-0.5 relative z-10">
-        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#b38728]/12 border border-[#b38728]/30 shadow-2xs mb-0.5">
-          <Sparkles className="w-2.5 h-2.5 text-[#b38728]" />
-          <span className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-[#7a5c10] font-extrabold font-sans">
+        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#b38728]/15 border border-[#b38728]/35 shadow-2xs mb-0.5">
+          <Sparkles className="w-2.5 h-2.5 text-[#8b661b]" />
+          <span className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-[#5c4308] font-extrabold font-sans">
             Trân Trọng Kính Mời
           </span>
-          <Sparkles className="w-2.5 h-2.5 text-[#b38728]" />
+          <Sparkles className="w-2.5 h-2.5 text-[#8b661b]" />
         </div>
 
         <h2
@@ -255,7 +255,7 @@ export default function InvitationCard({
           {/* Graduate Emblem Title */}
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#002d62]/6 border border-[#b38728]/40">
             <GraduationCap className="w-3.5 h-3.5 text-[#002d62]" />
-            <span className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-[#7a5c10] font-sans font-extrabold">
+            <span className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-[#5c4308] font-sans font-extrabold">
               Tân {config.degree || "Cử Nhân"}
             </span>
           </div>
@@ -277,7 +277,7 @@ export default function InvitationCard({
             </span>
           </div>
 
-          <p className="text-[10.5px] sm:text-[11px] uppercase tracking-wider text-[#7a5c10] font-sans font-bold mt-1">
+          <p className="text-[10.5px] sm:text-[11px] uppercase tracking-wider text-[#5c4308] font-sans font-bold mt-1">
             Niên Khóa 2022 – 2026
           </p>
 
@@ -308,7 +308,7 @@ export default function InvitationCard({
           <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#fdfbf7] to-[#f7f2e6] border border-[#b38728]/25 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between pb-1 border-b border-[#b38728]/20">
-                <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#7a5c10] flex items-center gap-1">
+                <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#5c4308] flex items-center gap-1">
                   <Clock className="w-3 h-3 text-[#b38728]" /> Thời Gian
                 </h4>
 
@@ -321,7 +321,7 @@ export default function InvitationCard({
                     className="no-print calendar-btn print:hidden inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 px-2 py-0.5 rounded border border-[#b38728]/30 transition-all cursor-pointer no-underline active:scale-95"
                     title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
                   >
-                    <CalendarPlus className="w-2.5 h-2.5 text-[#7a5c10]" />
+                    <CalendarPlus className="w-2.5 h-2.5 text-[#5c4308]" />
                     <span>Lưu Lịch</span>
                   </a>
                 )}
@@ -330,10 +330,10 @@ export default function InvitationCard({
               <div className="space-y-1 mt-1">
                 <div className="flex items-start gap-1.5">
                   <div className="w-5 h-5 rounded-md bg-[#b38728]/15 flex items-center justify-center shrink-0 border border-[#b38728]/25 mt-0.5">
-                    <Calendar className="w-3 h-3 text-[#7a5c10]" />
+                    <Calendar className="w-3 h-3 text-[#5c4308]" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none">
+                    <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Ngày Diễn Ra
                     </p>
                     <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
@@ -349,10 +349,10 @@ export default function InvitationCard({
 
                 <div className="flex items-start gap-1.5">
                   <div className="w-5 h-5 rounded-md bg-[#b38728]/15 flex items-center justify-center shrink-0 border border-[#b38728]/25 mt-0.5">
-                    <Clock className="w-3 h-3 text-[#7a5c10]" />
+                    <Clock className="w-3 h-3 text-[#5c4308]" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none">
+                    <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Giờ Khai Mạc
                     </p>
                     <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
@@ -372,7 +372,7 @@ export default function InvitationCard({
           {/* LOCATION CARD */}
           <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#fdfbf7] to-[#f7f2e6] border border-[#b38728]/25 flex flex-col justify-between">
             <div>
-              <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#7a5c10] flex items-center gap-1 pb-1 border-b border-[#b38728]/20">
+              <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#5c4308] flex items-center gap-1 pb-1 border-b border-[#b38728]/20">
                 <MapPin className="w-3 h-3 text-[#b38728]" /> Địa Điểm
               </h4>
 
@@ -382,7 +382,7 @@ export default function InvitationCard({
                     <GraduationCap className="w-3 h-3 text-[#002d62]" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none">
+                    <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Hội Trường
                     </p>
                     <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
@@ -393,10 +393,10 @@ export default function InvitationCard({
 
                 <div className="flex items-start gap-1.5">
                   <div className="w-5 h-5 rounded-md bg-[#b38728]/15 flex items-center justify-center shrink-0 border border-[#b38728]/25 mt-0.5">
-                    <MapPin className="w-3 h-3 text-[#7a5c10]" />
+                    <MapPin className="w-3 h-3 text-[#5c4308]" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none">
+                    <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Địa Chỉ Chi Tiết
                     </p>
                     <p className="text-[10.5px] sm:text-[11px] font-semibold text-slate-700 mt-0.5 leading-snug">
