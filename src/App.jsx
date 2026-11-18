@@ -2,7 +2,15 @@ import { useState, useEffect } from "react";
 import { flushSync } from "react-dom";
 import confetti from "canvas-confetti";
 import { useReducedMotion } from "framer-motion";
-import { Settings, Printer, Eye, EyeOff, RotateCcw, Sparkles, Palette } from "lucide-react";
+import {
+  Settings,
+  Printer,
+  Eye,
+  EyeOff,
+  RotateCcw,
+  Sparkles,
+  Palette,
+} from "lucide-react";
 import Envelope from "./components/Envelope";
 import InvitationCard from "./components/InvitationCard";
 import Customizer from "./components/Customizer";
@@ -65,14 +73,18 @@ function CountdownPill({ date, time, bgTheme }) {
         </span>
       ) : (
         <div className="flex items-center gap-1.5 tabular-nums font-bold tracking-wide">
-          <span className="opacity-80 font-medium hidden sm:inline">Đếm ngược:</span>
+          <span className="opacity-80 font-medium hidden sm:inline">
+            Đếm ngược:
+          </span>
           <span>{String(days).padStart(2, "0")}d</span>
           <span className="opacity-50">:</span>
           <span>{String(hours).padStart(2, "0")}h</span>
           <span className="opacity-50">:</span>
           <span>{String(minutes).padStart(2, "0")}m</span>
           <span className="opacity-50">:</span>
-          <span className="text-[#dfb755]">{String(seconds).padStart(2, "0")}s</span>
+          <span className="text-[#dfb755]">
+            {String(seconds).padStart(2, "0")}s
+          </span>
         </div>
       )}
     </div>
@@ -101,17 +113,17 @@ function getInitialStateFromUrl() {
 
   const isShared = Boolean(
     guest ||
-      name ||
-      major ||
-      degree ||
-      rawDate ||
-      time ||
-      hall ||
-      address ||
-      text ||
-      theme ||
-      sharedParam === "true" ||
-      sharedParam === "1"
+    name ||
+    major ||
+    degree ||
+    rawDate ||
+    time ||
+    hall ||
+    address ||
+    text ||
+    theme ||
+    sharedParam === "true" ||
+    sharedParam === "1",
   );
 
   const cleanDate = rawDate
@@ -127,9 +139,13 @@ function getInitialStateFromUrl() {
       degree: degree || defaults.config.degree,
       major: major || defaults.config.major,
       date: cleanDate || defaults.config.date,
-      isExpectedDate: rawDate ? rawDate.includes("dự kiến") : defaults.config.isExpectedDate,
+      isExpectedDate: rawDate
+        ? rawDate.includes("dự kiến")
+        : defaults.config.isExpectedDate,
       time: time || defaults.config.time,
-      isExpectedTime: time ? time.includes("dự kiến") : defaults.config.isExpectedTime,
+      isExpectedTime: time
+        ? time.includes("dự kiến")
+        : defaults.config.isExpectedTime,
       hall: hall || defaults.config.hall,
       address: address || defaults.config.address,
       invitationText: text || defaults.config.invitationText,
@@ -170,7 +186,9 @@ export default function App() {
     ) {
       updateFn();
       if (focusSelector) {
-        requestAnimationFrame(() => document.querySelector(focusSelector)?.focus());
+        requestAnimationFrame(() =>
+          document.querySelector(focusSelector)?.focus(),
+        );
       }
       return;
     }
@@ -240,7 +258,10 @@ export default function App() {
       >
         {/* Campus Theme with Royal Navy & Golden Hour Blend */}
         {bgTheme !== "classic" && (
-          <div className="absolute inset-0 overflow-hidden" style={{ transform: "translateZ(0)" }}>
+          <div
+            className="absolute inset-0 overflow-hidden"
+            style={{ transform: "translateZ(0)" }}
+          >
             <img
               src={uthCampusImg}
               alt="UTH Campus Heritage"
@@ -315,7 +336,10 @@ export default function App() {
         />
 
         {/* 2026 Subtle Cinematic Film Grain */}
-        <div aria-hidden="true" className="absolute inset-0 film-grain pointer-events-none" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 film-grain pointer-events-none"
+        />
       </div>
 
       {/* Floating Toggle Header (Top-Left - Only visible on the sealed envelope screen) */}
@@ -362,7 +386,11 @@ export default function App() {
           }`}
         >
           {/* Live Ceremony Countdown Pill */}
-          <CountdownPill date={config.date} time={config.time} bgTheme={bgTheme} />
+          <CountdownPill
+            date={config.date}
+            time={config.time}
+            bgTheme={bgTheme}
+          />
 
           {/* Card Presentation Section */}
           <section

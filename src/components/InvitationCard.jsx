@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   MapPin,
   Calendar,
@@ -115,7 +115,17 @@ export default function InvitationCard({
   isPrintable,
   hideCalendar = false,
 }) {
-  const revealProps = () => ({});
+  const prefersReducedMotion = useReducedMotion();
+  const shouldStagger = !hideCalendar && !prefersReducedMotion;
+
+  const revealProps = (delay = 0) =>
+    shouldStagger
+      ? {
+          initial: { opacity: 0, y: 12, scale: 0.985 },
+          animate: { opacity: 1, y: 0, scale: 1 },
+          transition: { duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] },
+        }
+      : {};
   const formatVietnameseDate = (dateStr) => {
     if (!dateStr || dateStr === "Đang cập nhật")
       return "Thứ Bảy, ngày 26 tháng 12 năm 2026";
@@ -333,14 +343,7 @@ export default function InvitationCard({
         className="relative z-10 max-w-lg mx-auto my-1"
       >
         <div
-          className="py-2 sm:py-2.5 px-3 sm:px-5 rounded-xl flex flex-col items-center text-center gap-1 relative overflow-hidden ceremony-watermark"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(254,250,242,0.95) 100%)",
-            border: "1.5px solid rgba(179,135,40,0.42)",
-            boxShadow:
-              "0 8px 24px rgba(0,29,66,0.07), 0 0 0 1px rgba(255,255,255,0.85), inset 0 1px 0 rgba(255,255,255,0.95)",
-          }}
+          className="py-2.5 sm:py-3 px-3.5 sm:px-5 rounded-2xl flex flex-col items-center text-center gap-1 relative overflow-hidden ceremony-watermark bento-card-surface"
         >
           {/* Subtle Watermark Crest */}
           <GraduationCap
@@ -409,15 +412,10 @@ export default function InvitationCard({
         className="my-1 relative z-10"
       >
         <div
-          className="grid grid-cols-1 @[480px]:grid-cols-2 @[560px]:grid-cols-[1fr_1fr_auto] gap-1.5 rounded-xl overflow-hidden p-1.5"
-          style={{
-            background: "rgba(255,255,255,0.94)",
-            border: "1.5px solid rgba(179,135,40,0.32)",
-            boxShadow: "0 4px 16px rgba(0,29,66,0.05)",
-          }}
+          className="grid grid-cols-1 @[480px]:grid-cols-2 @[560px]:grid-cols-[1fr_1fr_auto] gap-2 rounded-2xl overflow-hidden p-2 bento-card-surface"
         >
           {/* TIME CARD */}
-          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#fdfbf7] to-[#f7f2e6] border border-[#b38728]/25 flex flex-col justify-between">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-b from-[#fdfbf7] to-[#f7f1e3] border border-[#b38728]/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between pb-1 border-b border-[#b38728]/20">
                 <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#5c4308] flex items-center gap-1">
@@ -482,7 +480,7 @@ export default function InvitationCard({
           </div>
 
           {/* LOCATION CARD */}
-          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#fdfbf7] to-[#f7f2e6] border border-[#b38728]/25 flex flex-col justify-between">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-b from-[#fdfbf7] to-[#f7f1e3] border border-[#b38728]/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] flex flex-col justify-between">
             <div>
               <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#5c4308] flex items-center gap-1 pb-1 border-b border-[#b38728]/20">
                 <MapPin className="w-3 h-3 text-[#b38728]" /> Địa Điểm
@@ -521,7 +519,7 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#001d42] via-[#002654] to-[#002d62] border border-[#b38728]/55 text-white flex flex-row @[560px]:flex-col items-center justify-between sm:justify-center gap-1.5 shadow-[0_6px_18px_rgba(0,29,66,0.22),inset_0_1px_0_rgba(255,255,255,0.12)] @[480px]:col-span-2 @[560px]:col-span-1 @[560px]:w-28">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[560px]:flex-col items-center justify-between sm:justify-center gap-1.5 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[480px]:col-span-2 @[560px]:col-span-1 @[560px]:w-28">
             <div className="relative p-1 bg-white rounded border border-[#b38728]/45 shrink-0 shadow-xs">
               {/* 2026 Scanner Viewfinder Corner Ticks */}
               <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-[#f3e5ab] rounded-tl-[2px]" />

@@ -148,32 +148,45 @@ export default function Customizer({
           </div>
 
           {/* Theme Selector */}
-          <div className="p-3 bg-white rounded-xl border border-slate-200">
-            <label className="block text-xs font-bold text-[#002D62] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+          <div className="p-3.5 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
+            <label className="block text-xs font-bold text-[#002D62] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
               <Palette className="w-3.5 h-3.5 text-[#B38728]" /> Giao diện nền
             </label>
             <div className="grid grid-cols-1 gap-2">
-              {themes.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => onBgThemeChange && onBgThemeChange(t.id)}
-                  className={`p-2.5 rounded-lg border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
-                    bgTheme === t.id
-                      ? "bg-[#002D62] text-white border-[#B38728] shadow-sm"
-                      : "bg-[#FAF8F2] text-slate-700 border-slate-200 hover:border-[#B38728]/40"
-                  }`}
-                >
-                  <span className="text-xs font-bold">{t.name}</span>
-                  <span
-                    className={`text-[11px] ${
-                      bgTheme === t.id ? "text-[#DFC479]" : "text-slate-500"
+              {themes.map((t) => {
+                const isActive = bgTheme === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => onBgThemeChange && onBgThemeChange(t.id)}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
+                      isActive
+                        ? "bg-[#002D62] text-white border-[#B38728] shadow-md ring-2 ring-[#B38728]/25"
+                        : "bg-[#FAF8F2] text-slate-700 border-slate-200 hover:border-[#B38728]/50 hover:bg-[#FAF4E6]"
                     }`}
                   >
-                    {t.desc}
-                  </span>
-                </button>
-              ))}
+                    <span
+                      aria-hidden="true"
+                      className={`w-9 h-9 rounded-lg shrink-0 border ${
+                        t.id === "uth-campus"
+                          ? "bg-gradient-to-br from-[#001d42] via-[#003a80] to-[#b38728]/70 border-[#f3e5ab]/50"
+                          : "bg-gradient-to-br from-[#FFFDF7] via-[#F8EED3] to-[#EBD8A3] border-[#b38728]/40"
+                      }`}
+                    />
+                    <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                      <span className="text-xs font-bold truncate">{t.name}</span>
+                      <span
+                        className={`text-[11px] truncate ${
+                          isActive ? "text-[#DFC479]" : "text-slate-500"
+                        }`}
+                      >
+                        {t.desc}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
