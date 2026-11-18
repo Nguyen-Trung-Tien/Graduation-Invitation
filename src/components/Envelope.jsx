@@ -1,29 +1,59 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Sparkles, GraduationCap } from "lucide-react";
 
 export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
   const [isOpening, setIsOpening] = useState(false);
-  const [canHover, setCanHover] = useState(false);
+  const [canHover, setCanHover] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
+      : false
+  );
+  const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50, active: false });
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-      setCanHover(mq.matches);
       const handler = (e) => setCanHover(e.matches);
       mq.addEventListener("change", handler);
       return () => mq.removeEventListener("change", handler);
     }
   }, []);
 
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!canHover || isOpening || prefersReducedMotion) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      setTilt({
+        x: (0.5 - y) * 7,
+        y: (x - 0.5) * 9,
+        glareX: x * 100,
+        glareY: y * 100,
+        active: true,
+      });
+    },
+    [canHover, isOpening, prefersReducedMotion]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ x: 0, y: 0, glareX: 50, glareY: 50, active: false });
+  }, []);
+
   const handleOpen = () => {
     if (isOpening) return;
     setIsOpening(true);
+    setTilt({ x: 0, y: 0, glareX: 50, glareY: 50, active: false });
 
     // Duration for flap to open and letter to slide up before transitioning to card view
-    setTimeout(() => {
-      onOpen();
-    }, 1750);
+    setTimeout(
+      () => {
+        onOpen();
+      },
+      prefersReducedMotion ? 350 : 2650
+    );
   };
 
   const handleKeyDown = (e) => {
@@ -36,29 +66,33 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
   return (
     <div className={`min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}>
       <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
+        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: prefersReducedMotion ? 0.25 : 1.4, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-[520px] flex flex-col items-center gap-6 z-10"
       >
-        {/* Header Invitation Tagline */}
-        <div className="text-center flex flex-col items-center gap-1.5 pointer-events-none">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#001d42]/80 backdrop-blur-md border border-[#b38728]/40 shadow-lg">
-            <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
+        {/* Header Invitation Tagline (Fades out smoothly when envelope opens so rising card never overlaps) */}
+        <motion.div
+          animate={isOpening ? { opacity: 0, y: -18 } : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="text-center flex flex-col items-center gap-1.5 pointer-events-none"
+        >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#001d42]/80 backdrop-blur-md border border-[#b38728]/45 shadow-[0_6px_20px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.12)]">
+            <Sparkles className="w-3.5 h-3.5 text-[#dfb755]" />
             <span className="text-[11px] sm:text-xs uppercase tracking-wider text-[#f3e5ab] font-bold font-sans">
               ĐẠI HỌC GIAO THÔNG VẬN TẢI TP.HCM
             </span>
           </div>
 
           <h1
-            className="text-2xl sm:text-3xl font-serif text-white font-black mt-1 tracking-wide drop-shadow-md uppercase"
+            className="text-2xl sm:text-3xl font-serif font-black mt-1 tracking-wide drop-shadow-md uppercase bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7] bg-clip-text text-transparent foil-shimmer-text"
             style={{
-              textShadow: "0 2px 10px rgba(0,0,0,0.5), 0 0 20px rgba(212,175,55,0.3)",
+              filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.55))",
             }}
           >
             THƯ MỜI LỄ TỐT NGHIỆP
           </h1>
-        </div>
+        </motion.div>
 
         {/* Outer 3D Envelope Container */}
         <div
@@ -67,27 +101,79 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
           aria-label="Chạm vào phong bì để mở thiệp"
           onClick={handleOpen}
           onKeyDown={handleKeyDown}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
           className="w-full aspect-[1.52/1] relative perspective-1000 cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#b38728] focus-visible:outline-none rounded-2xl select-none"
         >
-          {/* Flap & Envelope Wrapper - Cinematic Camera Dolly Motion */}
+          {/* Ambient Golden Halo Behind Envelope */}
+          <div
+            className={`absolute -inset-3 rounded-3xl bg-radial from-[#b38728]/25 via-[#002d62]/15 to-transparent blur-2xl pointer-events-none transition-opacity duration-500 ${
+              tilt.active || isOpening ? "opacity-100" : "opacity-65"
+            }`}
+          />
+
+          {/* Flap & Envelope Wrapper - Cinematic Camera Dolly & Interactive 3D Tilt */}
           <motion.div
-            animate={isOpening ? { scale: 1.04, y: 16 } : { scale: 1, y: 0 }}
-            whileHover={!isOpening && canHover ? { scale: 1.015 } : {}}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            animate={
+              isOpening
+                ? prefersReducedMotion
+                  ? { opacity: 0.9 }
+                  : { scale: 1.04, y: 16, rotateX: 0, rotateY: 0 }
+                : {
+                    scale: tilt.active ? 1.018 : 1,
+                    y: 0,
+                    rotateX: tilt.x,
+                    rotateY: tilt.y,
+                  }
+            }
+            transition={
+              tilt.active && !isOpening
+                ? { type: "spring", stiffness: 260, damping: 24, mass: 0.6 }
+                : { duration: 1.4, ease: [0.16, 1, 0.3, 1] }
+            }
             className="w-full h-full relative preserve-3d active:scale-[0.988]"
           >
+            {/* Interactive Specular Glare Overlay */}
+            {canHover && !isOpening && (
+              <div
+                className="absolute inset-0 rounded-2xl pointer-events-none z-28 transition-opacity duration-300"
+                style={{
+                  opacity: tilt.active ? 1 : 0,
+                  background: `radial-gradient(circle 260px at ${tilt.glareX}% ${tilt.glareY}%, rgba(252, 246, 186, 0.16) 0%, transparent 70%)`,
+                }}
+              />
+            )}
+
             {/* Back Interior Layer */}
-            <div className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/45 shadow-[0_25px_60px_rgba(0,0,0,0.55)] flex items-center justify-center overflow-hidden">
+            <div
+              className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/50 shadow-[0_28px_65px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center overflow-hidden"
+              style={{ transform: "translateZ(-4px)" }}
+            >
               <div className="absolute inset-0 bg-[radial-gradient(#003a80_1px,transparent_1px)] [background-size:16px_16px] opacity-35" />
             </div>
 
+            {/* Cinematic Golden Light Bloom on Unseal */}
+            {isOpening && !prefersReducedMotion && (
+              <motion.div
+                initial={{ scale: 0.2, opacity: 0 }}
+                animate={{ scale: 2.8, opacity: [0, 0.85, 0] }}
+                transition={{ delay: 0.3, duration: 2.3, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-radial from-[#fcf6ba]/70 via-[#dfb755]/30 to-transparent blur-2xl pointer-events-none z-29"
+              />
+            )}
+
             {/* Letter Sheet (Slides out when opened) */}
             <motion.div
-              initial={{ y: 0, scale: 0.95 }}
-              animate={isOpening ? { y: "-46%", scale: 1, z: 10 } : {}}
-              transition={{ delay: 0.45, duration: 1.0, ease: "easeInOut" }}
-              className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border-2 border-[#b38728]/35 shadow-xl p-3 sm:p-4 flex flex-col items-center justify-between text-slate-900 pointer-events-none z-10"
-              style={{ transform: "translateZ(0)" }}
+              initial={{ y: 0, scale: 0.95, z: 0 }}
+              animate={
+                isOpening
+                  ? prefersReducedMotion
+                    ? { opacity: 1 }
+                    : { y: "-58%", scale: 1, z: 0 }
+                  : { y: 0, scale: 0.95, z: 0 }
+              }
+              transition={{ delay: 0.85, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border-2 border-[#b38728]/40 shadow-xl pt-4 sm:pt-6 px-3 sm:px-4 pb-3 flex flex-col items-center justify-start gap-2 sm:gap-2.5 text-slate-900 pointer-events-none z-10"
             >
               <div className="w-11 h-11 rounded-full border-2 border-[#b38728] bg-[#001d42]/8 flex items-center justify-center shadow-xs">
                 <GraduationCap className="w-5 h-5 text-[#002d62]" />
@@ -107,23 +193,35 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
             {/* Left Flap */}
             <div
               className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#002b5c] via-[#002247] to-[#001938] rounded-l-2xl border-l-2 border-y border-[#b38728]/25 pointer-events-none z-20 shadow-md"
-              style={{ clipPath: "polygon(0% 0%, 100% 50%, 0% 100%)" }}
+              style={{
+                clipPath: "polygon(0% 0%, 100% 50%, 0% 100%)",
+                transform: "translateZ(2px)",
+              }}
             />
 
             {/* Right Flap */}
             <div
               className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-[#002b5c] via-[#002247] to-[#001938] rounded-r-2xl border-r-2 border-y border-[#b38728]/25 pointer-events-none z-20 shadow-md"
-              style={{ clipPath: "polygon(100% 0%, 0% 50%, 100% 100%)" }}
+              style={{
+                clipPath: "polygon(100% 0%, 0% 50%, 100% 100%)",
+                transform: "translateZ(2px)",
+              }}
             />
 
             {/* Bottom Flap */}
             <div
               className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#001530] via-[#00234a] to-[#002b5c] rounded-b-2xl border-b-2 border-x border-[#b38728]/30 pointer-events-none z-21 shadow-lg"
-              style={{ clipPath: "polygon(0% 100%, 50% 0%, 100% 100%)" }}
+              style={{
+                clipPath: "polygon(0% 100%, 50% 0%, 100% 100%)",
+                transform: "translateZ(2px)",
+              }}
             />
 
             {/* Guest Name Card Tag (Embossed Paper Label) */}
-            <div className="absolute bottom-[3.5%] sm:bottom-[7%] left-1/2 -translate-x-1/2 w-[84%] sm:w-[68%] bg-gradient-to-b from-[#FFFDF7] to-[#FAF3E3] border-2 border-double border-[#b38728]/50 rounded-xl py-1.5 px-3 sm:py-2.5 sm:px-4 text-center shadow-xl pointer-events-none z-22 select-none">
+            <div
+              className="absolute bottom-[3.5%] sm:bottom-[7%] left-1/2 -translate-x-1/2 w-[84%] sm:w-[68%] bg-gradient-to-b from-[#FFFDF7] to-[#FAF3E3] border-2 border-double border-[#b38728]/50 rounded-xl py-1.5 px-3 sm:py-2.5 sm:px-4 text-center shadow-xl pointer-events-none z-22 select-none"
+              style={{ transform: "translateZ(3px)" }}
+            >
               <span className="text-[9.5px] sm:text-[11px] tracking-wider text-[#7a5c10] font-bold font-sans uppercase block leading-none mb-0.5">
                 ✦ Kính gửi ✦
               </span>
@@ -139,17 +237,17 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
             <motion.div
               animate={
                 isOpening
-                  ? { rotateX: 180, zIndex: 0 }
-                  : { rotateX: 0, zIndex: 25 }
+                  ? { rotateX: 180, z: -2 }
+                  : { rotateX: 0, z: 4 }
               }
-              transition={{ duration: 0.65, ease: "easeInOut" }}
+              transition={{
+                rotateX: { delay: 0.25, duration: 1.15, ease: [0.22, 1, 0.36, 1] },
+                z: { delay: isOpening ? 0.75 : 0, duration: 0 },
+              }}
               className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#003c80] via-[#002a5c] to-[#001a3d] rounded-t-2xl border-t-2 border-x border-[#b38728]/35 pointer-events-none shadow-md"
               style={{
                 clipPath: "polygon(0% 0%, 100% 0%, 50% 100%)",
-                originY: 0,
                 transformOrigin: "top center",
-                WebkitBackfaceVisibility: "hidden",
-                backfaceVisibility: "hidden",
               }}
             />
 
@@ -157,14 +255,17 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
             <motion.div
               animate={
                 isOpening
-                  ? { scale: 0, opacity: 0, y: 35 }
-                  : { scale: 1, opacity: 1 }
+                  ? { scale: 0, opacity: 0, y: 35, z: 5 }
+                  : { scale: 1, opacity: 1, z: 5 }
               }
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              transition={{ duration: 0.65, ease: "easeOut" }}
               className="absolute top-[46%] sm:top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
             >
-              {/* Elegant Glowing Aura */}
+              {/* Elegant Glowing Aura + Pulsing Ripple Ring */}
               <div className="absolute w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#b38728]/30 blur-xl pointer-events-none group-hover/seal:scale-110 transition-transform duration-500" />
+              {!isOpening && (
+                <div className="absolute w-[62px] h-[62px] sm:w-[88px] sm:h-[88px] rounded-full border border-[#f3e5ab]/60 pointer-events-none animate-seal-pulse" />
+              )}
 
               {/* Metallic Wax Circle with Authentic Stamp Depth */}
               <div

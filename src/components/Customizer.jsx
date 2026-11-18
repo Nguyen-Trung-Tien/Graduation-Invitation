@@ -107,17 +107,19 @@ export default function Customizer({
   return (
     <>
       {/* Backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs transition-opacity"
-          onClick={onClose}
-        />
-      )}
+      <div
+        aria-hidden="true"
+        className={`fixed inset-0 z-50 bg-[#050b1c]/45 backdrop-blur-xs transition-opacity duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+      />
 
       {/* Drawer */}
       <aside
         aria-label="Tùy chỉnh thiệp mời"
-        className={`fixed top-0 right-0 h-full w-full max-w-full sm:max-w-md bg-[#FFFDF7] border-l border-[#B38728]/25 z-50 shadow-2xl flex flex-col transition-transform duration-300 transform ${
+        aria-hidden={!isOpen}
+        className={`fixed top-0 right-0 h-full w-full max-w-full sm:max-w-md bg-[#FFFDF7] border-l border-[#B38728]/30 z-50 shadow-2xl flex flex-col transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import {
   MapPin,
   Calendar,
@@ -14,7 +15,12 @@ import { QRCodeSVG } from "qrcode.react";
 /* ── Ceremonial Art Deco / Royal Gold Flourish ── */
 function GoldFlourish({ className = "" }) {
   return (
-    <svg viewBox="0 0 300 20" className={className} fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 300 20"
+      className={className}
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M150 10 C125 10, 110 2.5, 80 2.5 C50 2.5, 35 10, 15 10 C8 10, 3 7.5, 0 6"
         stroke="currentColor"
@@ -30,7 +36,11 @@ function GoldFlourish({ className = "" }) {
       <circle cx="150" cy="10" r="3" fill="currentColor" />
       <circle cx="80" cy="2.5" r="1.8" fill="currentColor" opacity="0.85" />
       <circle cx="220" cy="2.5" r="1.8" fill="currentColor" opacity="0.85" />
-      <path d="M150 3 L152.5 10 L150 17 L147.5 10 Z" fill="currentColor" opacity="0.9" />
+      <path
+        d="M150 3 L152.5 10 L150 17 L147.5 10 Z"
+        fill="currentColor"
+        opacity="0.9"
+      />
     </svg>
   );
 }
@@ -105,8 +115,10 @@ export default function InvitationCard({
   isPrintable,
   hideCalendar = false,
 }) {
+  const revealProps = () => ({});
   const formatVietnameseDate = (dateStr) => {
-    if (!dateStr || dateStr === "Đang cập nhật") return "Thứ Bảy, ngày 26 tháng 12 năm 2026";
+    if (!dateStr || dateStr === "Đang cập nhật")
+      return "Thứ Bảy, ngày 26 tháng 12 năm 2026";
     const cleanDateStr = dateStr.replace(/\s*\(dự kiến\)/gi, "").trim();
     try {
       const dateObj = new Date(cleanDateStr);
@@ -134,20 +146,22 @@ export default function InvitationCard({
   // Google Calendar URL Generator
   const createGoogleCalendarUrl = () => {
     const title = encodeURIComponent(
-      `Lễ Tốt Nghiệp ${config.degree || "Cử nhân"} ${config.gradName} - UTH`
+      `Lễ Tốt Nghiệp ${config.degree || "Cử nhân"} ${config.gradName} - UTH`,
     );
     const details = encodeURIComponent(
       `Trân trọng kính mời ${guestName || "quý khách"} đến tham dự và chia vui cùng ${config.gradName} trong Lễ Tốt Nghiệp Ngành ${config.major}.\n\n` +
-      `📌 Địa điểm: ${config.hall} - ${config.address}\n` +
-      `🕒 Giờ khai mạc: ${config.time || "16:30"}\n\n` +
-      `Lời chúc: "${config.invitationText || ""}"`
+        `📌 Địa điểm: ${config.hall} - ${config.address}\n` +
+        `🕒 Giờ khai mạc: ${config.time || "16:30"}\n\n` +
+        `Lời chúc: "${config.invitationText || ""}"`,
     );
     const location = encodeURIComponent(`${config.hall}, ${config.address}`);
 
     let startDateStr = "20261226T163000";
     let endDateStr = "20261226T193000";
 
-    const cleanDateStr = (config.date || "").replace(/\s*\(dự kiến\)/gi, "").trim();
+    const cleanDateStr = (config.date || "")
+      .replace(/\s*\(dự kiến\)/gi, "")
+      .trim();
     if (cleanDateStr && cleanDateStr !== "Đang cập nhật") {
       const d = new Date(cleanDateStr);
       if (!isNaN(d.getTime())) {
@@ -164,7 +178,9 @@ export default function InvitationCard({
         }
 
         startDateStr = `${yyyy}${mm}${dd}T${timeHour}${timeMin}00`;
-        const endHour = String(Math.min(23, parseInt(timeHour, 10) + 3)).padStart(2, "0");
+        const endHour = String(
+          Math.min(23, parseInt(timeHour, 10) + 3),
+        ).padStart(2, "0");
         endDateStr = `${yyyy}${mm}${dd}T${endHour}${timeMin}00`;
       }
     }
@@ -175,23 +191,35 @@ export default function InvitationCard({
   const isExpectedDate = config.isExpectedDate !== false;
   const isExpectedTime = config.isExpectedTime !== false;
 
-  const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50, isHovered: false });
+  const [tilt, setTilt] = useState({
+    x: 0,
+    y: 0,
+    glareX: 50,
+    glareY: 50,
+    isHovered: false,
+  });
 
   const handleMouseMove = useCallback(
     (e) => {
-      if (isPrintable) return;
+      if (hideCalendar) return;
+      if (
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        return;
+      }
       const rect = e.currentTarget.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
       setTilt({
-        x: (0.5 - y) * 8,
-        y: (x - 0.5) * 8,
+        x: (0.5 - y) * 7,
+        y: (x - 0.5) * 7,
         glareX: x * 100,
         glareY: y * 100,
         isHovered: true,
       });
     },
-    [isPrintable]
+    [hideCalendar],
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -222,18 +250,18 @@ export default function InvitationCard({
       }}
     >
       {/* Cinematic Anamorphic Gold Foil Light Sweep */}
-      {!isPrintable && (
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-25 rounded-[1.2rem]">
+      {!hideCalendar && (
+        <div className="no-print print:hidden absolute inset-0 pointer-events-none overflow-hidden z-25 rounded-[1.2rem]">
           <div className="w-[50%] h-full bg-gradient-to-r from-transparent via-amber-200/25 to-transparent animate-cinematic-sweep" />
         </div>
       )}
 
       {/* Interactive Specular Glare Reflection */}
-      {!isPrintable && tilt.isHovered && (
+      {!hideCalendar && tilt.isHovered && (
         <div
-          className="absolute inset-0 pointer-events-none z-20 rounded-[1.2rem] transition-opacity duration-200"
+          className="no-print print:hidden absolute inset-0 pointer-events-none z-20 rounded-[1.2rem] transition-opacity duration-200"
           style={{
-            background: `radial-gradient(circle 280px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,245,215,0.3) 0%, transparent 70%)`,
+            background: `radial-gradient(circle 280px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,245,215,0.34) 0%, transparent 70%)`,
           }}
         />
       )}
@@ -249,7 +277,10 @@ export default function InvitationCard({
       <div className="absolute inset-[8px] sm:inset-[13px] border border-[#b38728]/20 rounded-lg pointer-events-none z-10" />
 
       {/* ════════════════ TIER 1: HEADER & TITLE ════════════════ */}
-      <header className="flex flex-col items-center text-center gap-0 pb-0.5 relative z-10">
+      <motion.header
+        {...revealProps(0.06)}
+        className="flex flex-col items-center text-center gap-0 pb-0.5 relative z-10"
+      >
         <UniversityCrest />
 
         <p className="text-[10px] sm:text-[10.5px] tracking-wider font-sans font-extrabold text-[#002d62] uppercase leading-none mt-0.5">
@@ -257,10 +288,13 @@ export default function InvitationCard({
         </p>
 
         <h1
-          className="text-lg sm:text-xl md:text-[23px] font-serif font-black uppercase tracking-wide leading-snug py-0.5 text-glow drop-shadow-xs inline-block"
+          id={!hideCalendar ? "invitation-main-heading" : undefined}
+          tabIndex={!hideCalendar ? -1 : undefined}
+          className="text-lg sm:text-xl md:text-[23px] font-serif font-black uppercase tracking-wide leading-snug py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none"
           style={{
             background:
-              "linear-gradient(135deg, #001d42 0%, #003a80 45%, #8b661b 75%, #001d42 100%)",
+              "linear-gradient(135deg, #001d42 0%, #003a80 35%, #b38728 50%, #003a80 65%, #001d42 100%)",
+            backgroundSize: "200% auto",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
@@ -270,10 +304,13 @@ export default function InvitationCard({
 
         {/* Flourish Divider */}
         <GoldFlourish className="w-36 sm:w-44 h-2.5 text-[#b38728] opacity-85 my-0.5" />
-      </header>
+      </motion.header>
 
       {/* ════════════════ TIER 2: GUEST PERSONALIZATION ════════════════ */}
-      <section className="text-center py-0.5 relative z-10">
+      <motion.section
+        {...revealProps(0.14)}
+        className="text-center py-0.5 relative z-10"
+      >
         <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#b38728]/15 border border-[#b38728]/35 shadow-2xs mb-0.5">
           <Sparkles className="w-2.5 h-2.5 text-[#8b661b]" />
           <span className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-[#5c4308] font-extrabold font-sans">
@@ -288,20 +325,28 @@ export default function InvitationCard({
         >
           {guestName || "Toàn thể Đại gia đình"}
         </h2>
-      </section>
+      </motion.section>
 
       {/* ════════════════ TIER 3: HERO GRADUATE CENTERPIECE (FOCAL POINT) ════════════════ */}
-      <section className="relative z-10 max-w-lg mx-auto my-1">
+      <motion.section
+        {...revealProps(0.22)}
+        className="relative z-10 max-w-lg mx-auto my-1"
+      >
         <div
-          className="py-2 sm:py-2.5 px-3 sm:px-5 rounded-xl flex flex-col items-center text-center gap-1 relative overflow-hidden"
+          className="py-2 sm:py-2.5 px-3 sm:px-5 rounded-xl flex flex-col items-center text-center gap-1 relative overflow-hidden ceremony-watermark"
           style={{
             background:
               "linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(254,250,242,0.95) 100%)",
-            border: "1.5px solid rgba(179,135,40,0.38)",
+            border: "1.5px solid rgba(179,135,40,0.42)",
             boxShadow:
-              "0 6px 20px rgba(0,29,66,0.06), 0 0 0 1px rgba(255,255,255,0.8), inset 0 1px 0 rgba(255,255,255,0.95)",
+              "0 8px 24px rgba(0,29,66,0.07), 0 0 0 1px rgba(255,255,255,0.85), inset 0 1px 0 rgba(255,255,255,0.95)",
           }}
         >
+          {/* Subtle Watermark Crest */}
+          <GraduationCap
+            aria-hidden="true"
+            className="absolute -right-3 -bottom-3 w-24 h-24 text-[#b38728]/[0.05] pointer-events-none rotate-[-12deg]"
+          />
           {/* Graduate Emblem Title */}
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#002d62]/6 border border-[#b38728]/40">
             <GraduationCap className="w-3.5 h-3.5 text-[#002d62]" />
@@ -318,12 +363,22 @@ export default function InvitationCard({
           <div className="flex flex-wrap items-center justify-center gap-2 mt-1 text-xs text-slate-800 font-medium">
             <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-[#b38728] shrink-0" />
-              <span>Ngành: <strong className="font-extrabold text-[#002d62]">{config.major}</strong></span>
+              <span>
+                Ngành:{" "}
+                <strong className="font-extrabold text-[#002d62]">
+                  {config.major}
+                </strong>
+              </span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
               <Award className="w-3.5 h-3.5 text-[#b38728] shrink-0" />
-              <span>Học vị: <strong className="font-extrabold text-[#002d62]">{config.degree || "Cử nhân"}</strong></span>
+              <span>
+                Học vị:{" "}
+                <strong className="font-extrabold text-[#002d62]">
+                  {config.degree || "Cử nhân"}
+                </strong>
+              </span>
             </span>
           </div>
 
@@ -336,16 +391,23 @@ export default function InvitationCard({
 
           {/* Personal Invitation Text */}
           <p className="text-[11px] sm:text-xs text-slate-700 leading-snug max-w-md italic px-1 font-serif whitespace-pre-line">
-            <span className="text-[#b38728] font-serif font-bold text-sm mr-0.5">“</span>
+            <span className="text-[#b38728] font-serif font-bold text-sm mr-0.5">
+              “
+            </span>
             {config.invitationText ||
-              "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.\nLưu ý: Khi tham gia lễ phải có vé tham gia (tối đa 5 vé)"}
-            <span className="text-[#b38728] font-serif font-bold text-sm ml-0.5">”</span>
+              "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."}
+            <span className="text-[#b38728] font-serif font-bold text-sm ml-0.5">
+              ”
+            </span>
           </p>
         </div>
-      </section>
+      </motion.section>
 
       {/* ════════════════ TIER 4: EVENT DETAILS MODULES ════════════════ */}
-      <section className="my-1 relative z-10">
+      <motion.section
+        {...revealProps(0.3)}
+        className="my-1 relative z-10"
+      >
         <div
           className="grid grid-cols-1 @[480px]:grid-cols-2 @[560px]:grid-cols-[1fr_1fr_auto] gap-1.5 rounded-xl overflow-hidden p-1.5"
           style={{
@@ -368,7 +430,7 @@ export default function InvitationCard({
                     href={createGoogleCalendarUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="no-print calendar-btn print:hidden inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 px-2 py-0.5 rounded border border-[#b38728]/30 transition-all cursor-pointer no-underline active:scale-95"
+                    className="no-print calendar-btn print:hidden inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/28 hover:-translate-y-0.5 px-2 py-0.5 rounded border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs"
                     title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
                   >
                     <CalendarPlus className="w-2.5 h-2.5 text-[#5c4308]" />
@@ -447,7 +509,7 @@ export default function InvitationCard({
                   </div>
                   <div>
                     <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
-                      Địa Chỉ Chi Tiết
+                      Địa Chỉ
                     </p>
                     <p className="text-[10.5px] sm:text-[11px] font-semibold text-slate-700 mt-0.5 leading-snug">
                       {config.address}
@@ -459,8 +521,13 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#001d42] via-[#002654] to-[#002d62] border border-[#b38728]/50 text-white flex flex-row @[560px]:flex-col items-center justify-between sm:justify-center gap-1.5 shadow-sm @[480px]:col-span-2 @[560px]:col-span-1 @[560px]:w-28">
-            <div className="p-1 bg-white rounded border border-[#b38728]/40 shrink-0">
+          <div className="p-2 sm:p-2.5 rounded-lg bg-gradient-to-b from-[#001d42] via-[#002654] to-[#002d62] border border-[#b38728]/55 text-white flex flex-row @[560px]:flex-col items-center justify-between sm:justify-center gap-1.5 shadow-[0_6px_18px_rgba(0,29,66,0.22),inset_0_1px_0_rgba(255,255,255,0.12)] @[480px]:col-span-2 @[560px]:col-span-1 @[560px]:w-28">
+            <div className="relative p-1 bg-white rounded border border-[#b38728]/45 shrink-0 shadow-xs">
+              {/* 2026 Scanner Viewfinder Corner Ticks */}
+              <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-[#f3e5ab] rounded-tl-[2px]" />
+              <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -right-0.5 w-2 h-2 border-t-2 border-r-2 border-[#f3e5ab] rounded-tr-[2px]" />
+              <span aria-hidden="true" className="no-print print:hidden absolute -bottom-0.5 -left-0.5 w-2 h-2 border-b-2 border-l-2 border-[#f3e5ab] rounded-bl-[2px]" />
+              <span aria-hidden="true" className="no-print print:hidden absolute -bottom-0.5 -right-0.5 w-2 h-2 border-b-2 border-r-2 border-[#f3e5ab] rounded-br-[2px]" />
               <QRCodeSVG
                 value={googleMapsUrl}
                 size={50}
@@ -479,7 +546,7 @@ export default function InvitationCard({
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-print print:hidden text-[10px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 px-2 py-0.5 rounded transition-all cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 flex items-center gap-1"
+                className="no-print print:hidden text-[10px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 hover:-translate-y-0.5 px-2 py-0.5 rounded transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 flex items-center gap-1"
               >
                 <span>Chỉ Đường</span>
                 <ExternalLink className="w-2.5 h-2.5" />
@@ -487,10 +554,13 @@ export default function InvitationCard({
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ════════════════ FOOTER & SIGNATURE ════════════════ */}
-      <footer className="relative z-10 pt-0.5 text-center">
+      <motion.footer
+        {...revealProps(0.36)}
+        className="relative z-10 pt-0.5 text-center"
+      >
         <GoldFlourish className="w-36 h-2.5 text-[#b38728] opacity-80 mx-auto mb-0.5" />
         <div className="text-[10.5px] sm:text-[11px] text-slate-600 font-sans leading-none">
           <p>
@@ -500,7 +570,7 @@ export default function InvitationCard({
             </span>
           </p>
         </div>
-      </footer>
+      </motion.footer>
     </article>
   );
 }

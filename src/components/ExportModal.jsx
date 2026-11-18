@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { X, Printer, Info, Edit3, Eye, Download } from "lucide-react";
 import { toPng, toJpeg } from "html-to-image";
 import InvitationCard from "./InvitationCard";
@@ -14,8 +14,53 @@ export default function ExportModal({
   // CRITICAL: Call all hooks BEFORE any conditional return to satisfy Rules of Hooks
   const [isExporting, setIsExporting] = useState(false);
   const cardRef = useRef(null);
+  const dialogRef = useRef(null);
 
-  if (!isOpen) return null;
+  // Sync native <dialog> top-layer state with isOpen prop
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (isOpen && !dialog.open) {
+      dialog.showModal();
+    } else if (!isOpen && dialog.open) {
+      dialog.close();
+    }
+  }, [isOpen]);
+
+  // Fallback for browsers without native closedby="any" (e.g. Safari)
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog || "closedBy" in HTMLDialogElement.prototype) return;
+
+    const isOutside = (e) => {
+      const r = dialog.getBoundingClientRect();
+      return (
+        e.clientX < r.left ||
+        e.clientX > r.right ||
+        e.clientY < r.top ||
+        e.clientY > r.bottom
+      );
+    };
+
+    let pressedOutside = false;
+    const onPointerDown = (e) => {
+      pressedOutside = isOutside(e);
+    };
+    const onPointerUp = (e) => {
+      if (pressedOutside && isOutside(e)) {
+        dialog.close();
+      }
+      pressedOutside = false;
+    };
+
+    dialog.addEventListener("pointerdown", onPointerDown);
+    dialog.addEventListener("pointerup", onPointerUp);
+    return () => {
+      dialog.removeEventListener("pointerdown", onPointerDown);
+      dialog.removeEventListener("pointerup", onPointerUp);
+    };
+  }, []);
 
   const handleFieldChange = (field, value) => {
     onChange({
@@ -79,18 +124,21 @@ export default function ExportModal({
     }
   };
 
+  const handleDialogClose = () => {
+    const dialog = dialogRef.current;
+    if (dialog) dialog.returnValue = "";
+    onClose();
+  };
+
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialogRef}
+      closedby="any"
       aria-labelledby="export-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-[fadeIn_0.2s_ease-out]"
-      onClick={onClose}
+      onClose={handleDialogClose}
+      className="export-dialog"
     >
-      <div
-        className="w-full max-w-5xl bg-[#FFFDF7] border border-[#B38728]/35 rounded-2xl shadow-2xl flex flex-col max-h-[92vh] overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="w-full bg-[#FFFDF7] border border-[#B38728]/35 rounded-2xl shadow-2xl flex flex-col max-h-[92dvh] overflow-hidden">
         {/* Header */}
         <header className="px-5 py-4 border-b border-[#B38728]/20 flex items-center justify-between bg-[#FAF6ED]">
           <div className="text-left">
@@ -316,14 +364,16 @@ export default function ExportModal({
       </div>
 
       {/* Off-screen high-res invitation container for export */}
-      <div
-        className="absolute -left-[9999px] -top-[9999px] pointer-events-none"
-        style={{ width: "672px" }}
-      >
-        <div ref={cardRef}>
-          <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
+      {isOpen && (
+        <div
+          className="fixed -left-[9999px] -top-[9999px] pointer-events-none"
+          style={{ width: "672px" }}
+        >
+          <div ref={cardRef}>
+            <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </dialog>
   );
 }

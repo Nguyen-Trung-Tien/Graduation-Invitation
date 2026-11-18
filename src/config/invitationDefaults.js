@@ -13,6 +13,6 @@ export const INVITATION_DEFAULTS = {
     hall: "Cơ sở chính (Cơ sở 1)",
     address: "Số 2 Võ Oanh, Thạnh Mỹ Tây, Hồ Chí Minh",
     invitationText:
-      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.\nLưu ý: Khi tham gia lễ phải có vé tham gia (tối đa 5 vé)",
+      "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp.",
   },
 };

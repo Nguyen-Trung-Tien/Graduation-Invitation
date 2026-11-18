@@ -1,12 +1,83 @@
 import { useState, useEffect } from "react";
+import { flushSync } from "react-dom";
 import confetti from "canvas-confetti";
-import { Settings, Printer, Eye, EyeOff } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
+import { Settings, Printer, Eye, EyeOff, RotateCcw, Sparkles, Palette } from "lucide-react";
 import Envelope from "./components/Envelope";
 import InvitationCard from "./components/InvitationCard";
 import Customizer from "./components/Customizer";
 import ExportModal from "./components/ExportModal";
 import uthCampusImg from "./assets/Hinh_UTH.jpg";
 import { INVITATION_DEFAULTS } from "./config/invitationDefaults";
+
+function parseTargetDateTime(dateStr, timeStr) {
+  const cleanDate = (dateStr || "").replace(/\s*\(dự kiến\)/gi, "").trim();
+  if (!cleanDate || cleanDate === "Đang cập nhật") return null;
+  const d = new Date(cleanDate);
+  if (isNaN(d.getTime())) return null;
+
+  let hour = 16;
+  let minute = 30;
+  if (timeStr && timeStr.includes(":")) {
+    const [h, m] = timeStr.split(":");
+    const parsedH = parseInt(h, 10);
+    const parsedM = parseInt(m, 10);
+    if (!isNaN(parsedH)) hour = parsedH;
+    if (!isNaN(parsedM)) minute = parsedM;
+  }
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
+function CountdownPill({ date, time, bgTheme }) {
+  const [now, setNow] = useState(() => Date.now());
+  const target = parseTargetDateTime(date, time);
+
+  useEffect(() => {
+    if (!target) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [target]);
+
+  if (!target) return null;
+
+  const diff = target.getTime() - now;
+  const expired = diff <= 0;
+  const days = expired ? 0 : Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = expired ? 0 : Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = expired ? 0 : Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = expired ? 0 : Math.floor((diff / 1000) % 60);
+
+  const isClassic = bgTheme === "classic";
+
+  return (
+    <div
+      className={`no-print print:hidden inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full backdrop-blur-md border shadow-md text-[11px] sm:text-xs font-sans transition-colors duration-500 ${
+        isClassic
+          ? "bg-white/85 border-[#b38728]/40 text-[#002d62]"
+          : "bg-[#001d42]/75 border-[#b38728]/45 text-[#f3e5ab]"
+      }`}
+    >
+      <Sparkles className="w-3.5 h-3.5 text-[#dfb755] shrink-0" />
+      {expired ? (
+        <span className="font-semibold tracking-wide">
+          Lễ Tốt Nghiệp đã / đang diễn ra
+        </span>
+      ) : (
+        <div className="flex items-center gap-1.5 tabular-nums font-bold tracking-wide">
+          <span className="opacity-80 font-medium hidden sm:inline">Đếm ngược:</span>
+          <span>{String(days).padStart(2, "0")}d</span>
+          <span className="opacity-50">:</span>
+          <span>{String(hours).padStart(2, "0")}h</span>
+          <span className="opacity-50">:</span>
+          <span>{String(minutes).padStart(2, "0")}m</span>
+          <span className="opacity-50">:</span>
+          <span className="text-[#dfb755]">{String(seconds).padStart(2, "0")}s</span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function getInitialStateFromUrl() {
   const defaults = INVITATION_DEFAULTS;
@@ -71,6 +142,7 @@ export default function App() {
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isCardHidden, setIsCardHidden] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   // Lazy initialize state from URL query parameters
   const [initialData] = useState(getInitialStateFromUrl);
@@ -90,9 +162,35 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isCardHidden]);
 
+  const runViewTransition = (updateFn, focusSelector) => {
+    if (
+      typeof document === "undefined" ||
+      !document.startViewTransition ||
+      prefersReducedMotion
+    ) {
+      updateFn();
+      if (focusSelector) {
+        requestAnimationFrame(() => document.querySelector(focusSelector)?.focus());
+      }
+      return;
+    }
+
+    const transition = document.startViewTransition(() => {
+      flushSync(updateFn);
+    });
+
+    if (focusSelector) {
+      transition.finished.finally(() => {
+        document.querySelector(focusSelector)?.focus();
+      });
+    }
+  };
+
   const handleOpenEnvelope = () => {
-    setIsCardHidden(false);
-    setIsOpen(true);
+    runViewTransition(() => {
+      setIsCardHidden(false);
+      setIsOpen(true);
+    }, "#invitation-main-heading");
 
     // Single gentle celebratory confetti burst
     confetti({
@@ -101,6 +199,18 @@ export default function App() {
       origin: { y: 0.6 },
       colors: ["#b38728", "#ffffff", "#002d62"],
       disableForReducedMotion: true,
+    });
+  };
+
+  const handleCloseEnvelope = () => {
+    runViewTransition(() => {
+      setIsOpen(false);
+    });
+  };
+
+  const handleToggleTheme = () => {
+    runViewTransition(() => {
+      setBgTheme((prev) => (prev === "classic" ? "uth-campus" : "classic"));
     });
   };
 
@@ -180,6 +290,32 @@ export default function App() {
             isCardHidden ? "opacity-20" : "opacity-100"
           }`}
         />
+
+        {/* Ambient Floating Golden Bokeh Orbs (GPU-composited) */}
+        <div
+          aria-hidden="true"
+          className={`absolute top-[14%] left-[10%] w-48 h-48 sm:w-72 sm:h-72 rounded-full bg-[#dfb755]/10 blur-3xl pointer-events-none animate-float-slow transition-opacity duration-700 ${
+            isCardHidden ? "opacity-0" : "opacity-100"
+          }`}
+        />
+        <div
+          aria-hidden="true"
+          className={`absolute bottom-[12%] right-[8%] w-56 h-56 sm:w-80 sm:h-80 rounded-full bg-[#003a80]/25 blur-3xl pointer-events-none animate-float-slow transition-opacity duration-700 ${
+            isCardHidden ? "opacity-0" : "opacity-100"
+          }`}
+          style={{ animationDelay: "-4.5s" }}
+        />
+
+        {/* 2026 Volumetric Anamorphic Light Beam */}
+        <div
+          aria-hidden="true"
+          className={`absolute -top-1/4 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-transparent via-[#f3e5ab]/12 to-transparent blur-3xl pointer-events-none animate-anamorphic-beam transition-opacity duration-700 ${
+            isCardHidden ? "opacity-0" : "opacity-100"
+          }`}
+        />
+
+        {/* 2026 Subtle Cinematic Film Grain */}
+        <div aria-hidden="true" className="absolute inset-0 film-grain pointer-events-none" />
       </div>
 
       {/* Floating Toggle Header (Top-Left - Only visible on the sealed envelope screen) */}
@@ -219,12 +355,15 @@ export default function App() {
       ) : (
         /* Main Invitation Content - Semantic Macro Layout with 8pt Grid */
         <main
-          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center py-4 sm:py-6 px-4 sm:px-6 relative z-10 animate-[fadeIn_0.5s_ease-out] gap-4 sm:gap-6 transition-all duration-500 min-w-0 ${
+          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center py-3 sm:py-5 px-4 sm:px-6 relative z-10 gap-3 sm:gap-4 transition-all duration-500 min-w-0 ${
             isCardHidden
               ? "opacity-0 scale-95 pointer-events-none select-none"
               : "opacity-100 scale-100"
           }`}
         >
+          {/* Live Ceremony Countdown Pill */}
+          <CountdownPill date={config.date} time={config.time} bgTheme={bgTheme} />
+
           {/* Card Presentation Section */}
           <section
             aria-label="Nội dung thiệp mời chính"
@@ -238,32 +377,50 @@ export default function App() {
             />
           </section>
 
-          {/* Action Footer Navigation */}
+          {/* 2026 Liquid Glass Action Dock (Hidden in shared presentation mode) */}
           {!isShared && (
             <footer
               aria-label="Tùy chọn tương tác thiệp"
-              className="w-full max-w-xl mx-auto flex flex-wrap items-center justify-center gap-3 sm:gap-4 my-1 relative z-20 no-print"
+              className="w-auto max-w-full mx-auto flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 p-1.5 rounded-full liquid-glass-dock relative z-20 no-print"
             >
               <button
                 type="button"
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-[#b38728]/40 shadow-sm text-[#002d62] hover:bg-[#002d62] hover:text-white hover:border-[#002d62] transition-all duration-300 hover:shadow-lg active:scale-95 cursor-pointer font-bold"
+                className="group flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
               >
-                <Settings className="w-4 h-4 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
-                <span className="text-xs font-semibold tracking-wide">
-                  Tùy chỉnh thiệp
-                </span>
+                <Settings className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
+                <span>Tùy chỉnh</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setIsExportModalOpen(true)}
-                className="group flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white border border-[#002d62]/50 shadow-sm hover:shadow-lg transition-all duration-300 active:scale-95 cursor-pointer font-bold"
+                className="group flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
               >
-                <Printer className="w-4 h-4 text-[#f3e5ab]" />
-                <span className="text-xs font-semibold tracking-wide">
-                  Xuất PDF / In
+                <Printer className="w-3.5 h-3.5 text-[#f3e5ab]" />
+                <span>Xuất PDF / In</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleToggleTheme}
+                title="Đổi nền thiệp"
+                className="group flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
+              >
+                <Palette className="w-3.5 h-3.5 text-[#b38728]" />
+                <span className="hidden sm:inline">
+                  {bgTheme === "classic" ? "Nền UTH" : "Nền Cổ Điển"}
                 </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCloseEnvelope}
+                title="Xem lại phong bì"
+                className="group flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300" />
+                <span className="hidden sm:inline">Đóng bì</span>
               </button>
             </footer>
           )}
