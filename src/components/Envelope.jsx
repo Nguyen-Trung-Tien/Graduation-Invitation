@@ -147,7 +147,7 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
             {/* Back Interior Layer */}
             <div
               className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/50 shadow-[0_28px_65px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center overflow-hidden"
-              style={{ transform: "translateZ(-4px)" }}
+              style={{ transform: "translateZ(-8px)" }}
             >
               <div className="absolute inset-0 bg-[radial-gradient(#003a80_1px,transparent_1px)] [background-size:16px_16px] opacity-35" />
             </div>
@@ -220,7 +220,7 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
             {/* Guest Name Card Tag (Embossed Paper Label) */}
             <div
               className="absolute bottom-[3.5%] sm:bottom-[7%] left-1/2 -translate-x-1/2 w-[84%] sm:w-[68%] bg-gradient-to-b from-[#FFFDF7] to-[#FAF3E3] border-2 border-double border-[#b38728]/50 rounded-xl py-1.5 px-3 sm:py-2.5 sm:px-4 text-center shadow-xl pointer-events-none z-22 select-none"
-              style={{ transform: "translateZ(3px)" }}
+              style={{ transform: "translateZ(4px)" }}
             >
               <span className="text-[9.5px] sm:text-[11px] tracking-wider text-[#7a5c10] font-bold font-sans uppercase block leading-none mb-0.5">
                 ✦ Kính gửi ✦
@@ -235,10 +235,11 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
 
             {/* Top Flap (Rotating 3D Flap) */}
             <motion.div
+              initial={{ rotateX: 0, z: 8 }}
               animate={
                 isOpening
-                  ? { rotateX: 180, z: -2 }
-                  : { rotateX: 0, z: 4 }
+                  ? { rotateX: 180, z: -4 }
+                  : { rotateX: 0, z: 8 }
               }
               transition={{
                 rotateX: { delay: 0.25, duration: 1.15, ease: [0.22, 1, 0.36, 1] },
@@ -253,10 +254,11 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
 
             {/* Gold Metallic 3D Wax Seal Button */}
             <motion.div
+              initial={{ scale: 1, opacity: 1, z: 24 }}
               animate={
                 isOpening
-                  ? { scale: 0, opacity: 0, y: 35, z: 5 }
-                  : { scale: 1, opacity: 1, z: 5 }
+                  ? { scale: 0, opacity: 0, y: 35, z: 24 }
+                  : { scale: 1, opacity: 1, z: 24 }
               }
               transition={{ duration: 0.65, ease: "easeOut" }}
               className="absolute top-[46%] sm:top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
