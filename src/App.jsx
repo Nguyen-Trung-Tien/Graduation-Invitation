@@ -59,10 +59,10 @@ function CountdownPill({ date, time, bgTheme }) {
 
   return (
     <div
-      className={`no-print print:hidden inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full backdrop-blur-xl border shadow-[0_8px_24px_rgba(0,18,46,0.22),inset_0_1px_0_rgba(255,255,255,0.22)] text-[11px] sm:text-xs font-sans transition-colors duration-500 ${
+      className={`no-print print:hidden inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full sm:backdrop-blur-md border shadow-[0_8px_24px_rgba(0,18,46,0.22),inset_0_1px_0_rgba(255,255,255,0.22)] text-[11px] sm:text-xs font-sans transition-colors duration-500 ${
         isClassic
-          ? "bg-white/85 border-[#b38728]/40 text-[#002d62]"
-          : "bg-[#001d42]/70 border-[#b38728]/45 text-[#f3e5ab]"
+          ? "bg-white/92 border-[#b38728]/40 text-[#002d62]"
+          : "bg-[#001d42]/88 border-[#b38728]/45 text-[#f3e5ab]"
       }`}
     >
       <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
@@ -321,33 +321,27 @@ export default function App() {
           }`}
         />
 
-        {/* Ambient Floating Golden Bokeh Orbs (GPU-composited) */}
+        {/* Ambient Golden Bokeh Orbs (Zero-blur radial gradients, desktop only) */}
         <div
           aria-hidden="true"
-          className={`absolute top-[14%] left-[10%] w-48 h-48 sm:w-72 sm:h-72 rounded-full bg-[#dfb755]/10 blur-3xl pointer-events-none animate-float-slow transition-opacity duration-700 ${
+          className={`hidden sm:block absolute top-[14%] left-[10%] w-72 h-72 rounded-full bg-radial from-[#dfb755]/18 via-[#dfb755]/5 to-transparent pointer-events-none animate-float-slow transition-opacity duration-700 ${
             isCardHidden ? "opacity-0" : "opacity-100"
           }`}
         />
         <div
           aria-hidden="true"
-          className={`absolute bottom-[12%] right-[8%] w-56 h-56 sm:w-80 sm:h-80 rounded-full bg-[#003a80]/25 blur-3xl pointer-events-none animate-float-slow transition-opacity duration-700 ${
+          className={`hidden sm:block absolute bottom-[12%] right-[8%] w-80 h-80 rounded-full bg-radial from-[#003a80]/35 via-[#003a80]/10 to-transparent pointer-events-none animate-float-slow transition-opacity duration-700 ${
             isCardHidden ? "opacity-0" : "opacity-100"
           }`}
           style={{ animationDelay: "-4.5s" }}
         />
 
-        {/* 2026 Volumetric Anamorphic Light Beam */}
+        {/* 2026 Volumetric Anamorphic Light Beam (Desktop only) */}
         <div
           aria-hidden="true"
-          className={`absolute -top-1/4 -left-1/4 w-[150%] h-64 bg-gradient-to-r from-transparent via-[#f3e5ab]/12 to-transparent blur-3xl pointer-events-none animate-anamorphic-beam transition-opacity duration-700 ${
+          className={`hidden sm:block absolute -top-1/4 -left-1/4 w-[150%] h-64 bg-radial from-[#f3e5ab]/14 via-[#f3e5ab]/4 to-transparent pointer-events-none animate-anamorphic-beam transition-opacity duration-700 ${
             isCardHidden ? "opacity-0" : "opacity-100"
           }`}
-        />
-
-        {/* 2026 Subtle Cinematic Film Grain */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 film-grain pointer-events-none"
         />
       </div>
 
