@@ -100,12 +100,13 @@ button, a, [role="button"] {
   backface-visibility: hidden;
 }
 
-/* ── Base Page Styles ── */
+/* ── Base Page Styles (Mobile Smoothness & Stability) ── */
 html {
   scrollbar-gutter: stable;
   -webkit-overflow-scrolling: touch;
   touch-action: manipulation;
   -webkit-touch-callout: none;
+  overscroll-behavior-y: contain;
 }
 
 body {
@@ -113,11 +114,13 @@ body {
   padding: 0;
   min-height: 100dvh;
   overflow-x: clip;
+  overscroll-behavior-y: contain;
   background-color: #0b1329;
   color: #1e293b;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   touch-action: manipulation;
   -webkit-touch-callout: none;
 }
@@ -329,37 +332,51 @@ h1, h2, h3 {
   }
 }
 
-/* ── 2026 Liquid Glass Surface (oklch color-mix, lighter blur on mobile) ── */
+/* ── 2026 Liquid Glass Surface (oklch color-mix, GPU-friendly on mobile) ── */
 .liquid-glass-dock {
-  background: color-mix(in oklch, #ffffff 92%, transparent);
-  border: 1px solid color-mix(in oklch, #b38728 42%, transparent);
+  background: color-mix(in oklch, #ffffff 95%, transparent);
+  border: 1px solid color-mix(in oklch, #b38728 36%, transparent);
   box-shadow:
-    0 12px 30px rgba(0, 18, 46, 0.22),
-    0 2px 8px rgba(179, 135, 40, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    0 12px 32px -4px rgba(0, 18, 46, 0.24),
+    0 2px 8px rgba(179, 135, 40, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateZ(0);
 
   @media (hover: hover) and (pointer: fine) {
     background: color-mix(in oklch, #ffffff 82%, transparent);
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(145%);
+    -webkit-backdrop-filter: blur(16px) saturate(145%);
   }
 }
 
-/* ── 2026 Editorial Bento Surface ── */
+/* ── 2026 Editorial Bento Surface & Micro-Tiles ── */
 .bento-card-surface {
   background: linear-gradient(
     180deg,
-    color-mix(in oklch, #ffffff 96%, #faf4e6) 0%,
-    color-mix(in oklch, #faf4e6 92%, #ffffff) 100%
+    color-mix(in oklch, #ffffff 97%, #faf4e6) 0%,
+    color-mix(in oklch, #faf4e6 94%, #ffffff) 100%
   );
-  border: 1px solid color-mix(in oklch, #b38728 32%, transparent);
+  border: 1px solid color-mix(in oklch, #b38728 28%, transparent);
   box-shadow:
-    0 10px 28px -8px rgba(0, 29, 66, 0.08),
-    0 2px 6px -1px rgba(179, 135, 40, 0.08),
+    0 10px 28px -8px rgba(0, 29, 66, 0.07),
+    0 2px 6px -1px rgba(179, 135, 40, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
-/* ── 2026 Holographic Gold Foil Text Shimmer ── */
+.bento-tile {
+  background: linear-gradient(180deg, #ffffff 0%, #faf6ec 100%);
+  border: 1px solid color-mix(in oklch, #b38728 22%, transparent);
+  box-shadow:
+    0 2px 10px -4px rgba(0, 29, 66, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.hairline-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(179, 135, 40, 0.55) 50%, transparent 100%);
+}
+
+/* ── 2026 Holographic Gold Foil Text Shimmer (Desktop only to keep mobile 60/120fps) ── */
 @keyframes foilShimmer {
   0% {
     background-position: 0% 50%;
@@ -374,7 +391,7 @@ h1, h2, h3 {
 
 .foil-shimmer-text {
   background-size: 200% auto;
-  @media (prefers-reduced-motion: no-preference) {
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
     animation: foilShimmer 10s ease-in-out infinite;
   }
 }
@@ -382,7 +399,7 @@ h1, h2, h3 {
 /* ── View Transitions API (Cinematic Cross-Dissolve) ── */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.45s;
+  animation-duration: 0.55s;
   animation-timing-function: var(--ease-smooth-out);
 }
 

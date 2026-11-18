@@ -219,12 +219,13 @@ export default function App() {
       setIsOpen(true);
     }, "#invitation-main-heading");
 
-    // Single gentle celebratory confetti burst
+    // Single gentle celebratory confetti burst (tuned for mobile 60fps)
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
     confetti({
-      particleCount: 90,
-      spread: 75,
-      origin: { y: 0.6 },
-      colors: ["#b38728", "#ffffff", "#002d62"],
+      particleCount: isMobile ? 45 : 80,
+      spread: isMobile ? 60 : 75,
+      origin: { y: 0.62 },
+      colors: ["#dfb755", "#f3e5ab", "#ffffff", "#002d62"],
       disableForReducedMotion: true,
     });
   };
@@ -310,7 +311,7 @@ export default function App() {
                 "radial-gradient(ellipse at 50% 35%, #FFFDF7 0%, #F8EED3 50%, #EBD8A3 100%)",
             }}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.32)_0%,rgba(179,135,40,0.12)_50%,transparent_75%)] rounded-full blur-3xl pointer-events-none" />
+            <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.28)_0%,rgba(179,135,40,0.1)_48%,transparent_72%)] rounded-full pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(#b38728_1.2px,transparent_1.2px)] [background-size:28px_28px] opacity-20 pointer-events-none" />
           </div>
         )}
@@ -347,7 +348,7 @@ export default function App() {
 
       {/* Floating Toggle Header (Top-Left - Only visible on the sealed envelope screen) */}
       {!isOpen && (
-        <header className="fixed top-0 left-0 z-40 p-3 sm:p-4 pointer-events-none no-print">
+        <header className="fixed top-0 left-0 z-40 p-3 sm:p-4 pt-[max(0.75rem,env(safe-area-inset-top))] pl-[max(0.75rem,env(safe-area-inset-left))] pointer-events-none no-print">
           <button
             type="button"
             aria-label={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
@@ -355,10 +356,10 @@ export default function App() {
               e.stopPropagation();
               setIsCardHidden((prev) => !prev);
             }}
-            className={`pointer-events-auto w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center backdrop-blur-md border shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer group ${
+            className={`pointer-events-auto w-10 h-10 sm:w-10 sm:h-10 rounded-full flex items-center justify-center sm:backdrop-blur-md border shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer group ${
               isCardHidden
                 ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
-                : "bg-white/90 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/40"
+                : "bg-white/92 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/40"
             }`}
             title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
           >
@@ -380,9 +381,9 @@ export default function App() {
           isCardHidden={isCardHidden}
         />
       ) : (
-        /* Main Invitation Content - Semantic Macro Layout with 8pt Grid */
+        /* Main Invitation Content - Zero-Scroll Single-Viewport Layout */
         <main
-          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center py-3 sm:py-5 px-4 sm:px-6 relative z-10 gap-3 sm:gap-4 transition-all duration-500 min-w-0 ${
+          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center pt-[max(0.45rem,env(safe-area-inset-top))] pb-[max(0.45rem,env(safe-area-inset-bottom))] sm:py-3.5 px-3 sm:px-6 relative z-10 gap-1.5 sm:gap-2.5 transition-all duration-500 min-w-0 ${
             isCardHidden
               ? "opacity-0 scale-95 pointer-events-none select-none"
               : "opacity-100 scale-100"
@@ -412,12 +413,12 @@ export default function App() {
           {!isShared && (
             <footer
               aria-label="Tùy chọn tương tác thiệp"
-              className="w-auto max-w-full mx-auto flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 p-1.5 rounded-full liquid-glass-dock relative z-20 no-print"
+              className="w-auto max-w-full mx-auto flex flex-nowrap items-center justify-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-full liquid-glass-dock relative z-20 no-print"
             >
               <button
                 type="button"
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
+                className="group min-h-[38px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <Settings className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
                 <span>Tùy chỉnh</span>
@@ -426,7 +427,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsExportModalOpen(true)}
-                className="group flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
+                className="group min-h-[38px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <Printer className="w-3.5 h-3.5 text-[#f3e5ab]" />
                 <span>Xuất PDF / In</span>
@@ -436,7 +437,8 @@ export default function App() {
                 type="button"
                 onClick={handleToggleTheme}
                 title="Đổi nền thiệp"
-                className="group flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
+                aria-label="Đổi nền thiệp"
+                className="group min-h-[38px] min-w-[38px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <Palette className="w-3.5 h-3.5 text-[#b38728]" />
                 <span className="hidden sm:inline">
@@ -448,7 +450,8 @@ export default function App() {
                 type="button"
                 onClick={handleCloseEnvelope}
                 title="Xem lại phong bì"
-                className="group flex items-center justify-center gap-1.5 px-3 py-2 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-xs"
+                aria-label="Xem lại phong bì"
+                className="group min-h-[38px] min-w-[38px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300" />
                 <span className="hidden sm:inline">Đóng bì</span>

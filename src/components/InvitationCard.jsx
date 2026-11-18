@@ -12,40 +12,21 @@ import {
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 
-/* ── Ceremonial Art Deco / Royal Gold Flourish ── */
+/* ── 2026 Editorial Hairline Diamond Divider ── */
 function GoldFlourish({ className = "" }) {
   return (
-    <svg
-      viewBox="0 0 300 20"
-      className={className}
-      fill="none"
+    <div
+      className={`flex items-center justify-center gap-2 ${className}`}
       aria-hidden="true"
     >
-      <path
-        d="M150 10 C125 10, 110 2.5, 80 2.5 C50 2.5, 35 10, 15 10 C8 10, 3 7.5, 0 6"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-      <path
-        d="M150 10 C175 10, 190 2.5, 220 2.5 C250 2.5, 265 10, 285 10 C292 10, 297 7.5, 300 6"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-      <circle cx="150" cy="10" r="3" fill="currentColor" />
-      <circle cx="80" cy="2.5" r="1.8" fill="currentColor" opacity="0.85" />
-      <circle cx="220" cy="2.5" r="1.8" fill="currentColor" opacity="0.85" />
-      <path
-        d="M150 3 L152.5 10 L150 17 L147.5 10 Z"
-        fill="currentColor"
-        opacity="0.9"
-      />
-    </svg>
+      <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-current/60 to-current" />
+      <span className="w-1.5 h-1.5 rotate-45 bg-current shrink-0 opacity-90" />
+      <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-current/60 to-current" />
+    </div>
   );
 }
 
-/* ── Royal Corner Ornament with Filigree ── */
+/* ── 2026 Minimalist Geometric Corner Tick ── */
 function CornerOrnament({ position }) {
   const rotations = {
     "top-left": "rotate(0)",
@@ -54,44 +35,26 @@ function CornerOrnament({ position }) {
     "bottom-left": "rotate(270deg)",
   };
   const positions = {
-    "top-left": "top-2 left-2 sm:top-2.5 sm:left-2.5",
-    "top-right": "top-2 right-2 sm:top-2.5 sm:right-2.5",
-    "bottom-right": "bottom-2 right-2 sm:bottom-2.5 sm:right-2.5",
-    "bottom-left": "bottom-2 left-2 sm:bottom-2.5 sm:left-2.5",
+    "top-left": "top-2.5 left-2.5 sm:top-3 sm:left-3",
+    "top-right": "top-2.5 right-2.5 sm:top-3 sm:right-3",
+    "bottom-right": "bottom-2.5 right-2.5 sm:bottom-3 sm:right-3",
+    "bottom-left": "bottom-2.5 left-2.5 sm:bottom-3 sm:left-3",
   };
   return (
     <svg
-      viewBox="0 0 50 50"
-      className={`absolute ${positions[position]} w-6 h-6 sm:w-8 sm:h-8 text-[#b38728] pointer-events-none z-20 opacity-80`}
+      viewBox="0 0 24 24"
+      className={`absolute ${positions[position]} w-4 h-4 sm:w-5 sm:h-5 text-[#b38728]/70 pointer-events-none z-20`}
       style={{ transform: rotations[position] }}
       fill="none"
       aria-hidden="true"
     >
-      {/* Outer corner frame */}
       <path
-        d="M3 28 V7 C3 4.8 4.8 3 7 3 H28"
+        d="M2 14 V4 C2 2.9 2.9 2 4 2 H14"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="1.3"
         strokeLinecap="round"
       />
-      {/* Inner ornamental filigree */}
-      <path
-        d="M9 20 V11 C9 9.9 9.9 9 11 9 H20"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        opacity="0.75"
-      />
-      <path
-        d="M3 16 Q16 16, 16 3"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        opacity="0.65"
-      />
-      <circle cx="3" cy="28" r="2" fill="currentColor" />
-      <circle cx="28" cy="3" r="2" fill="currentColor" />
-      <circle cx="12" cy="12" r="1.3" fill="currentColor" opacity="0.8" />
+      <circle cx="5.5" cy="5.5" r="1" fill="currentColor" opacity="0.75" />
     </svg>
   );
 }
@@ -123,7 +86,7 @@ export default function InvitationCard({
       ? {
           initial: { opacity: 0, y: 12, scale: 0.985 },
           animate: { opacity: 1, y: 0, scale: 1 },
-          transition: { duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] },
+          transition: { duration: 0.68, delay, ease: [0.16, 1, 0.3, 1] },
         }
       : {};
   const formatVietnameseDate = (dateStr) => {
@@ -214,7 +177,8 @@ export default function InvitationCard({
       if (hideCalendar) return;
       if (
         typeof window !== "undefined" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        (!window.matchMedia("(hover: hover) and (pointer: fine)").matches ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches)
       ) {
         return;
       }
@@ -222,8 +186,8 @@ export default function InvitationCard({
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
       setTilt({
-        x: (0.5 - y) * 7,
-        y: (x - 0.5) * 7,
+        x: (0.5 - y) * 6,
+        y: (x - 0.5) * 6,
         glareX: x * 100,
         glareY: y * 100,
         isHovered: true,
@@ -241,33 +205,32 @@ export default function InvitationCard({
       id={isPrintable ? "printable-invitation" : undefined}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="@container invitation-card w-full max-w-[800px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl select-none"
+      className="@container invitation-card w-full max-w-[780px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl select-none"
       style={{
-        borderRadius: "1.2rem",
-        border: "3px solid rgba(179, 135, 40, 0.45)",
+        borderRadius: "1.35rem",
+        border: "1.5px solid rgba(179, 135, 40, 0.42)",
         boxShadow: tilt.isHovered
-          ? "0 0 0 1px rgba(179, 135, 40, 0.35), 0 24px 50px rgba(0, 29, 66, 0.28), 0 8px 20px rgba(179, 135, 40, 0.22)"
-          : "0 0 0 1px rgba(179, 135, 40, 0.22), 0 14px 38px rgba(0, 29, 66, 0.2), 0 4px 12px rgba(179, 135, 40, 0.15)",
+          ? "0 0 0 1px rgba(179, 135, 40, 0.3), 0 24px 50px rgba(0, 29, 66, 0.25), 0 8px 20px rgba(179, 135, 40, 0.18)"
+          : "0 0 0 1px rgba(179, 135, 40, 0.18), 0 14px 36px rgba(0, 29, 66, 0.18), 0 4px 12px rgba(179, 135, 40, 0.12)",
         transform: tilt.isHovered
-          ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.012, 1.012, 1.012)`
-          : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+          ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.01, 1.01, 1.01)`
+          : "translateZ(0)",
         transition: tilt.isHovered
-          ? "transform 0.1s ease-out, box-shadow 0.2s ease-out"
-          : "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease-out",
-        padding: "clamp(0.65rem, 1.8vw, 1.25rem) clamp(0.85rem, 2.2vw, 1.5rem)",
+          ? "transform 0.1s ease-out"
+          : "transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)",
+        padding: "clamp(0.55rem, 1.6vw, 1.25rem) clamp(0.75rem, 2.2vw, 1.5rem)",
         isolation: "isolate",
-        contain: "paint",
+        contain: "layout paint",
       }}
     >
-      {/* Royal Corner Ornaments */}
+      {/* 2026 Minimalist Corner Ticks */}
       <CornerOrnament position="top-left" />
       <CornerOrnament position="top-right" />
       <CornerOrnament position="bottom-left" />
       <CornerOrnament position="bottom-right" />
 
-      {/* Multi-layered Double Gold Foil Inner Border Frame */}
-      <div className="absolute inset-1.5 sm:inset-2.5 border-2 border-[#b38728]/35 rounded-xl pointer-events-none z-10" />
-      <div className="absolute inset-[8px] sm:inset-[13px] border border-[#b38728]/20 rounded-lg pointer-events-none z-10" />
+      {/* Crisp Editorial Inner Hairline Frame */}
+      <div className="absolute inset-2 sm:inset-3 border border-[#b38728]/25 rounded-[1.05rem] pointer-events-none z-10" />
 
       {/* ════════════════ TIER 1: HEADER & TITLE ════════════════ */}
       <motion.header
@@ -283,7 +246,7 @@ export default function InvitationCard({
         <h1
           id={!hideCalendar ? "invitation-main-heading" : undefined}
           tabIndex={!hideCalendar ? -1 : undefined}
-          className="text-lg sm:text-xl md:text-[23px] font-serif font-black uppercase tracking-wide leading-snug py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none"
+          className="text-[17px] sm:text-xl md:text-[23px] font-serif font-black uppercase tracking-wide leading-tight py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none"
           style={{
             background:
               "linear-gradient(135deg, #001d42 0%, #003a80 35%, #b38728 50%, #003a80 65%, #001d42 100%)",
@@ -313,7 +276,7 @@ export default function InvitationCard({
         </div>
 
         <h2
-          className="text-xl sm:text-2xl md:text-[30px] font-handwriting text-[#002d62] font-normal leading-tight text-glow px-2 py-0"
+          className="text-[22px] sm:text-2xl md:text-[30px] font-handwriting text-[#002d62] font-normal leading-tight text-glow px-2 py-0"
           style={{ letterSpacing: "0.02em" }}
         >
           {guestName || "Toàn thể Đại gia đình"}
@@ -323,31 +286,31 @@ export default function InvitationCard({
       {/* ════════════════ TIER 3: HERO GRADUATE CENTERPIECE (FOCAL POINT) ════════════════ */}
       <motion.section
         {...revealProps(0.22)}
-        className="relative z-10 max-w-lg mx-auto my-1"
+        className="relative z-10 max-w-lg mx-auto my-0.5 sm:my-1"
       >
         <div
-          className="py-2.5 sm:py-3 px-3.5 sm:px-5 rounded-2xl flex flex-col items-center text-center gap-1 relative overflow-hidden ceremony-watermark bento-card-surface"
+          className="py-1.5 sm:py-2.5 px-3 sm:px-5 rounded-2xl flex flex-col items-center text-center gap-0.5 sm:gap-1 relative overflow-hidden ceremony-watermark bento-card-surface"
         >
           {/* Subtle Watermark Crest */}
           <GraduationCap
             aria-hidden="true"
-            className="absolute -right-3 -bottom-3 w-24 h-24 text-[#b38728]/[0.05] pointer-events-none rotate-[-12deg]"
+            className="absolute -right-3 -bottom-3 w-20 h-20 sm:w-24 sm:h-24 text-[#b38728]/[0.05] pointer-events-none rotate-[-12deg]"
           />
           {/* Graduate Emblem Title */}
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#002d62]/6 border border-[#b38728]/40">
-            <GraduationCap className="w-3.5 h-3.5 text-[#002d62]" />
-            <span className="text-[10px] sm:text-[10.5px] uppercase tracking-wider text-[#5c4308] font-sans font-extrabold">
+            <GraduationCap className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#002d62]" />
+            <span className="text-[9.5px] sm:text-[10.5px] uppercase tracking-wider text-[#5c4308] font-sans font-extrabold">
               Tân {config.degree || "Cử Nhân"}
             </span>
           </div>
 
-          <h3 className="text-xl sm:text-2xl md:text-[27px] font-serif font-black tracking-wide uppercase leading-tight text-[#001d42] py-0.5 px-2 inline-block drop-shadow-xs">
+          <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-black tracking-wide uppercase leading-tight text-[#001d42] py-0 px-2 inline-block drop-shadow-xs">
             {config.gradName}
           </h3>
 
           {/* Academic Info */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-1 text-xs text-slate-800 font-medium">
-            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-0.5 text-[11px] sm:text-xs text-slate-800 font-medium">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-[#b38728] shrink-0" />
               <span>
                 Ngành:{" "}
@@ -357,8 +320,8 @@ export default function InvitationCard({
               </span>
             </span>
 
-            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
-              <Award className="w-3.5 h-3.5 text-[#b38728] shrink-0" />
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
+              <Award className="w-3 h-3 text-[#b38728] shrink-0" />
               <span>
                 Học vị:{" "}
                 <strong className="font-extrabold text-[#002d62]">
@@ -368,7 +331,7 @@ export default function InvitationCard({
             </span>
           </div>
 
-          <p className="text-[10.5px] sm:text-[11px] uppercase tracking-wider text-[#5c4308] font-sans font-bold mt-1">
+          <p className="text-[9.5px] sm:text-[10.5px] uppercase tracking-wider text-[#5c4308] font-sans font-bold mt-0.5">
             Niên Khóa 2022 – 2026
           </p>
 
@@ -376,13 +339,13 @@ export default function InvitationCard({
           <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-[#b38728] to-transparent my-0.5" />
 
           {/* Personal Invitation Text */}
-          <p className="text-[11px] sm:text-xs text-slate-700 leading-snug max-w-md italic px-1 font-serif whitespace-pre-line">
-            <span className="text-[#b38728] font-serif font-bold text-sm mr-0.5">
+          <p className="text-[10.5px] sm:text-xs text-slate-700 leading-snug max-w-md italic px-1 font-serif whitespace-pre-line">
+            <span className="text-[#b38728] font-serif font-bold text-xs sm:text-sm mr-0.5">
               “
             </span>
             {config.invitationText ||
               "Trân trọng kính mời gia đình đến chia vui cùng con trong buổi lễ tốt nghiệp."}
-            <span className="text-[#b38728] font-serif font-bold text-sm ml-0.5">
+            <span className="text-[#b38728] font-serif font-bold text-xs sm:text-sm ml-0.5">
               ”
             </span>
           </p>
@@ -392,16 +355,16 @@ export default function InvitationCard({
       {/* ════════════════ TIER 4: EVENT DETAILS MODULES ════════════════ */}
       <motion.section
         {...revealProps(0.3)}
-        className="my-1 relative z-10"
+        className="my-0.5 sm:my-1 relative z-10"
       >
         <div
-          className="grid grid-cols-1 @[480px]:grid-cols-2 @[560px]:grid-cols-[1fr_1fr_auto] gap-2 rounded-2xl overflow-hidden p-2 bento-card-surface"
+          className="grid grid-cols-2 @[560px]:grid-cols-[1fr_1fr_auto] gap-1.5 sm:gap-2 rounded-2xl overflow-hidden p-1.5 sm:p-2 bento-card-surface"
         >
           {/* TIME CARD */}
-          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-b from-[#fdfbf7] to-[#f7f1e3] border border-[#b38728]/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] flex flex-col justify-between">
+          <div className="p-2 sm:p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between pb-1 border-b border-[#b38728]/20">
-                <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#5c4308] flex items-center gap-1">
+              <div className="flex items-center justify-between pb-1.5 border-b border-[#b38728]/15">
+                <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1">
                   <Clock className="w-3 h-3 text-[#b38728]" /> Thời Gian
                 </h4>
 
@@ -411,10 +374,10 @@ export default function InvitationCard({
                     href={createGoogleCalendarUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="no-print calendar-btn print:hidden inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/28 hover:-translate-y-0.5 px-2 py-0.5 rounded border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs"
+                    className="no-print calendar-btn print:hidden inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 sm:hover:-translate-y-0.5 px-2.5 py-1 rounded-md border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs"
                     title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
                   >
-                    <CalendarPlus className="w-2.5 h-2.5 text-[#5c4308]" />
+                    <CalendarPlus className="w-3 h-3 text-[#5c4308]" />
                     <span>Lưu Lịch</span>
                   </a>
                 )}
@@ -463,9 +426,9 @@ export default function InvitationCard({
           </div>
 
           {/* LOCATION CARD */}
-          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-b from-[#fdfbf7] to-[#f7f1e3] border border-[#b38728]/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] flex flex-col justify-between">
+          <div className="p-2 sm:p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
-              <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-wider text-[#5c4308] flex items-center gap-1 pb-1 border-b border-[#b38728]/20">
+              <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1 pb-1.5 border-b border-[#b38728]/15">
                 <MapPin className="w-3 h-3 text-[#b38728]" /> Địa Điểm
               </h4>
 
@@ -502,7 +465,7 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[560px]:flex-col items-center justify-between sm:justify-center gap-1.5 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[480px]:col-span-2 @[560px]:col-span-1 @[560px]:w-28">
+          <div className="col-span-2 @[560px]:col-span-1 p-2 sm:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[560px]:flex-col items-center justify-between @[560px]:justify-center gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[560px]:w-28">
             <div className="relative p-1 bg-white rounded border border-[#b38728]/45 shrink-0 shadow-xs">
               {/* 2026 Scanner Viewfinder Corner Ticks */}
               <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-[#f3e5ab] rounded-tl-[2px]" />
@@ -511,7 +474,7 @@ export default function InvitationCard({
               <span aria-hidden="true" className="no-print print:hidden absolute -bottom-0.5 -right-0.5 w-2 h-2 border-b-2 border-r-2 border-[#f3e5ab] rounded-br-[2px]" />
               <QRCodeSVG
                 value={googleMapsUrl}
-                size={50}
+                size={44}
                 bgColor="#ffffff"
                 fgColor="#001d42"
                 level="M"
@@ -519,7 +482,7 @@ export default function InvitationCard({
               />
             </div>
 
-            <div className="flex flex-col items-end sm:items-center gap-1">
+            <div className="flex flex-row @[560px]:flex-col items-center gap-2 @[560px]:gap-1">
               <span className="text-[9px] uppercase tracking-wider font-extrabold text-[#f3e5ab] text-center">
                 Bản Đồ GPS
               </span>
@@ -527,10 +490,10 @@ export default function InvitationCard({
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-print print:hidden text-[10px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 hover:-translate-y-0.5 px-2 py-0.5 rounded transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 flex items-center gap-1"
+                className="no-print print:hidden text-[10px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 sm:hover:-translate-y-0.5 px-2.5 py-1.5 rounded-md transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 flex items-center gap-1"
               >
                 <span>Chỉ Đường</span>
-                <ExternalLink className="w-2.5 h-2.5" />
+                <ExternalLink className="w-3 h-3" />
               </a>
             </div>
           </div>

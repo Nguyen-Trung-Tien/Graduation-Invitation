@@ -2,7 +2,12 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Sparkles, GraduationCap } from "lucide-react";
 
-export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
+export default function Envelope({
+  guestName,
+  bgTheme = "uth-campus",
+  onOpen,
+  isCardHidden = false,
+}) {
   const [isOpening, setIsOpening] = useState(false);
   const [canHover, setCanHover] = useState(() =>
     typeof window !== "undefined"
@@ -11,6 +16,7 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
   );
   const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50, active: false });
   const prefersReducedMotion = useReducedMotion();
+  const isClassic = bgTheme === "classic";
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -47,12 +53,12 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
     setIsOpening(true);
     setTilt({ x: 0, y: 0, glareX: 50, glareY: 50, active: false });
 
-    // Duration for flap to open and letter to slide up before transitioning to card view
+    // Balanced ceremonial choreography: seal pop -> flap open -> letter reveal
     setTimeout(
       () => {
         onOpen();
       },
-      prefersReducedMotion ? 350 : 2650
+      prefersReducedMotion ? 320 : 2100
     );
   };
 
@@ -66,28 +72,40 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
   return (
     <div className={`min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}>
       <motion.div
-        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.96 }}
+        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.965 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: prefersReducedMotion ? 0.25 : 1.4, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[520px] flex flex-col items-center gap-6 z-10"
+        transition={{ duration: prefersReducedMotion ? 0.25 : 1.15, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-[500px] flex flex-col items-center gap-5 sm:gap-6 z-10 px-1"
       >
         {/* Header Invitation Tagline (Fades out smoothly when envelope opens so rising card never overlaps) */}
         <motion.div
-          animate={isOpening ? { opacity: 0, y: -18 } : { opacity: 1, y: 0 }}
+          animate={isOpening ? { opacity: 0, y: -16 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="text-center flex flex-col items-center gap-1.5 pointer-events-none"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#001d42]/80 backdrop-blur-md border border-[#b38728]/45 shadow-[0_6px_20px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.12)]">
+          <div
+            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full border shadow-sm transition-colors ${
+              isClassic
+                ? "bg-white/90 border-[#b38728]/40 text-[#002d62]"
+                : "bg-[#001d42]/85 sm:backdrop-blur-md border-[#b38728]/45 text-[#f3e5ab]"
+            }`}
+          >
             <Sparkles className="w-3.5 h-3.5 text-[#dfb755]" />
-            <span className="text-[11px] sm:text-xs uppercase tracking-wider text-[#f3e5ab] font-bold font-sans">
+            <span className="text-[10.5px] sm:text-xs uppercase tracking-[0.14em] font-bold font-sans">
               ĐẠI HỌC GIAO THÔNG VẬN TẢI TP.HCM
             </span>
           </div>
 
           <h1
-            className="text-2xl sm:text-3xl font-serif font-black mt-1 tracking-wide drop-shadow-md uppercase bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7] bg-clip-text text-transparent foil-shimmer-text"
+            className={`text-2xl sm:text-3xl font-serif font-black mt-1 tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text ${
+              isClassic
+                ? "bg-gradient-to-r from-[#001d42] via-[#8c6719] to-[#001d42]"
+                : "bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7]"
+            }`}
             style={{
-              filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.55))",
+              textShadow: isClassic
+                ? "0 2px 10px rgba(179,135,40,0.16)"
+                : "0 2px 12px rgba(0,0,0,0.45)",
             }}
           >
             THƯ MỜI LỄ TỐT NGHIỆP
@@ -145,8 +163,8 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
                     : { y: "-58%", scale: 1, z: 0 }
                   : { y: 0, scale: 0.95, z: 0 }
               }
-              transition={{ delay: 0.85, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border-2 border-[#b38728]/40 shadow-xl pt-4 sm:pt-6 px-3 sm:px-4 pb-3 flex flex-col items-center justify-start gap-2 sm:gap-2.5 text-slate-900 pointer-events-none z-10"
+              transition={{ delay: 0.65, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border border-[#b38728]/40 shadow-xl pt-4 sm:pt-6 px-3 sm:px-4 pb-3 flex flex-col items-center justify-start gap-2 sm:gap-2.5 text-slate-900 pointer-events-none z-10"
             >
               <div className="w-11 h-11 rounded-full border-2 border-[#b38728] bg-[#001d42]/8 flex items-center justify-center shadow-xs">
                 <GraduationCap className="w-5 h-5 text-[#002d62]" />
@@ -215,8 +233,8 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
                   : { rotateX: 0, z: 8 }
               }
               transition={{
-                rotateX: { delay: 0.25, duration: 1.15, ease: [0.22, 1, 0.36, 1] },
-                z: { delay: isOpening ? 0.75 : 0, duration: 0 },
+                rotateX: { delay: 0.2, duration: 0.95, ease: [0.22, 1, 0.36, 1] },
+                z: { delay: isOpening ? 0.6 : 0, duration: 0 },
               }}
               className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#003c80] via-[#002a5c] to-[#001a3d] rounded-t-2xl border-t-2 border-x border-[#b38728]/35 pointer-events-none shadow-md"
               style={{
@@ -230,10 +248,10 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
               initial={{ scale: 1, opacity: 1, z: 24 }}
               animate={
                 isOpening
-                  ? { scale: 0, opacity: 0, y: 35, z: 24 }
+                  ? { scale: 0, opacity: 0, y: 30, z: 24 }
                   : { scale: 1, opacity: 1, z: 24 }
               }
-              transition={{ duration: 0.65, ease: "easeOut" }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
               className="absolute top-[46%] sm:top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
             >
               {/* Pulsing Ripple Ring */}
@@ -309,9 +327,13 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
 
         {/* Clean Elegant Instruction Banner */}
         <motion.p
-          animate={{ opacity: isOpening ? 0 : [0.7, 1, 0.7] }}
+          animate={{ opacity: isOpening ? 0 : [0.75, 1, 0.75] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-          className="text-xs sm:text-sm text-[#f3e5ab] font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none drop-shadow-md select-none"
+          className={`text-xs sm:text-sm font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none select-none px-3.5 py-1 rounded-full ${
+            isClassic
+              ? "text-[#002d62] bg-white/75 border border-[#b38728]/30 shadow-xs"
+              : "text-[#f3e5ab] drop-shadow-sm"
+          }`}
         >
           <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
           <span>Chạm vào phong bì để mở thiệp</span>
