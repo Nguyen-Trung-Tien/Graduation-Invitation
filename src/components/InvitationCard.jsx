@@ -241,7 +241,7 @@ export default function InvitationCard({
       id={isPrintable ? "printable-invitation" : undefined}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="@container invitation-card w-full max-w-[620px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl will-change-transform select-none"
+      className="@container invitation-card w-full max-w-[800px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl select-none"
       style={{
         borderRadius: "1.2rem",
         border: "3px solid rgba(179, 135, 40, 0.45)",
@@ -259,23 +259,6 @@ export default function InvitationCard({
         contain: "paint",
       }}
     >
-      {/* Cinematic Anamorphic Gold Foil Light Sweep */}
-      {!hideCalendar && (
-        <div className="no-print print:hidden absolute inset-0 pointer-events-none overflow-hidden z-25 rounded-[1.2rem]">
-          <div className="w-[50%] h-full bg-gradient-to-r from-transparent via-amber-200/25 to-transparent animate-cinematic-sweep" />
-        </div>
-      )}
-
-      {/* Interactive Specular Glare Reflection */}
-      {!hideCalendar && tilt.isHovered && (
-        <div
-          className="no-print print:hidden absolute inset-0 pointer-events-none z-20 rounded-[1.2rem] transition-opacity duration-200"
-          style={{
-            background: `radial-gradient(circle 280px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,245,215,0.34) 0%, transparent 70%)`,
-          }}
-        />
-      )}
-
       {/* Royal Corner Ornaments */}
       <CornerOrnament position="top-left" />
       <CornerOrnament position="top-right" />

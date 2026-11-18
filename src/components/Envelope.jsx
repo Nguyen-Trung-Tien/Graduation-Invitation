@@ -105,22 +105,15 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
           onMouseLeave={handleMouseLeave}
           className="w-full aspect-[1.52/1] relative perspective-1000 cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#b38728] focus-visible:outline-none rounded-2xl select-none"
         >
-          {/* Ambient Golden Halo Behind Envelope */}
-          <div
-            className={`absolute -inset-3 rounded-3xl bg-radial from-[#b38728]/25 via-[#002d62]/15 to-transparent blur-2xl pointer-events-none transition-opacity duration-500 ${
-              tilt.active || isOpening ? "opacity-100" : "opacity-65"
-            }`}
-          />
-
-          {/* Flap & Envelope Wrapper - Cinematic Camera Dolly & Interactive 3D Tilt */}
+          {/* Flap & Envelope Wrapper - Smooth 3D Tilt */}
           <motion.div
             animate={
               isOpening
                 ? prefersReducedMotion
                   ? { opacity: 0.9 }
-                  : { scale: 1.04, y: 16, rotateX: 0, rotateY: 0 }
+                  : { scale: 1.02, y: 12, rotateX: 0, rotateY: 0 }
                 : {
-                    scale: tilt.active ? 1.018 : 1,
+                    scale: tilt.active ? 1.015 : 1,
                     y: 0,
                     rotateX: tilt.x,
                     rotateY: tilt.y,
@@ -129,38 +122,18 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
             transition={
               tilt.active && !isOpening
                 ? { type: "spring", stiffness: 260, damping: 24, mass: 0.6 }
-                : { duration: 1.4, ease: [0.16, 1, 0.3, 1] }
+                : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }
             }
             className="w-full h-full relative preserve-3d active:scale-[0.988]"
           >
-            {/* Interactive Specular Glare Overlay */}
-            {canHover && !isOpening && (
-              <div
-                className="absolute inset-0 rounded-2xl pointer-events-none z-28 transition-opacity duration-300"
-                style={{
-                  opacity: tilt.active ? 1 : 0,
-                  background: `radial-gradient(circle 260px at ${tilt.glareX}% ${tilt.glareY}%, rgba(252, 246, 186, 0.16) 0%, transparent 70%)`,
-                }}
-              />
-            )}
 
             {/* Back Interior Layer */}
             <div
-              className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/50 shadow-[0_28px_65px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center overflow-hidden"
+              className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/50 shadow-[0_24px_50px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center overflow-hidden"
               style={{ transform: "translateZ(-8px)" }}
             >
               <div className="absolute inset-0 bg-[radial-gradient(#003a80_1px,transparent_1px)] [background-size:16px_16px] opacity-35" />
             </div>
-
-            {/* Cinematic Golden Light Bloom on Unseal */}
-            {isOpening && !prefersReducedMotion && (
-              <motion.div
-                initial={{ scale: 0.2, opacity: 0 }}
-                animate={{ scale: 2.8, opacity: [0, 0.85, 0] }}
-                transition={{ delay: 0.3, duration: 2.3, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-radial from-[#fcf6ba]/70 via-[#dfb755]/30 to-transparent blur-2xl pointer-events-none z-29"
-              />
-            )}
 
             {/* Letter Sheet (Slides out when opened) */}
             <motion.div
@@ -263,8 +236,7 @@ export default function Envelope({ guestName, onOpen, isCardHidden = false }) {
               transition={{ duration: 0.65, ease: "easeOut" }}
               className="absolute top-[46%] sm:top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-30 flex items-center justify-center cursor-pointer group/seal"
             >
-              {/* Elegant Glowing Aura + Pulsing Ripple Ring */}
-              <div className="absolute w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#b38728]/30 blur-xl pointer-events-none group-hover/seal:scale-110 transition-transform duration-500" />
+              {/* Pulsing Ripple Ring */}
               {!isOpening && (
                 <div className="absolute w-[62px] h-[62px] sm:w-[88px] sm:h-[88px] rounded-full border border-[#f3e5ab]/60 pointer-events-none animate-seal-pulse" />
               )}

@@ -66,7 +66,7 @@ function CountdownPill({ date, time, bgTheme }) {
       }`}
     >
       <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#dfb755] opacity-75" />
+        <span className="hidden sm:inline-flex animate-ping absolute h-full w-full rounded-full bg-[#dfb755] opacity-75" />
         <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dfb755]" />
       </span>
       {expired ? (
