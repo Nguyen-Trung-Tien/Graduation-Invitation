@@ -8,7 +8,6 @@ import {
   Eye,
   EyeOff,
   RotateCcw,
-  Sparkles,
   Palette,
 } from "lucide-react";
 import Envelope from "./components/Envelope";
@@ -60,31 +59,41 @@ function CountdownPill({ date, time, bgTheme }) {
 
   return (
     <div
-      className={`no-print print:hidden inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full backdrop-blur-md border shadow-md text-[11px] sm:text-xs font-sans transition-colors duration-500 ${
+      className={`no-print print:hidden inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full backdrop-blur-xl border shadow-[0_8px_24px_rgba(0,18,46,0.22),inset_0_1px_0_rgba(255,255,255,0.22)] text-[11px] sm:text-xs font-sans transition-colors duration-500 ${
         isClassic
           ? "bg-white/85 border-[#b38728]/40 text-[#002d62]"
-          : "bg-[#001d42]/75 border-[#b38728]/45 text-[#f3e5ab]"
+          : "bg-[#001d42]/70 border-[#b38728]/45 text-[#f3e5ab]"
       }`}
     >
-      <Sparkles className="w-3.5 h-3.5 text-[#dfb755] shrink-0" />
+      <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#dfb755] opacity-75" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dfb755]" />
+      </span>
       {expired ? (
         <span className="font-semibold tracking-wide">
           Lễ Tốt Nghiệp đã / đang diễn ra
         </span>
       ) : (
-        <div className="flex items-center gap-1.5 tabular-nums font-bold tracking-wide">
-          <span className="opacity-80 font-medium hidden sm:inline">
-            Đếm ngược:
+        <div className="flex items-center gap-1 tabular-nums font-bold tracking-wide">
+          <span className="opacity-75 font-medium text-[10px] uppercase tracking-wider hidden sm:inline mr-1">
+            Sắp diễn ra
           </span>
-          <span>{String(days).padStart(2, "0")}d</span>
-          <span className="opacity-50">:</span>
-          <span>{String(hours).padStart(2, "0")}h</span>
-          <span className="opacity-50">:</span>
-          <span>{String(minutes).padStart(2, "0")}m</span>
-          <span className="opacity-50">:</span>
-          <span className="text-[#dfb755]">
-            {String(seconds).padStart(2, "0")}s
-          </span>
+          {[
+            { v: days, u: "d" },
+            { v: hours, u: "h" },
+            { v: minutes, u: "m" },
+            { v: seconds, u: "s", accent: true },
+          ].map((item) => (
+            <span
+              key={item.u}
+              className={`px-1.5 py-0.5 rounded-md text-[11px] leading-none ${
+                isClassic ? "bg-[#002d62]/8" : "bg-white/10"
+              } ${item.accent ? "text-[#dfb755]" : ""}`}
+            >
+              {String(item.v).padStart(2, "0")}
+              <span className="opacity-70 font-medium ml-0.5">{item.u}</span>
+            </span>
+          ))}
         </div>
       )}
     </div>
