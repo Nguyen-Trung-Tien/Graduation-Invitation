@@ -164,6 +164,7 @@ export default function Envelope({
                 ease: [0.22, 1, 0.36, 1],
               }}
               className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border border-[#b38728]/40 shadow-xl pt-4 sm:pt-6 px-3 sm:px-4 pb-3 flex flex-col items-center justify-start gap-2 sm:gap-2.5 text-slate-900 pointer-events-none z-10"
+              style={{ willChange: isOpening ? "transform, opacity" : "auto" }}
             >
               <div className="w-11 h-11 rounded-full border-2 border-[#b38728] bg-[#001d42]/8 flex items-center justify-center shadow-xs">
                 <GraduationCap className="w-5 h-5 text-[#002d62]" />
@@ -171,10 +172,10 @@ export default function Envelope({
 
               <div className="flex flex-col items-center text-center">
                 <p className="text-[11px] uppercase tracking-wider text-[#7a5c10] font-bold">
-                  Trường ĐH Giao Thông Vận Tải TP. HCM
+                  Đại Học Giao Thông Vận Tải TP. Hồ Chí Minh
                 </p>
-                <h3 className="text-base sm:text-lg font-serif font-black text-[#002d62] mt-0.5 tracking-wide">
-                  THƯ MỜI TRÂN TRỌNG
+                <h3 className="text-base sm:text-lg font-serif font-black text-[#002d62] mt-0.5 tracking-wide uppercase">
+                  THƯ MỜI DỰ LỄ TỐT NGHIỆP
                 </h3>
               </div>
               <div className="w-20 h-[1.5px] bg-gradient-to-r from-transparent via-[#b38728] to-transparent" />
@@ -243,6 +244,7 @@ export default function Envelope({
               style={{
                 clipPath: "polygon(0% 0%, 100% 0%, 50% 100%)",
                 transformOrigin: "top center",
+                willChange: isOpening ? "transform" : "auto",
               }}
             />
 
@@ -332,9 +334,23 @@ export default function Envelope({
 
         {/* Clean Elegant Instruction Banner */}
         <motion.p
-          animate={{ opacity: isOpening ? 0 : prefersReducedMotion ? 1 : [0.85, 1, 0.85] }}
-          transition={{ duration: 2.2, repeat: prefersReducedMotion ? 0 : Infinity, ease: "easeInOut" }}
-          className={`text-xs sm:text-sm font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none select-none px-4 py-1.5 rounded-full ${
+          animate={
+            isOpening
+              ? { opacity: 0 }
+              : { opacity: prefersReducedMotion ? 1 : [0.85, 1, 0.85] }
+          }
+          transition={
+            isOpening
+              ? { duration: 0.2, ease: "easeOut" }
+              : {
+                  duration: 2.2,
+                  repeat: prefersReducedMotion ? 0 : Infinity,
+                  ease: "easeInOut",
+                }
+          }
+          className={`text-xs sm:text-sm font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none select-none px-4 py-1.5 rounded-full transition-opacity duration-200 ${
+            isOpening ? "opacity-0" : ""
+          } ${
             isClassic
               ? "text-[#002d62] bg-white/80 border border-[#b38728]/30 shadow-xs"
               : "text-[#f3e5ab] bg-black/35 backdrop-blur-sm border border-[#f3e5ab]/25 shadow-sm"
