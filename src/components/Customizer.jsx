@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Settings, X, Copy, Check, Info, Palette } from "lucide-react";
+import { BG_THEMES, BG_THEME_GROUPS, getBgTheme } from "../config/bgThemes";
 import { INVITATION_DEFAULTS } from "../config/invitationDefaults";
 
 export default function Customizer({
@@ -91,19 +92,6 @@ export default function Customizer({
     });
   };
 
-  const themes = [
-    {
-      id: "uth-campus",
-      name: "🏛️ UTH Campus Heritage",
-      desc: "Khuôn viên trường ĐH Giao thông Vận tải TP.HCM",
-    },
-    {
-      id: "classic",
-      name: "📜 Giấy Da Hoàng Gia",
-      desc: "Tông ngà ấm áp trang trọng",
-    },
-  ];
-
   return (
     <>
       {/* Backdrop */}
@@ -149,45 +137,42 @@ export default function Customizer({
 
           {/* Theme Selector */}
           <div className="p-3.5 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-            <label className="block text-xs font-bold text-[#002D62] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+            <label
+              htmlFor="bg-theme-select"
+              className="block text-xs font-bold text-[#002D62] uppercase tracking-wider mb-2 flex items-center gap-1.5"
+            >
               <Palette className="w-3.5 h-3.5 text-[#B38728]" /> Giao diện nền
             </label>
-            <div className="grid grid-cols-1 gap-2">
-              {themes.map((t) => {
-                const isActive = bgTheme === t.id;
-                return (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => onBgThemeChange && onBgThemeChange(t.id)}
-                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
-                      isActive
-                        ? "bg-[#002D62] text-white border-[#B38728] shadow-md ring-2 ring-[#B38728]/25"
-                        : "bg-[#FAF8F2] text-slate-700 border-slate-200 hover:border-[#B38728]/50 hover:bg-[#FAF4E6]"
-                    }`}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={`w-9 h-9 rounded-lg shrink-0 border ${
-                        t.id === "uth-campus"
-                          ? "bg-gradient-to-br from-[#001d42] via-[#003a80] to-[#b38728]/70 border-[#f3e5ab]/50"
-                          : "bg-gradient-to-br from-[#FFFDF7] via-[#F8EED3] to-[#EBD8A3] border-[#b38728]/40"
-                      }`}
-                    />
-                    <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                      <span className="text-xs font-bold truncate">{t.name}</span>
-                      <span
-                        className={`text-[11px] truncate ${
-                          isActive ? "text-[#DFC479]" : "text-slate-500"
-                        }`}
-                      >
-                        {t.desc}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="flex items-center gap-2.5">
+              <span
+                aria-hidden="true"
+                className={`w-9 h-9 rounded-lg shrink-0 border transition-all ${
+                  getBgTheme(bgTheme).isLight
+                    ? "border-[#b38728]/45"
+                    : "border-[#f3e5ab]/55"
+                }`}
+                style={{ background: getBgTheme(bgTheme).swatchStyle }}
+              />
+              <select
+                id="bg-theme-select"
+                value={bgTheme}
+                onChange={(e) => onBgThemeChange && onBgThemeChange(e.target.value)}
+                className="w-full px-3 py-2 text-sm font-medium rounded-lg bg-[#FAF8F2] border border-slate-300 text-slate-800 focus:bg-white focus:outline-none focus:border-[#B38728] transition-colors cursor-pointer"
+              >
+                {BG_THEME_GROUPS.map((group) => (
+                  <optgroup key={group.id} label={group.label}>
+                    {BG_THEMES.filter((t) => t.category === group.id).map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
             </div>
+            <p className="mt-1.5 text-[11px] text-slate-500">
+              {getBgTheme(bgTheme).desc}
+            </p>
           </div>
 
           {/* Form Controls */}

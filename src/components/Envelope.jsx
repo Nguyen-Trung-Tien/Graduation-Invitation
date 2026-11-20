@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Sparkles, GraduationCap } from "lucide-react";
+import { getBgTheme } from "../config/bgThemes";
 
 export default function Envelope({
   guestName,
@@ -16,7 +17,7 @@ export default function Envelope({
   );
   const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50, active: false });
   const prefersReducedMotion = useReducedMotion();
-  const isClassic = bgTheme === "classic";
+  const isLightBg = getBgTheme(bgTheme).isLight;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -89,7 +90,7 @@ export default function Envelope({
         >
           <div
             className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 rounded-full border shadow-sm transition-colors max-w-full ${
-              isClassic
+              isLightBg
                 ? "bg-white/90 border-[#b38728]/40 text-[#002d62]"
                 : "bg-[#001d42]/85 sm:backdrop-blur-md border-[#b38728]/45 text-[#f3e5ab]"
             }`}
@@ -102,7 +103,7 @@ export default function Envelope({
 
           <h1
             className={`text-[clamp(1.02rem,0.72rem+2vw,1.875rem)] whitespace-nowrap font-serif font-black mt-1 tracking-normal sm:tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text ${
-              isClassic
+              isLightBg
                 ? "bg-gradient-to-r from-[#001d42] via-[#8c6719] to-[#001d42] drop-shadow-[0_2px_8px_rgba(179,135,40,0.2)]"
                 : "bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7] drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)]"
             }`}
@@ -355,7 +356,7 @@ export default function Envelope({
           className={`text-xs sm:text-sm font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none select-none px-4 py-1.5 rounded-full transition-opacity duration-200 ${
             isOpening ? "opacity-0" : ""
           } ${
-            isClassic
+            isLightBg
               ? "text-[#002d62] bg-white/80 border border-[#b38728]/30 shadow-xs"
               : "text-[#f3e5ab] bg-black/35 backdrop-blur-sm border border-[#f3e5ab]/25 shadow-sm"
           }`}
