@@ -58,7 +58,7 @@ export default function Envelope({
       () => {
         onOpen();
       },
-      prefersReducedMotion ? 200 : 1650
+      prefersReducedMotion ? 150 : 1400
     );
   };
 
@@ -70,7 +70,11 @@ export default function Envelope({
   };
 
   return (
-    <div className={`min-h-dvh flex flex-col items-center justify-center px-4 pt-[max(3.25rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:py-6 relative overflow-y-auto overflow-x-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}>
+    <motion.div
+      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.02 }}
+      transition={{ duration: prefersReducedMotion ? 0.15 : 0.25, ease: "easeOut" }}
+      className={`min-h-dvh flex flex-col items-center justify-center px-4 pt-[max(3.25rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:py-6 relative overflow-y-auto overflow-x-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}
+    >
       <motion.div
         initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.965 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -361,6 +365,6 @@ export default function Envelope({
           <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
         </motion.p>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import confetti from "canvas-confetti";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion, motion, AnimatePresence } from "framer-motion";
 import {
   Settings,
   Printer,
@@ -277,26 +277,28 @@ export default function App() {
   };
 
   const handleOpenEnvelope = () => {
-    runViewTransition(() => {
-      setIsCardHidden(false);
-      setIsOpen(true);
-    }, "#invitation-main-heading");
+    setIsCardHidden(false);
+    setIsOpen(true);
 
-    // Single gentle celebratory confetti burst (tuned for mobile 60fps)
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
-    confetti({
-      particleCount: isMobile ? 45 : 80,
-      spread: isMobile ? 60 : 75,
-      origin: { y: 0.62 },
-      colors: ["#dfb755", "#f3e5ab", "#ffffff", "#002d62"],
-      disableForReducedMotion: true,
+    requestAnimationFrame(() => {
+      document.querySelector("#invitation-main-heading")?.focus({ preventScroll: true });
     });
+
+    // Delay confetti slightly so the first entrance frame composites cleanly without flicker
+    setTimeout(() => {
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+      confetti({
+        particleCount: isMobile ? 45 : 80,
+        spread: isMobile ? 60 : 75,
+        origin: { y: 0.62 },
+        colors: ["#dfb755", "#f3e5ab", "#ffffff", "#002d62"],
+        disableForReducedMotion: true,
+      });
+    }, 180);
   };
 
   const handleCloseEnvelope = () => {
-    runViewTransition(() => {
-      setIsOpen(false);
-    });
+    setIsOpen(false);
   };
 
   const handleToggleTheme = () => {
@@ -431,23 +433,30 @@ export default function App() {
         </header>
       )}
 
-      {!isOpen ? (
-        /* Sealed Envelope Entrance */
-        <Envelope
-          guestName={guestName}
-          bgTheme={bgTheme}
-          onOpen={handleOpenEnvelope}
-          isCardHidden={isCardHidden}
-        />
-      ) : (
-        /* Main Invitation Content - Zero-Scroll Single-Viewport Layout */
-        <main
-          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center pt-[max(0.35rem,env(safe-area-inset-top))] pb-[max(0.35rem,env(safe-area-inset-bottom))] sm:pt-[max(0.875rem,env(safe-area-inset-top))] sm:pb-[max(0.875rem,env(safe-area-inset-bottom))] px-3 sm:px-6 relative z-10 gap-1 sm:gap-2.5 transition-all duration-500 min-w-0 ${
-            isCardHidden
-              ? "opacity-0 scale-95 pointer-events-none select-none"
-              : "opacity-100 scale-100"
-          }`}
-        >
+      <AnimatePresence mode="wait">
+        {!isOpen ? (
+          /* Sealed Envelope Entrance */
+          <Envelope
+            key="envelope"
+            guestName={guestName}
+            bgTheme={bgTheme}
+            onOpen={handleOpenEnvelope}
+            isCardHidden={isCardHidden}
+          />
+        ) : (
+          /* Main Invitation Content - Zero-Scroll Single-Viewport Layout */
+          <motion.main
+            key="invitation"
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: prefersReducedMotion ? 0.15 : 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center pt-[max(0.35rem,env(safe-area-inset-top))] pb-[max(0.35rem,env(safe-area-inset-bottom))] sm:pt-[max(0.875rem,env(safe-area-inset-top))] sm:pb-[max(0.875rem,env(safe-area-inset-bottom))] px-3 sm:px-6 relative z-10 gap-1 sm:gap-2.5 min-w-0 ${
+              isCardHidden
+                ? "opacity-0 scale-95 pointer-events-none select-none"
+                : ""
+            }`}
+          >
           {/* Live Ceremony Countdown Pill */}
           <CountdownPill
             date={config.date}
@@ -517,8 +526,9 @@ export default function App() {
               </button>
             </footer>
           )}
-        </main>
-      )}
+          </motion.main>
+        )}
+      </AnimatePresence>
 
       {/* Configuration Drawer */}
       <Customizer

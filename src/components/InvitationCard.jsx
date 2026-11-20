@@ -83,9 +83,9 @@ export default function InvitationCard({
   const revealProps = (delay = 0) =>
     shouldStagger
       ? {
-          initial: { opacity: 0, y: 12, scale: 0.985 },
-          animate: { opacity: 1, y: 0, scale: 1 },
-          transition: { duration: 0.68, delay, ease: [0.16, 1, 0.3, 1] },
+          initial: { opacity: 0, y: 8 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.45, delay: delay * 0.5, ease: [0.16, 1, 0.3, 1] },
         }
       : {};
   const formatVietnameseDate = (dateStr) => {
