@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import confetti from "canvas-confetti";
 import { useReducedMotion } from "framer-motion";
@@ -100,6 +100,20 @@ function CountdownPill({ date, time, bgTheme }) {
   );
 }
 
+const FRIEND_INVITATION_TEXT =
+  "Trân trọng kính mời bạn đến chung vui và lưu lại những khoảnh khắc đáng nhớ cùng mình trong ngày tốt nghiệp.";
+
+function sanitizeQueryParam(value, maxLength = 140) {
+  if (!value || typeof value !== "string") return "";
+  const cleaned = Array.from(value)
+    .filter((ch) => {
+      const code = ch.charCodeAt(0);
+      return code >= 32 && code !== 127 && ch !== "<" && ch !== ">";
+    })
+    .join("");
+  return cleaned.replace(/\s+/g, " ").trim().slice(0, maxLength);
+}
+
 function getInitialStateFromUrl() {
   const defaults = INVITATION_DEFAULTS;
 
@@ -108,20 +122,23 @@ function getInitialStateFromUrl() {
   }
 
   const params = new URLSearchParams(window.location.search);
-  const guest = params.get("guest") || params.get("to");
-  const name = params.get("name");
-  const major = params.get("major");
-  const degree = params.get("degree");
-  const rawDate = params.get("date");
-  const time = params.get("time");
-  const hall = params.get("hall");
-  const address = params.get("address");
-  const text = params.get("text");
-  const theme = params.get("theme");
+  const guest = sanitizeQueryParam(params.get("to") || params.get("guest"), 80);
+  const mode = sanitizeQueryParam(params.get("mode"), 20).toLowerCase();
+  const name = sanitizeQueryParam(params.get("name"), 80);
+  const major = sanitizeQueryParam(params.get("major"), 80);
+  const degree = sanitizeQueryParam(params.get("degree"), 40);
+  const rawDate = sanitizeQueryParam(params.get("date"), 40);
+  const time = sanitizeQueryParam(params.get("time"), 20);
+  const hall = sanitizeQueryParam(params.get("hall"), 100);
+  const address = sanitizeQueryParam(params.get("address"), 160);
+  const text = sanitizeQueryParam(params.get("text"), 300);
+  const theme = sanitizeQueryParam(params.get("theme"), 30);
   const sharedParam = params.get("shared");
 
+  const isFriendMode = mode === "friend";
   const isShared = Boolean(
     guest ||
+    isFriendMode ||
     name ||
     major ||
     degree ||
@@ -138,6 +155,9 @@ function getInitialStateFromUrl() {
   const cleanDate = rawDate
     ? rawDate.replace(/\s*\(dự kiến\)/gi, "").trim()
     : null;
+
+  const resolvedInvitationText =
+    text || (isFriendMode ? FRIEND_INVITATION_TEXT : defaults.config.invitationText);
 
   return {
     guestName: guest || defaults.guestName,
@@ -157,7 +177,7 @@ function getInitialStateFromUrl() {
         : defaults.config.isExpectedTime,
       hall: hall || defaults.config.hall,
       address: address || defaults.config.address,
-      invitationText: text || defaults.config.invitationText,
+      invitationText: resolvedInvitationText,
     },
   };
 }
@@ -175,6 +195,49 @@ export default function App() {
   const [guestName, setGuestName] = useState(initialData.guestName);
   const [bgTheme, setBgTheme] = useState(initialData.bgTheme);
   const isShared = initialData.isShared;
+  const hasPlayedIntroConfetti = useRef(false);
+
+  // Play a gentle ~2s gold & navy confetti celebration once on initial page load
+  useEffect(() => {
+    if (hasPlayedIntroConfetti.current || prefersReducedMotion) return;
+    hasPlayedIntroConfetti.current = true;
+
+    const colors = ["#b38728", "#dfb755", "#f3e5ab", "#002d62", "#001d42"];
+    const duration = 2000;
+    const endTime = Date.now() + duration;
+    let rafId = 0;
+    let lastTick = 0;
+
+    const frame = (now) => {
+      if (now - lastTick >= 220) {
+        lastTick = now;
+        confetti({
+          particleCount: 4,
+          angle: 60,
+          spread: 50,
+          origin: { x: 0.05, y: 0.65 },
+          colors,
+          scalar: 0.9,
+          disableForReducedMotion: true,
+        });
+        confetti({
+          particleCount: 4,
+          angle: 120,
+          spread: 50,
+          origin: { x: 0.95, y: 0.65 },
+          colors,
+          scalar: 0.9,
+          disableForReducedMotion: true,
+        });
+      }
+      if (Date.now() < endTime) {
+        rafId = requestAnimationFrame(frame);
+      }
+    };
+
+    rafId = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(rafId);
+  }, [prefersReducedMotion]);
 
   // Restore card on Escape key
   useEffect(() => {
@@ -289,14 +352,14 @@ export default function App() {
               className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
                 isCardHidden
                   ? "opacity-0"
-                  : "opacity-100 bg-gradient-to-tr from-[#001d42]/80 via-[#002d62]/40 to-amber-600/20"
+                  : "opacity-100 bg-gradient-to-tr from-[#001430]/90 via-[#00224d]/58 to-amber-900/35"
               }`}
             />
             <div
               className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
                 isCardHidden
                   ? "opacity-0"
-                  : "opacity-100 bg-gradient-to-r from-black/25 via-transparent to-black/40"
+                  : "opacity-100 bg-gradient-to-r from-black/35 via-black/15 to-black/45 backdrop-blur-[2px]"
               }`}
             />
           </div>
@@ -351,22 +414,18 @@ export default function App() {
         <header className="fixed top-0 left-0 z-40 p-3 sm:p-4 pt-[max(0.75rem,env(safe-area-inset-top))] pl-[max(0.75rem,env(safe-area-inset-left))] pointer-events-none no-print">
           <button
             type="button"
-            aria-label={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
+            aria-label={isCardHidden ? "Hiện thiệp" : "Xem ảnh nền"}
+            title={isCardHidden ? "Hiện thiệp" : "Xem ảnh nền"}
             onClick={(e) => {
               e.stopPropagation();
               setIsCardHidden((prev) => !prev);
             }}
-            className={`pointer-events-auto w-10 h-10 sm:w-10 sm:h-10 rounded-full flex items-center justify-center sm:backdrop-blur-md border shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer group ${
-              isCardHidden
-                ? "bg-[#002d62] text-white border-[#f3e5ab]/80 shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
-                : "bg-white/92 hover:bg-[#002d62] hover:text-white text-[#002d62] border-[#b38728]/40"
-            }`}
-            title={isCardHidden ? "Hiện lại thư mời" : "Ẩn thư ngắm ảnh"}
+            className="pointer-events-auto w-11 h-11 rounded-full flex items-center justify-center bg-black/35 hover:bg-black/50 backdrop-blur-md text-white border border-white/20 shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
           >
             {isCardHidden ? (
-              <EyeOff className="w-4 h-4 text-[#f3e5ab]" />
+              <EyeOff className="w-4 h-4 text-[#f3e5ab]" aria-hidden="true" />
             ) : (
-              <Eye className="w-4 h-4 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
+              <Eye className="w-4 h-4 text-[#f3e5ab]" aria-hidden="true" />
             )}
           </button>
         </header>

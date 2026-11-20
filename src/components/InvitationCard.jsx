@@ -6,7 +6,6 @@ import {
   Clock,
   GraduationCap,
   Sparkles,
-  Award,
   CalendarPlus,
   ExternalLink,
 } from "lucide-react";
@@ -91,7 +90,7 @@ export default function InvitationCard({
       : {};
   const formatVietnameseDate = (dateStr) => {
     if (!dateStr || dateStr === "Đang cập nhật")
-      return "Thứ Bảy, ngày 26 tháng 12 năm 2026";
+      return "Thứ Bảy, 26/12/2026";
     const cleanDateStr = dateStr.replace(/\s*\(dự kiến\)/gi, "").trim();
     try {
       const dateObj = new Date(cleanDateStr);
@@ -105,10 +104,10 @@ export default function InvitationCard({
         "Thứ Sáu",
         "Thứ Bảy",
       ];
-      const day = dateObj.getDate();
-      const month = dateObj.getMonth() + 1;
+      const day = String(dateObj.getDate()).padStart(2, "0");
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0");
       const year = dateObj.getFullYear();
-      return `${days[dateObj.getDay()]}, ngày ${day} tháng ${month} năm ${year}`;
+      return `${days[dateObj.getDay()]}, ${day}/${month}/${year}`;
     } catch {
       return dateStr;
     }
@@ -230,7 +229,7 @@ export default function InvitationCard({
       <CornerOrnament position="bottom-right" />
 
       {/* Crisp Editorial Inner Hairline Frame */}
-      <div className="absolute inset-2 sm:inset-3 border border-[#b38728]/25 rounded-[1.05rem] pointer-events-none z-10" />
+      <div className="absolute inset-2 sm:inset-3 border border-[#b38728]/14 rounded-[1.05rem] pointer-events-none z-10" />
 
       {/* ════════════════ TIER 1: HEADER & TITLE ════════════════ */}
       <motion.header
@@ -239,14 +238,14 @@ export default function InvitationCard({
       >
         <UniversityCrest />
 
-        <p className="text-[10px] sm:text-[10.5px] tracking-wider font-sans font-extrabold text-[#002d62] uppercase leading-none mt-0.5">
-          Đại Học Giao Thông Vận Tải TP.Hồ Chí Minh
+        <p className="text-[10px] sm:text-[10.5px] tracking-wider font-sans font-extrabold text-[#002d62] uppercase leading-snug mt-0.5">
+          Đại Học Giao Thông Vận Tải TP. Hồ Chí Minh
         </p>
 
         <h1
           id={!hideCalendar ? "invitation-main-heading" : undefined}
           tabIndex={!hideCalendar ? -1 : undefined}
-          className="text-[17px] sm:text-xl md:text-[23px] font-serif font-black uppercase tracking-wide leading-tight py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none"
+          className="text-[17px] sm:text-xl md:text-[23px] font-serif font-black uppercase tracking-wide leading-snug mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
           style={{
             background:
               "linear-gradient(135deg, #001d42 0%, #003a80 35%, #b38728 50%, #003a80 65%, #001d42 100%)",
@@ -319,16 +318,6 @@ export default function InvitationCard({
                 </strong>
               </span>
             </span>
-
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
-              <Award className="w-3 h-3 text-[#b38728] shrink-0" />
-              <span>
-                Học vị:{" "}
-                <strong className="font-extrabold text-[#002d62]">
-                  {config.degree || "Cử nhân"}
-                </strong>
-              </span>
-            </span>
           </div>
 
           <p className="text-[9.5px] sm:text-[10.5px] uppercase tracking-wider text-[#5c4308] font-sans font-bold mt-0.5">
@@ -358,12 +347,12 @@ export default function InvitationCard({
         className="my-0.5 sm:my-1 relative z-10"
       >
         <div
-          className="grid grid-cols-2 @[560px]:grid-cols-[1fr_1fr_auto] gap-1.5 sm:gap-2 rounded-2xl overflow-hidden p-1.5 sm:p-2 bento-card-surface"
+          className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2 rounded-2xl overflow-hidden p-2 bento-card-surface"
         >
           {/* TIME CARD */}
-          <div className="p-2 sm:p-3 rounded-xl bento-tile flex flex-col justify-between">
+          <div className="min-w-0 p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between pb-1.5 border-b border-[#b38728]/15">
+              <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-[#b38728]/10">
                 <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1">
                   <Clock className="w-3 h-3 text-[#b38728]" /> Thời Gian
                 </h4>
@@ -374,28 +363,28 @@ export default function InvitationCard({
                     href={createGoogleCalendarUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="no-print calendar-btn print:hidden inline-flex items-center gap-1 text-[10px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 sm:hover:-translate-y-0.5 px-2.5 py-1 rounded-md border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs"
+                    className="no-print calendar-btn print:hidden inline-flex items-center justify-center gap-1.5 min-h-[44px] px-3.5 py-2 text-[11px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 sm:hover:-translate-y-0.5 rounded-lg border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs shrink-0"
                     title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
                   >
-                    <CalendarPlus className="w-3 h-3 text-[#5c4308]" />
+                    <CalendarPlus className="w-3.5 h-3.5 text-[#5c4308]" />
                     <span>Lưu Lịch</span>
                   </a>
                 )}
               </div>
 
-              <div className="space-y-1 mt-1">
+              <div className="space-y-1.5 mt-2">
                 <div className="flex items-start gap-1.5">
                   <div className="w-5 h-5 rounded-md bg-[#b38728]/15 flex items-center justify-center shrink-0 border border-[#b38728]/25 mt-0.5">
                     <Calendar className="w-3 h-3 text-[#5c4308]" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Ngày Diễn Ra
                     </p>
-                    <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
-                      {formatVietnameseDate(config.date)}{" "}
+                    <p className="text-[11.5px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-snug">
+                      {formatVietnameseDate(config.date)}
                       {isExpectedDate && (
-                        <span className="text-[10px] text-amber-700 font-semibold italic">
+                        <span className="text-[10.5px] text-amber-700 font-semibold italic whitespace-nowrap ml-1">
                           (dự kiến)
                         </span>
                       )}
@@ -407,14 +396,14 @@ export default function InvitationCard({
                   <div className="w-5 h-5 rounded-md bg-[#b38728]/15 flex items-center justify-center shrink-0 border border-[#b38728]/25 mt-0.5">
                     <Clock className="w-3 h-3 text-[#5c4308]" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Giờ Khai Mạc
                     </p>
-                    <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
-                      {config.time || "16:30"}{" "}
+                    <p className="text-[11.5px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-snug">
+                      {config.time || "16:30"}
                       {isExpectedTime && (
-                        <span className="text-[10px] text-amber-700 font-semibold italic">
+                        <span className="text-[10.5px] text-amber-700 font-semibold italic whitespace-nowrap ml-1">
                           (dự kiến)
                         </span>
                       )}
@@ -426,22 +415,22 @@ export default function InvitationCard({
           </div>
 
           {/* LOCATION CARD */}
-          <div className="p-2 sm:p-3 rounded-xl bento-tile flex flex-col justify-between">
+          <div className="min-w-0 p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
-              <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1 pb-1.5 border-b border-[#b38728]/15">
+              <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1 pb-1.5 border-b border-[#b38728]/10 md:min-h-[44px]">
                 <MapPin className="w-3 h-3 text-[#b38728]" /> Địa Điểm
               </h4>
 
-              <div className="space-y-1 mt-1">
+              <div className="space-y-1.5 mt-2">
                 <div className="flex items-start gap-1.5">
                   <div className="w-5 h-5 rounded-md bg-[#002d62]/12 flex items-center justify-center shrink-0 border border-[#002d62]/25 mt-0.5">
                     <GraduationCap className="w-3 h-3 text-[#002d62]" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Hội Trường
                     </p>
-                    <p className="text-[11px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-tight">
+                    <p className="text-[11.5px] sm:text-xs font-extrabold text-[#002d62] mt-0.5 leading-snug">
                       {config.hall}
                     </p>
                   </div>
@@ -451,11 +440,11 @@ export default function InvitationCard({
                   <div className="w-5 h-5 rounded-md bg-[#b38728]/15 flex items-center justify-center shrink-0 border border-[#b38728]/25 mt-0.5">
                     <MapPin className="w-3 h-3 text-[#5c4308]" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[10px] text-slate-600 font-bold uppercase tracking-wider leading-none">
                       Địa Chỉ
                     </p>
-                    <p className="text-[10.5px] sm:text-[11px] font-semibold text-slate-700 mt-0.5 leading-snug">
+                    <p className="text-[11px] font-semibold text-slate-700 mt-0.5 leading-snug break-words">
                       {config.address}
                     </p>
                   </div>
@@ -465,7 +454,7 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="col-span-2 @[560px]:col-span-1 p-2 sm:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[560px]:flex-col items-center justify-between @[560px]:justify-center gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[560px]:w-28">
+          <div className="min-w-0 p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row md:flex-col items-center justify-between md:justify-center gap-3 md:gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] md:w-32">
             <div className="relative p-1 bg-white rounded border border-[#b38728]/45 shrink-0 shadow-xs">
               {/* 2026 Scanner Viewfinder Corner Ticks */}
               <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-[#f3e5ab] rounded-tl-[2px]" />
@@ -482,18 +471,18 @@ export default function InvitationCard({
               />
             </div>
 
-            <div className="flex flex-row @[560px]:flex-col items-center gap-2 @[560px]:gap-1">
-              <span className="text-[9px] uppercase tracking-wider font-extrabold text-[#f3e5ab] text-center">
+            <div className="flex flex-row md:flex-col items-center gap-2.5 md:gap-1.5">
+              <span className="text-[9.5px] uppercase tracking-wider font-extrabold text-[#f3e5ab] text-center">
                 Bản Đồ GPS
               </span>
               <a
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-print print:hidden text-[10px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 sm:hover:-translate-y-0.5 px-2.5 py-1.5 rounded-md transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 flex items-center gap-1"
+                className="no-print print:hidden inline-flex items-center justify-center gap-1.5 min-h-[44px] px-3.5 py-2 text-[11px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 sm:hover:-translate-y-0.5 rounded-lg transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95"
               >
                 <span>Chỉ Đường</span>
-                <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>

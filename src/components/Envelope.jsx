@@ -58,7 +58,7 @@ export default function Envelope({
       () => {
         onOpen();
       },
-      prefersReducedMotion ? 320 : 2100
+      prefersReducedMotion ? 200 : 1650
     );
   };
 
@@ -92,23 +92,18 @@ export default function Envelope({
           >
             <Sparkles className="w-3.5 h-3.5 text-[#dfb755]" />
             <span className="text-[10.5px] sm:text-xs uppercase tracking-[0.14em] font-bold font-sans">
-              ĐẠI HỌC GIAO THÔNG VẬN TẢI TP.HCM
+              ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HCM
             </span>
           </div>
 
           <h1
-            className={`text-2xl sm:text-3xl font-serif font-black mt-1 tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text ${
+            className={`text-xl sm:text-3xl font-serif font-black mt-1 tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text text-balance ${
               isClassic
-                ? "bg-gradient-to-r from-[#001d42] via-[#8c6719] to-[#001d42]"
-                : "bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7]"
+                ? "bg-gradient-to-r from-[#001d42] via-[#8c6719] to-[#001d42] drop-shadow-[0_2px_8px_rgba(179,135,40,0.2)]"
+                : "bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7] drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)]"
             }`}
-            style={{
-              textShadow: isClassic
-                ? "0 2px 10px rgba(179,135,40,0.16)"
-                : "0 2px 12px rgba(0,0,0,0.45)",
-            }}
           >
-            THƯ MỜI LỄ TỐT NGHIỆP
+            THƯ MỜI DỰ LỄ TỐT NGHIỆP
           </h1>
         </motion.div>
 
@@ -163,7 +158,11 @@ export default function Envelope({
                     : { y: "-58%", scale: 1, z: 0 }
                   : { y: 0, scale: 0.95, z: 0 }
               }
-              transition={{ delay: 0.65, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                delay: prefersReducedMotion ? 0 : 0.45,
+                duration: prefersReducedMotion ? 0.15 : 0.95,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border border-[#b38728]/40 shadow-xl pt-4 sm:pt-6 px-3 sm:px-4 pb-3 flex flex-col items-center justify-start gap-2 sm:gap-2.5 text-slate-900 pointer-events-none z-10"
             >
               <div className="w-11 h-11 rounded-full border-2 border-[#b38728] bg-[#001d42]/8 flex items-center justify-center shadow-xs">
@@ -172,7 +171,7 @@ export default function Envelope({
 
               <div className="flex flex-col items-center text-center">
                 <p className="text-[11px] uppercase tracking-wider text-[#7a5c10] font-bold">
-                  Trường ĐH Giao Thông Vận Tải TP.HCM
+                  Trường ĐH Giao Thông Vận Tải TP. HCM
                 </p>
                 <h3 className="text-base sm:text-lg font-serif font-black text-[#002d62] mt-0.5 tracking-wide">
                   THƯ MỜI TRÂN TRỌNG
@@ -233,8 +232,12 @@ export default function Envelope({
                   : { rotateX: 0, z: 8 }
               }
               transition={{
-                rotateX: { delay: 0.2, duration: 0.95, ease: [0.22, 1, 0.36, 1] },
-                z: { delay: isOpening ? 0.6 : 0, duration: 0 },
+                rotateX: {
+                  delay: prefersReducedMotion ? 0 : 0.15,
+                  duration: prefersReducedMotion ? 0.15 : 0.75,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+                z: { delay: isOpening ? (prefersReducedMotion ? 0 : 0.45) : 0, duration: 0 },
               }}
               className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#003c80] via-[#002a5c] to-[#001a3d] rounded-t-2xl border-t-2 border-x border-[#b38728]/35 pointer-events-none shadow-md"
               style={{
@@ -261,7 +264,9 @@ export default function Envelope({
 
               {/* Metallic Wax Circle with Authentic Stamp Depth */}
               <div
-                className="w-[58px] h-[58px] sm:w-[84px] sm:h-[84px] rounded-full bg-gradient-to-tr from-[#8a5d15] via-[#dfb755] to-[#fef0b3] p-1 sm:p-1.5 flex items-center justify-center transition-all duration-300 relative z-10 group-hover/seal:scale-105 active:scale-95"
+                className={`w-[58px] h-[58px] sm:w-[84px] sm:h-[84px] rounded-full bg-gradient-to-tr from-[#8a5d15] via-[#dfb755] to-[#fef0b3] p-1 sm:p-1.5 flex items-center justify-center transition-all duration-300 relative z-10 group-hover/seal:scale-105 active:scale-95 ${
+                  !isOpening ? "animate-seal-breathe" : ""
+                }`}
                 style={{
                   boxShadow:
                     "0 10px 24px rgba(0, 15, 40, 0.65), 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.7), inset 0 -3px 6px rgba(90, 50, 0, 0.5)",
@@ -327,12 +332,12 @@ export default function Envelope({
 
         {/* Clean Elegant Instruction Banner */}
         <motion.p
-          animate={{ opacity: isOpening ? 0 : [0.75, 1, 0.75] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-          className={`text-xs sm:text-sm font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none select-none px-3.5 py-1 rounded-full ${
+          animate={{ opacity: isOpening ? 0 : prefersReducedMotion ? 1 : [0.85, 1, 0.85] }}
+          transition={{ duration: 2.2, repeat: prefersReducedMotion ? 0 : Infinity, ease: "easeInOut" }}
+          className={`text-xs sm:text-sm font-semibold tracking-wide flex items-center gap-1.5 pointer-events-none select-none px-4 py-1.5 rounded-full ${
             isClassic
-              ? "text-[#002d62] bg-white/75 border border-[#b38728]/30 shadow-xs"
-              : "text-[#f3e5ab] drop-shadow-sm"
+              ? "text-[#002d62] bg-white/80 border border-[#b38728]/30 shadow-xs"
+              : "text-[#f3e5ab] bg-black/35 backdrop-blur-sm border border-[#f3e5ab]/25 shadow-sm"
           }`}
         >
           <Sparkles className="w-3.5 h-3.5 text-[#b38728]" />
