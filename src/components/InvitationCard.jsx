@@ -238,14 +238,14 @@ export default function InvitationCard({
       >
         <UniversityCrest />
 
-        <p className="text-[10px] md:text-[10.5px] tracking-wider font-sans font-extrabold text-[#002d62] uppercase leading-snug mt-0.5">
+        <p className="text-[clamp(0.5625rem,0.48rem+0.4cqi,0.65625rem)] tracking-[0.03em] @[480px]:tracking-wider font-sans font-extrabold text-[#002d62] uppercase leading-snug mt-0.5 text-balance">
           Đại Học Giao Thông Vận Tải TP. Hồ Chí Minh
         </p>
 
         <h1
           id={!hideCalendar ? "invitation-main-heading" : undefined}
           tabIndex={!hideCalendar ? -1 : undefined}
-          className="text-[clamp(1.0625rem,0.95rem+1.2cqi,1.375rem)] font-serif font-black uppercase tracking-wide leading-snug mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
+          className="text-[clamp(0.95rem,0.72rem+1.35cqi,1.375rem)] font-serif font-black uppercase tracking-[0.02em] @[480px]:tracking-wide leading-snug mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
           style={{
             background:
               "linear-gradient(135deg, #001d42 0%, #003a80 35%, #b38728 50%, #003a80 65%, #001d42 100%)",
@@ -301,7 +301,7 @@ export default function InvitationCard({
             </span>
           </div>
 
-          <h3 className="text-[clamp(1.125rem,0.95rem+1.4cqi,1.5rem)] font-serif font-black tracking-wide uppercase leading-tight text-[#001d42] py-0 px-2 inline-block drop-shadow-xs text-balance">
+          <h3 className="text-[clamp(1rem,0.85rem+1.4cqi,1.5rem)] font-serif font-black tracking-wide uppercase leading-tight text-[#001d42] py-0 px-2 inline-block drop-shadow-xs text-balance">
             {config.gradName}
           </h3>
 
@@ -490,10 +490,10 @@ export default function InvitationCard({
         className="relative z-10 pt-0.5 text-center"
       >
         <GoldFlourish className="w-36 h-2.5 text-[#b38728] opacity-80 mx-auto mb-0.5" />
-        <div className="text-[10.5px] sm:text-[11px] text-slate-600 font-sans leading-none">
-          <p>
-            Trân trọng kính mời & đón tiếp •{" "}
-            <span className="font-extrabold text-[#002d62] italic text-[11px] sm:text-xs">
+        <div className="text-[10.5px] sm:text-[11px] text-slate-600 font-sans leading-snug">
+          <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5">
+            <span>Trân trọng kính mời & đón tiếp •</span>
+            <span className="font-extrabold text-[#002d62] italic text-[11px] sm:text-xs whitespace-nowrap">
               {config.gradName}
             </span>
           </p>

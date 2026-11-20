@@ -84,20 +84,20 @@ export default function Envelope({
           className="text-center flex flex-col items-center gap-1.5 pointer-events-none"
         >
           <div
-            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full border shadow-sm transition-colors ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 rounded-full border shadow-sm transition-colors max-w-full ${
               isClassic
                 ? "bg-white/90 border-[#b38728]/40 text-[#002d62]"
                 : "bg-[#001d42]/85 sm:backdrop-blur-md border-[#b38728]/45 text-[#f3e5ab]"
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#dfb755]" />
-            <span className="text-[10.5px] sm:text-xs uppercase tracking-[0.14em] font-bold font-sans">
+            <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#dfb755] shrink-0" />
+            <span className="text-[clamp(0.5625rem,0.45rem+0.45vw,0.75rem)] uppercase tracking-[0.04em] sm:tracking-[0.14em] font-bold font-sans whitespace-nowrap">
               ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HCM
             </span>
           </div>
 
           <h1
-            className={`text-[clamp(1.25rem,1rem+2vw,1.875rem)] sm:whitespace-nowrap font-serif font-black mt-1 tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text text-balance ${
+            className={`text-[clamp(1.02rem,0.72rem+2vw,1.875rem)] whitespace-nowrap font-serif font-black mt-1 tracking-normal sm:tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text ${
               isClassic
                 ? "bg-gradient-to-r from-[#001d42] via-[#8c6719] to-[#001d42] drop-shadow-[0_2px_8px_rgba(179,135,40,0.2)]"
                 : "bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7] drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)]"
@@ -171,10 +171,10 @@ export default function Envelope({
               </div>
 
               <div className="flex flex-col items-center text-center">
-                <p className="text-[11px] uppercase tracking-wider text-[#7a5c10] font-bold">
+                <p className="text-[8.5px] sm:text-[10.5px] uppercase tracking-[0.04em] sm:tracking-wider text-[#7a5c10] font-bold">
                   Đại Học Giao Thông Vận Tải TP. Hồ Chí Minh
                 </p>
-                <h3 className="text-base sm:text-lg font-serif font-black text-[#002d62] mt-0.5 tracking-wide uppercase">
+                <h3 className="text-[13px] sm:text-lg font-serif font-black text-[#002d62] mt-0.5 tracking-normal sm:tracking-wide uppercase">
                   THƯ MỜI DỰ LỄ TỐT NGHIỆP
                 </h3>
               </div>

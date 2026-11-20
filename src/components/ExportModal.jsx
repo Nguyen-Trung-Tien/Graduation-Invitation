@@ -145,7 +145,7 @@ export default function ExportModal({
           <div className="text-left">
             <h3
               id="export-modal-title"
-              className="text-base sm:text-lg font-serif font-bold text-[#002D62] flex items-center gap-2"
+              className="text-[15px] sm:text-lg font-serif font-bold text-[#002D62] flex items-center gap-2"
             >
               <Printer className="w-4 h-4 text-[#B38728]" />
               <span>Xem Trước & Xuất Bản Thiệp</span>

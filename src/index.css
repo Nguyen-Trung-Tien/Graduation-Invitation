@@ -33,6 +33,14 @@ html {
   scroll-padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
 }
 
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
 @supports (transition-timing-function: linear(0, 1)) {
   :root {
     --ease-spring: linear(
@@ -365,7 +373,9 @@ h1, h2, h3 {
 
 /* ── 2026 Liquid Glass Surface (oklch color-mix, GPU-friendly on mobile) ── */
 .liquid-glass-dock {
-  background: color-mix(in oklch, #ffffff 95%, transparent);
+  background: color-mix(in oklch, #ffffff 88%, transparent);
+  backdrop-filter: blur(12px) saturate(135%);
+  -webkit-backdrop-filter: blur(12px) saturate(135%);
   border: 1px solid color-mix(in oklch, #b38728 36%, transparent);
   box-shadow:
     0 12px 32px -4px rgba(0, 18, 46, 0.24),
@@ -423,7 +433,7 @@ h1, h2, h3 {
 
 .foil-shimmer-text {
   background-size: 200% auto;
-  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
     animation: foilShimmer 10s ease-in-out infinite;
   }
 }

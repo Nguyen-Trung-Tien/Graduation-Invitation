@@ -66,7 +66,7 @@ function CountdownPill({ date, time, bgTheme }) {
       }`}
     >
       <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
-        <span className="hidden sm:inline-flex animate-ping absolute h-full w-full rounded-full bg-[#dfb755] opacity-75" />
+        <span className="inline-flex animate-ping absolute h-full w-full rounded-full bg-[#dfb755] opacity-75" />
         <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dfb755]" />
       </span>
       {expired ? (
@@ -374,7 +374,7 @@ export default function App() {
                 "radial-gradient(ellipse at 50% 35%, #FFFDF7 0%, #F8EED3 50%, #EBD8A3 100%)",
             }}
           >
-            <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.28)_0%,rgba(179,135,40,0.1)_48%,transparent_72%)] rounded-full pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] sm:w-[750px] sm:h-[750px] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.28)_0%,rgba(179,135,40,0.1)_48%,transparent_72%)] rounded-full pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(#b38728_1.2px,transparent_1.2px)] [background-size:28px_28px] opacity-20 pointer-events-none" />
           </div>
         )}
@@ -472,23 +472,23 @@ export default function App() {
           {!isShared && (
             <footer
               aria-label="Tùy chọn tương tác thiệp"
-              className="w-auto max-w-full mx-auto flex flex-wrap sm:flex-nowrap items-center justify-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-3xl sm:rounded-full liquid-glass-dock relative z-20 no-print"
+              className="w-auto max-w-full mx-auto flex flex-wrap sm:flex-nowrap items-center justify-center gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-3xl sm:rounded-full liquid-glass-dock relative z-20 no-print"
             >
               <button
                 type="button"
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <Settings className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
+                <Settings className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors shrink-0" />
                 <span>Tùy chỉnh</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setIsExportModalOpen(true)}
-                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <Printer className="w-3.5 h-3.5 text-[#f3e5ab]" />
+                <Printer className="w-3.5 h-3.5 text-[#f3e5ab] shrink-0" />
                 <span>Xuất PDF / In</span>
               </button>
 
@@ -497,9 +497,9 @@ export default function App() {
                 onClick={handleToggleTheme}
                 title="Đổi nền thiệp"
                 aria-label="Đổi nền thiệp"
-                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <Palette className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728]" />
+                <Palette className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728] shrink-0" />
                 <span className="hidden sm:inline">
                   {bgTheme === "classic" ? "Nền UTH" : "Nền Cổ Điển"}
                 </span>
@@ -510,9 +510,9 @@ export default function App() {
                 onClick={handleCloseEnvelope}
                 title="Xem lại phong bì"
                 aria-label="Xem lại phong bì"
-                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <RotateCcw className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300" />
+                <RotateCcw className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300 shrink-0" />
                 <span className="hidden sm:inline">Đóng bì</span>
               </button>
             </footer>
