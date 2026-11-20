@@ -70,12 +70,12 @@ export default function Envelope({
   };
 
   return (
-    <div className={`min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}>
+    <div className={`min-h-dvh flex flex-col items-center justify-center px-4 pt-[max(3.25rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:py-6 relative overflow-y-auto overflow-x-hidden bg-transparent transition-opacity duration-500 ${isCardHidden ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}>
       <motion.div
         initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.965 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: prefersReducedMotion ? 0.25 : 1.15, ease: [0.16, 1, 0.3, 1] }}
-        className="w-[90%] max-w-[440px] flex flex-col items-center gap-5 sm:gap-6 z-10"
+        className="w-[92%] max-w-[min(440px,max(260px,calc((100dvh-10.5rem)*1.52)))] md:max-w-[min(500px,max(280px,calc((100dvh-11rem)*1.52)))] flex flex-col items-center gap-4 sm:gap-6 z-10 my-auto"
       >
         {/* Header Invitation Tagline (Fades out smoothly when envelope opens so rising card never overlaps) */}
         <motion.div
@@ -97,7 +97,7 @@ export default function Envelope({
           </div>
 
           <h1
-            className={`text-xl sm:text-3xl sm:whitespace-nowrap font-serif font-black mt-1 tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text ${
+            className={`text-[clamp(1.25rem,1rem+2vw,1.875rem)] sm:whitespace-nowrap font-serif font-black mt-1 tracking-wide uppercase bg-clip-text text-transparent foil-shimmer-text text-balance ${
               isClassic
                 ? "bg-gradient-to-r from-[#001d42] via-[#8c6719] to-[#001d42] drop-shadow-[0_2px_8px_rgba(179,135,40,0.2)]"
                 : "bg-gradient-to-r from-[#fffdf7] via-[#f3e5ab] to-[#fffdf7] drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)]"

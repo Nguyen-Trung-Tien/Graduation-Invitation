@@ -13,6 +13,7 @@ export default function ExportModal({
 }) {
   // CRITICAL: Call all hooks BEFORE any conditional return to satisfy Rules of Hooks
   const [isExporting, setIsExporting] = useState(false);
+  const [mobileTab, setMobileTab] = useState("edit");
   const cardRef = useRef(null);
   const dialogRef = useRef(null);
 
@@ -156,16 +157,48 @@ export default function ExportModal({
           <button
             onClick={onClose}
             aria-label="Đóng cửa sổ"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-colors cursor-pointer"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-colors cursor-pointer shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </header>
 
+        {/* Mobile Tab Switcher (< 768px) */}
+        <div className="flex md:hidden border-b border-[#B38728]/20 bg-[#FAF6ED]/60 px-4 gap-2">
+          <button
+            type="button"
+            onClick={() => setMobileTab("edit")}
+            className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 text-xs font-bold border-b-2 transition-colors cursor-pointer ${
+              mobileTab === "edit"
+                ? "border-[#002D62] text-[#002D62]"
+                : "border-transparent text-slate-500 hover:text-slate-700"
+            }`}
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+            <span>Chỉnh sửa</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileTab("preview")}
+            className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 text-xs font-bold border-b-2 transition-colors cursor-pointer ${
+              mobileTab === "preview"
+                ? "border-[#002D62] text-[#002D62]"
+                : "border-transparent text-slate-500 hover:text-slate-700"
+            }`}
+          >
+            <Eye className="w-3.5 h-3.5" />
+            <span>Xem trước</span>
+          </button>
+        </div>
+
         {/* Two-Column Body */}
         <div className="flex-1 overflow-hidden flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-[#B38728]/15">
           {/* Left Column: Form Fields */}
-          <div className="w-full md:w-[42%] overflow-y-auto p-4 sm:p-5 flex flex-col gap-3.5 text-left bg-white">
+          <div
+            className={`${
+              mobileTab === "edit" ? "flex" : "hidden md:flex"
+            } w-full md:w-[42%] overflow-y-auto overscroll-contain p-4 sm:p-5 flex-col gap-3.5 text-left bg-white`}
+          >
             <h4 className="text-xs font-bold text-[#002D62] uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2">
               <Edit3 className="w-3.5 h-3.5 text-[#B38728]" /> Chỉnh sửa thông tin thiệp
             </h4>
@@ -198,8 +231,8 @@ export default function ExportModal({
             </div>
 
             {/* Degree & Major */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
                   Học Vị
                 </label>
@@ -228,8 +261,8 @@ export default function ExportModal({
             </div>
 
             {/* Date & Time */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
                   Ngày Lễ
                 </label>
@@ -303,28 +336,30 @@ export default function ExportModal({
           </div>
 
           {/* Right Column: Preview */}
-          <div className="w-full md:w-[58%] bg-[#FAF8F2] overflow-y-auto p-4 sm:p-6 flex flex-col gap-3">
+          <div
+            className={`${
+              mobileTab === "preview" ? "flex" : "hidden md:flex"
+            } w-full md:w-[58%] bg-[#FAF8F2] overflow-y-auto overscroll-contain p-3 sm:p-5 flex-col gap-3`}
+          >
             <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2 text-left">
               <Eye className="w-3.5 h-3.5 text-[#002D62]" /> Xem trước thiệp
             </h4>
 
-            <div className="flex-1 flex items-start justify-center overflow-x-hidden min-h-[320px]">
-              <div className="w-full origin-top scale-[0.85] sm:scale-95 flex justify-center">
-                <div className="w-full pointer-events-none">
-                  <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
-                </div>
+            <div className="flex-1 flex items-start justify-center overflow-x-hidden">
+              <div className="w-full pointer-events-none">
+                <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer Actions: UTH Palette (PDF Primary, PNG/JPG Secondary) */}
-        <footer className="px-5 py-3.5 border-t border-[#B38728]/20 bg-[#FAF6ED] flex flex-wrap items-center justify-end gap-2.5">
+        <footer className="px-4 sm:px-5 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:py-3.5 border-t border-[#B38728]/20 bg-[#FAF6ED] grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-end gap-2 sm:gap-2.5">
           <button
             type="button"
             onClick={onClose}
             disabled={isExporting}
-            className="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50"
+            className="hidden sm:inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50"
           >
             Đóng
           </button>
@@ -334,7 +369,7 @@ export default function ExportModal({
             type="button"
             onClick={() => handleExportImage("png")}
             disabled={isExporting}
-            className="px-3.5 py-2 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="min-h-[44px] px-3 sm:px-3.5 py-2 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
           >
             <Download className="w-3.5 h-3.5" />
             <span>{isExporting ? "Đang xuất..." : "Tải ảnh PNG"}</span>
@@ -344,7 +379,7 @@ export default function ExportModal({
             type="button"
             onClick={() => handleExportImage("jpg")}
             disabled={isExporting}
-            className="px-3.5 py-2 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="min-h-[44px] px-3 sm:px-3.5 py-2 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
           >
             <Download className="w-3.5 h-3.5" />
             <span>{isExporting ? "Đang xuất..." : "Tải ảnh JPG"}</span>
@@ -355,7 +390,7 @@ export default function ExportModal({
             type="button"
             onClick={handlePrint}
             disabled={isExporting}
-            className="px-5 py-2 rounded-lg bg-[#002D62] hover:bg-[#001D42] text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md shadow-[#002D62]/20 disabled:opacity-50"
+            className="col-span-2 sm:col-span-1 min-h-[44px] px-5 py-2 rounded-lg bg-[#002D62] hover:bg-[#001D42] text-white text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#002D62]/20 disabled:opacity-50"
           >
             <Printer className="w-4 h-4 text-[#DFC479]" />
             <span>Tải File PDF / In Thiệp</span>

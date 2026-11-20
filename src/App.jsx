@@ -308,7 +308,7 @@ export default function App() {
   return (
     <div
       className={`relative min-h-dvh w-full flex flex-col justify-between overflow-x-hidden ${
-        !isOpen ? "overflow-hidden" : ""
+        !isOpen ? "overflow-y-auto" : ""
       }`}
     >
       {/* Tap anywhere backdrop when card is hidden to restore */}
@@ -442,7 +442,7 @@ export default function App() {
       ) : (
         /* Main Invitation Content - Zero-Scroll Single-Viewport Layout */
         <main
-          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center pt-[max(0.45rem,env(safe-area-inset-top))] pb-[max(0.45rem,env(safe-area-inset-bottom))] sm:py-3.5 px-3 sm:px-6 relative z-10 gap-1.5 sm:gap-2.5 transition-all duration-500 min-w-0 ${
+          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center pt-[max(0.45rem,env(safe-area-inset-top))] pb-[max(0.45rem,env(safe-area-inset-bottom))] sm:pt-[max(0.875rem,env(safe-area-inset-top))] sm:pb-[max(0.875rem,env(safe-area-inset-bottom))] px-3 sm:px-6 relative z-10 gap-1.5 sm:gap-2.5 transition-all duration-500 min-w-0 ${
             isCardHidden
               ? "opacity-0 scale-95 pointer-events-none select-none"
               : "opacity-100 scale-100"
@@ -472,12 +472,12 @@ export default function App() {
           {!isShared && (
             <footer
               aria-label="Tùy chọn tương tác thiệp"
-              className="w-auto max-w-full mx-auto flex flex-nowrap items-center justify-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-full liquid-glass-dock relative z-20 no-print"
+              className="w-auto max-w-full mx-auto flex flex-wrap sm:flex-nowrap items-center justify-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-3xl sm:rounded-full liquid-glass-dock relative z-20 no-print"
             >
               <button
                 type="button"
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group min-h-[38px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <Settings className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors" />
                 <span>Tùy chỉnh</span>
@@ -486,7 +486,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsExportModalOpen(true)}
-                className="group min-h-[38px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <Printer className="w-3.5 h-3.5 text-[#f3e5ab]" />
                 <span>Xuất PDF / In</span>
@@ -497,9 +497,9 @@ export default function App() {
                 onClick={handleToggleTheme}
                 title="Đổi nền thiệp"
                 aria-label="Đổi nền thiệp"
-                className="group min-h-[38px] min-w-[38px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <Palette className="w-3.5 h-3.5 text-[#b38728]" />
+                <Palette className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728]" />
                 <span className="hidden sm:inline">
                   {bgTheme === "classic" ? "Nền UTH" : "Nền Cổ Điển"}
                 </span>
@@ -510,9 +510,9 @@ export default function App() {
                 onClick={handleCloseEnvelope}
                 title="Xem lại phong bì"
                 aria-label="Xem lại phong bì"
-                className="group min-h-[38px] min-w-[38px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <RotateCcw className="w-3.5 h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300" />
+                <RotateCcw className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300" />
                 <span className="hidden sm:inline">Đóng bì</span>
               </button>
             </footer>

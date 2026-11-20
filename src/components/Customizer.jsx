@@ -132,7 +132,7 @@ export default function Customizer({
           <button
             onClick={onClose}
             aria-label="Đóng bảng tùy chỉnh"
-            className="p-1 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 transition-colors"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -223,8 +223,8 @@ export default function Customizer({
             </div>
 
             {/* Degree & Major */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
                   Học Vị
                 </label>
@@ -253,8 +253,8 @@ export default function Customizer({
             </div>
 
             {/* Date and Time */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
                   Ngày Lễ
                 </label>
@@ -321,7 +321,7 @@ export default function Customizer({
         </div>
 
         {/* Footer with Copy Link */}
-        <div className="p-4 border-t border-[#B38728]/20 bg-[#FAF6ED] flex flex-col gap-2.5">
+        <div className="p-4 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-[#B38728]/20 bg-[#FAF6ED] flex flex-col gap-2.5">
           <div className="flex flex-col gap-1">
             <span className="text-[11px] font-bold text-[#002D62] uppercase tracking-wider">
               Link mời cá nhân hóa (rút gọn siêu ngắn):
@@ -334,7 +334,7 @@ export default function Customizer({
           <button
             type="button"
             onClick={generateShareLink}
-            className={`w-full py-2.5 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
+            className={`w-full min-h-[44px] py-2.5 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
               copied
                 ? "bg-[#002D62] text-white"
                 : "bg-[#002D62] hover:bg-[#001D42] text-white"

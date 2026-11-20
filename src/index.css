@@ -14,10 +14,23 @@
   --font-handwriting: "Great Vibes", cursive;
 }
 
-/* ── Physics-Based Easing Tokens (with cubic-bezier fallback) ── */
+/* ── Physics-Based Easing Tokens & Responsive Layout Tokens ── */
 :root {
   --ease-smooth-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --card-pad-y: clamp(0.65rem, 1.6vw, 1.25rem);
+  --card-pad-x: clamp(0.85rem, 2.2vw, 1.5rem);
+  --target-size: 24px;
+}
+
+@media (pointer: coarse) {
+  :root {
+    --target-size: 44px;
+  }
+}
+
+html {
+  scroll-padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
 }
 
 @supports (transition-timing-function: linear(0, 1)) {
@@ -430,11 +443,10 @@ h1, h2, h3 {
   }
 }
 
-/* ── Compact Laptop / Tablet Viewport Fallback (<= 720px height) ── */
-@media (min-width: 768px) and (max-height: 720px) {
-  .invitation-card {
-    transform: scale(0.92) !important;
-    transform-origin: center center;
+/* ── Compact Laptop / Landscape Viewport Adaptation (<= 720px height) ── */
+@media (max-height: 720px) {
+  :root {
+    --card-pad-y: clamp(0.45rem, 1dvh, 0.75rem);
   }
 }
 

@@ -217,7 +217,7 @@ export default function InvitationCard({
         transition: tilt.isHovered
           ? "transform 0.1s ease-out"
           : "transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)",
-        padding: "clamp(0.65rem, 1.6vw, 1.25rem) clamp(0.85rem, 2.2vw, 1.5rem)",
+        padding: "var(--card-pad-y) var(--card-pad-x)",
         isolation: "isolate",
         contain: "layout paint",
       }}
@@ -245,7 +245,7 @@ export default function InvitationCard({
         <h1
           id={!hideCalendar ? "invitation-main-heading" : undefined}
           tabIndex={!hideCalendar ? -1 : undefined}
-          className="text-[17px] sm:text-xl md:text-[22px] font-serif font-black uppercase tracking-wide leading-snug mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
+          className="text-[clamp(1.0625rem,0.95rem+1.2cqi,1.375rem)] font-serif font-black uppercase tracking-wide leading-snug mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
           style={{
             background:
               "linear-gradient(135deg, #001d42 0%, #003a80 35%, #b38728 50%, #003a80 65%, #001d42 100%)",
@@ -275,7 +275,7 @@ export default function InvitationCard({
         </div>
 
         <h2
-          className="text-xl sm:text-2xl md:text-[25px] font-handwriting text-[#002d62] font-normal leading-tight text-glow px-2 py-0"
+          className="text-[clamp(1.25rem,1.05rem+1.4cqi,1.5625rem)] font-handwriting text-[#002d62] font-normal leading-tight text-glow px-2 py-0"
           style={{ letterSpacing: "0.02em" }}
         >
           {guestName || "Toàn thể Đại gia đình"}
@@ -301,13 +301,13 @@ export default function InvitationCard({
             </span>
           </div>
 
-          <h3 className="text-lg sm:text-xl md:text-[24px] font-serif font-black tracking-wide uppercase leading-tight text-[#001d42] py-0 px-2 inline-block drop-shadow-xs text-balance">
+          <h3 className="text-[clamp(1.125rem,0.95rem+1.4cqi,1.5rem)] font-serif font-black tracking-wide uppercase leading-tight text-[#001d42] py-0 px-2 inline-block drop-shadow-xs text-balance">
             {config.gradName}
           </h3>
 
           {/* Academic Info */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 mt-0.5 text-[11px] text-slate-800 font-medium">
-            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs whitespace-nowrap shrink-0">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 mt-0.5 text-[11px] text-slate-800 font-medium max-w-full">
+            <span className="inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs max-w-full text-center">
               <span className="w-1.5 h-1.5 rounded-full bg-[#b38728] shrink-0" />
               <span>
                 Ngành:{" "}
@@ -344,12 +344,12 @@ export default function InvitationCard({
         {...revealProps(0.3)}
         className="my-1 relative z-10"
       >
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2 rounded-2xl overflow-hidden p-1.5 sm:p-2 bento-card-surface">
+        <div className="grid grid-cols-1 @[480px]:grid-cols-2 @[580px]:grid-cols-[1fr_1fr_auto] gap-2 rounded-2xl overflow-hidden p-1.5 @[480px]:p-2 bento-card-surface">
           {/* TIME CARD */}
-          <div className="min-w-0 p-2.5 sm:p-3 rounded-xl bento-tile flex flex-col justify-between">
+          <div className="min-w-0 p-2.5 @[480px]:p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-[#b38728]/10">
-                <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1">
+                <h4 className="text-[10px] @[480px]:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5 text-[#b38728]" /> Thời Gian
                 </h4>
 
@@ -358,7 +358,7 @@ export default function InvitationCard({
                     href={createGoogleCalendarUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="no-print calendar-btn print:hidden inline-flex items-center justify-center gap-1 min-h-[44px] md:min-h-0 md:h-7 px-3 md:px-2.5 text-[11px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 sm:hover:-translate-y-0.5 rounded-md border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs shrink-0"
+                    className="no-print calendar-btn print:hidden inline-flex items-center justify-center gap-1 min-h-[44px] @[580px]:min-h-0 @[580px]:h-7 px-3 @[580px]:px-2.5 text-[11px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 sm:hover:-translate-y-0.5 rounded-md border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs shrink-0"
                     title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
                   >
                     <CalendarPlus className="w-3.5 h-3.5 text-[#5c4308]" />
@@ -410,9 +410,9 @@ export default function InvitationCard({
           </div>
 
           {/* LOCATION CARD */}
-          <div className="min-w-0 p-2.5 md:p-3 rounded-xl bento-tile flex flex-col justify-between">
+          <div className="min-w-0 p-2.5 @[480px]:p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
-              <h4 className="text-[10px] sm:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1 pb-1 border-b border-[#b38728]/10 h-7">
+              <h4 className="text-[10px] @[480px]:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1 pb-1 border-b border-[#b38728]/10 h-7">
                 <MapPin className="w-3.5 h-3.5 text-[#b38728]" /> Địa Điểm
               </h4>
 
@@ -449,9 +449,9 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="min-w-0 py-2.5 px-3 md:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row md:flex-col items-center justify-between md:justify-center gap-2.5 md:gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] md:w-32">
-            {/* QR Code: Hidden on Mobile (< 768px), Visible on Desktop */}
-            <div className="hidden md:flex items-center justify-center relative p-1.5 bg-white rounded-md border border-[#b38728]/45 shrink-0 shadow-xs">
+          <div className="min-w-0 @[480px]:col-span-2 @[580px]:col-span-1 py-2.5 px-3 @[580px]:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[580px]:flex-col items-center justify-between @[580px]:justify-center gap-2.5 @[580px]:gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[580px]:w-32">
+            {/* QR Code: Hidden when card container < 580px, Visible on Tablet/Desktop & 672px Export */}
+            <div className="hidden @[580px]:flex items-center justify-center relative p-1.5 bg-white rounded-md border border-[#b38728]/45 shrink-0 shadow-xs">
               <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-[#f3e5ab] rounded-tl-[2px]" />
               <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -right-0.5 w-2 h-2 border-t-2 border-r-2 border-[#f3e5ab] rounded-tr-[2px]" />
               <span aria-hidden="true" className="no-print print:hidden absolute -bottom-0.5 -left-0.5 w-2 h-2 border-b-2 border-l-2 border-[#f3e5ab] rounded-bl-[2px]" />
@@ -466,15 +466,15 @@ export default function InvitationCard({
               />
             </div>
 
-            <div className="flex flex-row md:flex-col items-center justify-between md:justify-center gap-2 md:gap-1.5 w-full">
-              <span className="text-[10px] md:text-[9.5px] uppercase tracking-wider font-extrabold text-[#f3e5ab] text-left md:text-center">
+            <div className="flex flex-row @[580px]:flex-col items-center justify-between @[580px]:justify-center gap-2 @[580px]:gap-1.5 w-full">
+              <span className="text-[10px] @[580px]:text-[9.5px] uppercase tracking-wider font-extrabold text-[#f3e5ab] text-left @[580px]:text-center">
                 Bản Đồ GPS
               </span>
               <a
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-print print:hidden inline-flex items-center justify-center gap-1.5 min-h-[44px] md:min-h-0 md:h-8 px-4 md:px-3 text-xs md:text-[11px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 sm:hover:-translate-y-0.5 rounded-lg transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 shrink-0"
+                className="no-print print:hidden inline-flex items-center justify-center gap-1.5 min-h-[44px] @[580px]:min-h-0 @[580px]:h-8 px-4 @[580px]:px-3 text-xs @[580px]:text-[11px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 sm:hover:-translate-y-0.5 rounded-lg transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 shrink-0"
               >
                 <span>Chỉ Đường</span>
                 <ExternalLink className="w-3.5 h-3.5" />
