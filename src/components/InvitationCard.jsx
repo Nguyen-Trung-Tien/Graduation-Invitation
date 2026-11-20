@@ -358,7 +358,7 @@ export default function InvitationCard({
                     href={createGoogleCalendarUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="no-print calendar-btn print:hidden inline-flex items-center justify-center gap-1 min-h-[44px] @[580px]:min-h-0 @[580px]:h-7 px-3 @[580px]:px-2.5 text-[11px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 sm:hover:-translate-y-0.5 rounded-md border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs shrink-0"
+                    className="touch-hit no-print calendar-btn print:hidden inline-flex items-center justify-center gap-1 h-7 px-2.5 text-[10.5px] @[580px]:text-[11px] font-bold text-[#002d62] bg-[#b38728]/15 hover:bg-[#b38728]/25 sm:hover:-translate-y-0.5 rounded-md border border-[#b38728]/35 transition-all duration-200 cursor-pointer no-underline active:scale-95 shadow-2xs shrink-0"
                     title="Thêm nhắc lịch Lễ Tốt Nghiệp vào Google Calendar"
                   >
                     <CalendarPlus className="w-3.5 h-3.5 text-[#5c4308]" />
@@ -474,7 +474,7 @@ export default function InvitationCard({
                 href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-print print:hidden inline-flex items-center justify-center gap-1.5 min-h-[44px] @[580px]:min-h-0 @[580px]:h-8 px-4 @[580px]:px-3 text-xs @[580px]:text-[11px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 sm:hover:-translate-y-0.5 rounded-lg transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 shrink-0"
+                className="touch-hit no-print print:hidden inline-flex items-center justify-center gap-1.5 h-8 px-3 text-[11px] font-extrabold text-[#001d42] bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] hover:brightness-110 sm:hover:-translate-y-0.5 rounded-lg transition-all duration-200 cursor-pointer uppercase tracking-wider no-underline shadow-xs font-sans whitespace-nowrap active:scale-95 shrink-0"
               >
                 <span>Chỉ Đường</span>
                 <ExternalLink className="w-3.5 h-3.5" />

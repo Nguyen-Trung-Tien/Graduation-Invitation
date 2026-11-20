@@ -66,6 +66,19 @@ button, a, [role="button"] {
   touch-action: manipulation;
 }
 
+/* Extend invisible touch target area on coarse-pointer (touch) devices without bloating visual button size */
+.touch-hit {
+  position: relative;
+}
+
+@media (pointer: coarse) {
+  .touch-hit::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+  }
+}
+
 :focus-visible {
   outline: 2px solid #b38728;
   outline-offset: 2px;

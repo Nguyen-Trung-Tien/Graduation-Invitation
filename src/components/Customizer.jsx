@@ -132,7 +132,7 @@ export default function Customizer({
           <button
             onClick={onClose}
             aria-label="Đóng bảng tùy chỉnh"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 transition-colors cursor-pointer"
+            className="touch-hit w-9 h-9 flex items-center justify-center rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -334,7 +334,7 @@ export default function Customizer({
           <button
             type="button"
             onClick={generateShareLink}
-            className={`w-full min-h-[44px] py-2.5 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
+            className={`touch-hit w-full h-9 sm:h-10 rounded-lg font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
               copied
                 ? "bg-[#002D62] text-white"
                 : "bg-[#002D62] hover:bg-[#001D42] text-white"

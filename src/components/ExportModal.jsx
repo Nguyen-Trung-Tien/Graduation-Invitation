@@ -157,7 +157,7 @@ export default function ExportModal({
           <button
             onClick={onClose}
             aria-label="Đóng cửa sổ"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-colors cursor-pointer shrink-0"
+            className="touch-hit w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-colors cursor-pointer shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
@@ -168,7 +168,7 @@ export default function ExportModal({
           <button
             type="button"
             onClick={() => setMobileTab("edit")}
-            className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 text-xs font-bold border-b-2 transition-colors cursor-pointer ${
+            className={`flex-1 h-9 flex items-center justify-center gap-1.5 text-xs font-bold border-b-2 transition-colors cursor-pointer ${
               mobileTab === "edit"
                 ? "border-[#002D62] text-[#002D62]"
                 : "border-transparent text-slate-500 hover:text-slate-700"
@@ -180,7 +180,7 @@ export default function ExportModal({
           <button
             type="button"
             onClick={() => setMobileTab("preview")}
-            className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 text-xs font-bold border-b-2 transition-colors cursor-pointer ${
+            className={`flex-1 h-9 flex items-center justify-center gap-1.5 text-xs font-bold border-b-2 transition-colors cursor-pointer ${
               mobileTab === "preview"
                 ? "border-[#002D62] text-[#002D62]"
                 : "border-transparent text-slate-500 hover:text-slate-700"
@@ -359,7 +359,7 @@ export default function ExportModal({
             type="button"
             onClick={onClose}
             disabled={isExporting}
-            className="hidden sm:inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50"
+            className="hidden sm:inline-flex items-center justify-center h-9 sm:h-10 px-4 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50"
           >
             Đóng
           </button>
@@ -369,7 +369,7 @@ export default function ExportModal({
             type="button"
             onClick={() => handleExportImage("png")}
             disabled={isExporting}
-            className="min-h-[44px] px-3 sm:px-3.5 py-2 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="touch-hit h-9 sm:h-10 px-3 sm:px-3.5 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
           >
             <Download className="w-3.5 h-3.5" />
             <span>{isExporting ? "Đang xuất..." : "Tải ảnh PNG"}</span>
@@ -379,7 +379,7 @@ export default function ExportModal({
             type="button"
             onClick={() => handleExportImage("jpg")}
             disabled={isExporting}
-            className="min-h-[44px] px-3 sm:px-3.5 py-2 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="touch-hit h-9 sm:h-10 px-3 sm:px-3.5 rounded-lg border border-[#002D62]/30 bg-white hover:bg-[#002D62]/5 text-[#002D62] text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
           >
             <Download className="w-3.5 h-3.5" />
             <span>{isExporting ? "Đang xuất..." : "Tải ảnh JPG"}</span>
@@ -390,7 +390,7 @@ export default function ExportModal({
             type="button"
             onClick={handlePrint}
             disabled={isExporting}
-            className="col-span-2 sm:col-span-1 min-h-[44px] px-5 py-2 rounded-lg bg-[#002D62] hover:bg-[#001D42] text-white text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#002D62]/20 disabled:opacity-50"
+            className="touch-hit col-span-2 sm:col-span-1 h-9 sm:h-10 px-5 rounded-lg bg-[#002D62] hover:bg-[#001D42] text-white text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#002D62]/20 disabled:opacity-50"
           >
             <Printer className="w-4 h-4 text-[#DFC479]" />
             <span>Tải File PDF / In Thiệp</span>

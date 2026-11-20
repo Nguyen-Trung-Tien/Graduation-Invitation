@@ -420,7 +420,7 @@ export default function App() {
               e.stopPropagation();
               setIsCardHidden((prev) => !prev);
             }}
-            className="pointer-events-auto w-11 h-11 rounded-full flex items-center justify-center bg-black/35 hover:bg-black/50 backdrop-blur-md text-white border border-white/20 shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            className="touch-hit pointer-events-auto w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-black/35 hover:bg-black/50 backdrop-blur-md text-white border border-white/20 shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
           >
             {isCardHidden ? (
               <EyeOff className="w-4 h-4 text-[#f3e5ab]" aria-hidden="true" />
@@ -472,12 +472,12 @@ export default function App() {
           {!isShared && (
             <footer
               aria-label="Tùy chọn tương tác thiệp"
-              className="w-auto max-w-full mx-auto flex flex-wrap sm:flex-nowrap items-center justify-center gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-3xl sm:rounded-full liquid-glass-dock relative z-20 no-print"
+              className="w-auto max-w-full mx-auto flex flex-wrap sm:flex-nowrap items-center justify-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-full liquid-glass-dock relative z-20 no-print"
             >
               <button
                 type="button"
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="touch-hit group h-8 sm:h-9 flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 rounded-full text-[#002d62] hover:bg-[#002d62] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <Settings className="w-3.5 h-3.5 text-[#b38728] group-hover:text-[#f3e5ab] transition-colors shrink-0" />
                 <span>Tùy chỉnh</span>
@@ -486,7 +486,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsExportModalOpen(true)}
-                className="group min-h-[44px] sm:min-h-[40px] flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="touch-hit group h-8 sm:h-9 flex items-center justify-center gap-1 sm:gap-1.5 px-3 sm:px-4 rounded-full bg-gradient-to-r from-[#002d62] to-[#003a80] text-white shadow-sm hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
                 <Printer className="w-3.5 h-3.5 text-[#f3e5ab] shrink-0" />
                 <span>Xuất PDF / In</span>
@@ -497,9 +497,9 @@ export default function App() {
                 onClick={handleToggleTheme}
                 title="Đổi nền thiệp"
                 aria-label="Đổi nền thiệp"
-                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="touch-hit group w-8 h-8 sm:w-auto sm:h-9 flex items-center justify-center gap-1.5 sm:px-3 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <Palette className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728] shrink-0" />
+                <Palette className="w-3.5 h-3.5 text-[#b38728] shrink-0" />
                 <span className="hidden sm:inline">
                   {bgTheme === "classic" ? "Nền UTH" : "Nền Cổ Điển"}
                 </span>
@@ -510,9 +510,9 @@ export default function App() {
                 onClick={handleCloseEnvelope}
                 title="Xem lại phong bì"
                 aria-label="Xem lại phong bì"
-                className="group min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px] flex items-center justify-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
+                className="touch-hit group w-8 h-8 sm:w-auto sm:h-9 flex items-center justify-center gap-1.5 sm:px-3 rounded-full text-[#002d62] hover:bg-[#b38728]/15 transition-all duration-200 active:scale-95 cursor-pointer font-semibold text-[11px] sm:text-xs whitespace-nowrap"
               >
-                <RotateCcw className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300 shrink-0" />
+                <RotateCcw className="w-3.5 h-3.5 text-[#b38728] group-hover:-rotate-45 transition-transform duration-300 shrink-0" />
                 <span className="hidden sm:inline">Đóng bì</span>
               </button>
             </footer>
