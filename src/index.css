@@ -18,8 +18,8 @@
 :root {
   --ease-smooth-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --card-pad-y: clamp(0.65rem, 1.6vw, 1.25rem);
-  --card-pad-x: clamp(0.85rem, 2.2vw, 1.5rem);
+  --card-pad-y: clamp(0.45rem, 1.1dvh, 1.15rem);
+  --card-pad-x: clamp(0.8rem, 2.2vw, 1.5rem);
   --target-size: 24px;
 }
 
@@ -469,7 +469,7 @@ h1, h2, h3 {
 /* ── Compact Laptop / Landscape Viewport Adaptation (<= 720px height) ── */
 @media (max-height: 720px) {
   :root {
-    --card-pad-y: clamp(0.45rem, 1dvh, 0.75rem);
+    --card-pad-y: 0.4rem;
   }
 }
 

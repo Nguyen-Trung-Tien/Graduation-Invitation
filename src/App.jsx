@@ -442,7 +442,7 @@ export default function App() {
       ) : (
         /* Main Invitation Content - Zero-Scroll Single-Viewport Layout */
         <main
-          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center pt-[max(0.45rem,env(safe-area-inset-top))] pb-[max(0.45rem,env(safe-area-inset-bottom))] sm:pt-[max(0.875rem,env(safe-area-inset-top))] sm:pb-[max(0.875rem,env(safe-area-inset-bottom))] px-3 sm:px-6 relative z-10 gap-1.5 sm:gap-2.5 transition-all duration-500 min-w-0 ${
+          className={`flex-1 w-full max-w-7xl mx-auto flex flex-col justify-between items-center pt-[max(0.35rem,env(safe-area-inset-top))] pb-[max(0.35rem,env(safe-area-inset-bottom))] sm:pt-[max(0.875rem,env(safe-area-inset-top))] sm:pb-[max(0.875rem,env(safe-area-inset-bottom))] px-3 sm:px-6 relative z-10 gap-1 sm:gap-2.5 transition-all duration-500 min-w-0 ${
             isCardHidden
               ? "opacity-0 scale-95 pointer-events-none select-none"
               : "opacity-100 scale-100"

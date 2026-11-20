@@ -245,7 +245,7 @@ export default function InvitationCard({
         <h1
           id={!hideCalendar ? "invitation-main-heading" : undefined}
           tabIndex={!hideCalendar ? -1 : undefined}
-          className="text-[clamp(0.95rem,0.72rem+1.35cqi,1.375rem)] font-serif font-black uppercase tracking-[0.02em] @[480px]:tracking-wide leading-snug mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
+          className="text-[clamp(0.95rem,0.72rem+1.35cqi,1.375rem)] font-serif font-black uppercase tracking-[0.02em] @[480px]:tracking-wide leading-snug mt-1 @[480px]:mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
           style={{
             background:
               "linear-gradient(135deg, #001d42 0%, #003a80 35%, #b38728 50%, #003a80 65%, #001d42 100%)",
@@ -285,9 +285,9 @@ export default function InvitationCard({
       {/* ════════════════ TIER 3: HERO GRADUATE CENTERPIECE (FOCAL POINT) ════════════════ */}
       <motion.section
         {...revealProps(0.22)}
-        className="relative z-10 max-w-lg mx-auto my-1"
+        className="relative z-10 max-w-lg mx-auto my-0.5 @[480px]:my-1"
       >
-        <div className="py-2 sm:py-2.5 px-3 sm:px-5 rounded-2xl flex flex-col items-center text-center gap-0.5 sm:gap-1 relative overflow-hidden ceremony-watermark bento-card-surface">
+        <div className="py-1.5 @[480px]:py-2.5 px-3 @[480px]:px-5 rounded-2xl flex flex-col items-center text-center gap-0.5 @[480px]:gap-1 relative overflow-hidden ceremony-watermark bento-card-surface">
           {/* Subtle Watermark Crest */}
           <GraduationCap
             aria-hidden="true"
@@ -342,13 +342,13 @@ export default function InvitationCard({
       {/* ════════════════ TIER 4: LANDSCAPE BENTO GRID MODULES ════════════════ */}
       <motion.section
         {...revealProps(0.3)}
-        className="my-1 relative z-10"
+        className="my-0.5 @[480px]:my-1 relative z-10"
       >
-        <div className="grid grid-cols-1 @[480px]:grid-cols-2 @[580px]:grid-cols-[1fr_1fr_auto] gap-2 rounded-2xl overflow-hidden p-1.5 @[480px]:p-2 bento-card-surface">
+        <div className="grid grid-cols-1 @[480px]:grid-cols-2 @[580px]:grid-cols-[1fr_1fr_auto] gap-1.5 @[480px]:gap-2 rounded-2xl overflow-hidden p-1 @[480px]:p-2 bento-card-surface">
           {/* TIME CARD */}
-          <div className="min-w-0 p-2.5 @[480px]:p-3 rounded-xl bento-tile flex flex-col justify-between">
+          <div className="min-w-0 p-2 @[480px]:p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-[#b38728]/10">
+              <div className="flex items-center justify-between gap-2 pb-1 @[480px]:pb-1.5 border-b border-[#b38728]/10">
                 <h4 className="text-[10px] @[480px]:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5 text-[#b38728]" /> Thời Gian
                 </h4>
@@ -367,7 +367,7 @@ export default function InvitationCard({
                 )}
               </div>
 
-              <div className="space-y-1 mt-1.5">
+              <div className="space-y-0.5 @[480px]:space-y-1 mt-1 @[480px]:mt-1.5">
                 <div className="flex items-start gap-1.5">
                   <div className="w-5 h-5 rounded-md bg-[#b38728]/15 flex items-center justify-center shrink-0 border border-[#b38728]/25 mt-0.5">
                     <Calendar className="w-3.5 h-3.5 text-[#5c4308]" />
@@ -410,13 +410,13 @@ export default function InvitationCard({
           </div>
 
           {/* LOCATION CARD */}
-          <div className="min-w-0 p-2.5 @[480px]:p-3 rounded-xl bento-tile flex flex-col justify-between">
+          <div className="min-w-0 p-2 @[480px]:p-3 rounded-xl bento-tile flex flex-col justify-between">
             <div>
-              <h4 className="text-[10px] @[480px]:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1 pb-1 border-b border-[#b38728]/10 h-7">
+              <h4 className="text-[10px] @[480px]:text-[10.5px] font-sans font-extrabold uppercase tracking-[0.14em] text-[#5c4308] flex items-center gap-1 pb-1 border-b border-[#b38728]/10 @[480px]:h-7">
                 <MapPin className="w-3.5 h-3.5 text-[#b38728]" /> Địa Điểm
               </h4>
 
-              <div className="space-y-1 mt-1.5">
+              <div className="space-y-0.5 @[480px]:space-y-1 mt-1 @[480px]:mt-1.5">
                 <div className="flex items-start gap-1.5">
                   <div className="w-5 h-5 rounded-md bg-[#002d62]/12 flex items-center justify-center shrink-0 border border-[#002d62]/25 mt-0.5">
                     <GraduationCap className="w-3.5 h-3.5 text-[#002d62]" />
@@ -449,7 +449,7 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="min-w-0 @[480px]:col-span-2 @[580px]:col-span-1 py-2.5 px-3 @[580px]:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[580px]:flex-col items-center justify-between @[580px]:justify-center gap-2.5 @[580px]:gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[580px]:w-32">
+          <div className="min-w-0 @[480px]:col-span-2 @[580px]:col-span-1 py-1.5 px-2.5 @[480px]:py-2.5 @[480px]:px-3 @[580px]:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[580px]:flex-col items-center justify-between @[580px]:justify-center gap-2 @[580px]:gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[580px]:w-32">
             {/* QR Code: Hidden when card container < 580px, Visible on Tablet/Desktop & 672px Export */}
             <div className="hidden @[580px]:flex items-center justify-center relative p-1.5 bg-white rounded-md border border-[#b38728]/45 shrink-0 shadow-xs">
               <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-[#f3e5ab] rounded-tl-[2px]" />
@@ -487,9 +487,9 @@ export default function InvitationCard({
       {/* ════════════════ FOOTER & SIGNATURE ════════════════ */}
       <motion.footer
         {...revealProps(0.36)}
-        className="relative z-10 pt-0.5 text-center"
+        className="relative z-10 pt-0 @[480px]:pt-0.5 text-center"
       >
-        <GoldFlourish className="w-36 h-2.5 text-[#b38728] opacity-80 mx-auto mb-0.5" />
+        <GoldFlourish className="w-32 @[480px]:w-36 h-2 @[480px]:h-2.5 text-[#b38728] opacity-80 mx-auto mb-0 @[480px]:mb-0.5" />
         <div className="text-[10.5px] sm:text-[11px] text-slate-600 font-sans leading-snug">
           <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5">
             <span>Trân trọng kính mời & đón tiếp •</span>
