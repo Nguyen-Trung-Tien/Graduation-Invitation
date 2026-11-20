@@ -59,7 +59,7 @@ function CountdownPill({ date, time, bgTheme }) {
 
   return (
     <div
-      className={`no-print print:hidden inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full sm:backdrop-blur-md border shadow-[0_8px_24px_rgba(0,18,46,0.22),inset_0_1px_0_rgba(255,255,255,0.22)] text-[11px] sm:text-xs font-sans transition-colors duration-500 ${
+      className={`no-print print:hidden inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full sm:backdrop-blur-md border shadow-[0_8px_24px_rgba(0,18,46,0.22),inset_0_1px_0_rgba(255,255,255,0.22)] text-[10px] sm:text-xs font-sans transition-colors duration-500 max-w-full ${
         isClassic
           ? "bg-white/92 border-[#b38728]/40 text-[#002d62]"
           : "bg-[#001d42]/88 border-[#b38728]/45 text-[#f3e5ab]"
@@ -307,7 +307,7 @@ export default function App() {
 
   return (
     <div
-      className={`relative min-h-dvh w-full flex flex-col justify-between ${
+      className={`relative min-h-dvh w-full flex flex-col justify-between overflow-x-hidden ${
         !isOpen ? "overflow-hidden" : ""
       }`}
     >
