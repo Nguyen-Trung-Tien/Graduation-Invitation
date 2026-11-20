@@ -29,17 +29,6 @@ export const BG_THEMES = [
       "linear-gradient(135deg, #2b0f16 0%, #6e2b25 50%, #c9883b 100%)",
   },
   {
-    id: "uth-aerial",
-    category: "photo",
-    name: "🎓 UTH Toàn Cảnh",
-    shortName: "UTH Toàn Cảnh",
-    desc: "Góc nhìn toàn cảnh trường UTH",
-    isLight: false,
-    baseBgClass: "bg-[#071830]",
-    swatchStyle:
-      "linear-gradient(135deg, #071830 0%, #0d3b66 55%, #d4af37 100%)",
-  },
-  {
     id: "uth-memory",
     category: "photo",
     name: "📸 Kỷ Niệm Thanh Xuân",
@@ -157,4 +146,160 @@ export function getNextBgThemeId(currentId) {
   const index = BG_THEMES.findIndex((t) => t.id === currentId);
   if (index === -1) return DEFAULT_BG_THEME.id;
   return BG_THEMES[(index + 1) % BG_THEMES.length].id;
+}
+
+export const ENVELOPE_PALETTES = {
+  navy: {
+    back: "bg-[#001a3b] border-[#b38728]/50",
+    backDot: "bg-[radial-gradient(#003a80_1px,transparent_1px)]",
+    leftFlap: "from-[#002b5c] via-[#002247] to-[#001938] border-[#b38728]/25",
+    rightFlap: "from-[#002b5c] via-[#002247] to-[#001938] border-[#b38728]/25",
+    bottomFlap: "from-[#001530] via-[#00234a] to-[#002b5c] border-[#b38728]/30",
+    topFlap: "from-[#003c80] via-[#002a5c] to-[#001a3d] border-[#b38728]/35",
+  },
+  burgundy: {
+    back: "bg-[#2e0612] border-[#dfb755]/50",
+    backDot: "bg-[radial-gradient(#7a1c38_1px,transparent_1px)]",
+    leftFlap: "from-[#581126] via-[#450c1d] to-[#320714] border-[#dfb755]/25",
+    rightFlap: "from-[#581126] via-[#450c1d] to-[#320714] border-[#dfb755]/25",
+    bottomFlap: "from-[#290510] via-[#470d1e] to-[#5e1329] border-[#dfb755]/30",
+    topFlap: "from-[#731834] via-[#521023] to-[#360816] border-[#dfb755]/35",
+  },
+  emerald: {
+    back: "bg-[#032119] border-[#dfb755]/50",
+    backDot: "bg-[radial-gradient(#0e5c47_1px,transparent_1px)]",
+    leftFlap: "from-[#094737] via-[#06382b] to-[#04291f] border-[#dfb755]/25",
+    rightFlap: "from-[#094737] via-[#06382b] to-[#04291f] border-[#dfb755]/25",
+    bottomFlap: "from-[#021c15] via-[#06382b] to-[#0b523f] border-[#dfb755]/30",
+    topFlap: "from-[#0e614b] via-[#084233] to-[#04291f] border-[#dfb755]/35",
+  },
+  sepia: {
+    back: "bg-[#241b15] border-[#dfb755]/50",
+    backDot: "bg-[radial-gradient(#614838_1px,transparent_1px)]",
+    leftFlap: "from-[#4a372b] via-[#3b2b21] to-[#2b1f18] border-[#dfb755]/25",
+    rightFlap: "from-[#4a372b] via-[#3b2b21] to-[#2b1f18] border-[#dfb755]/25",
+    bottomFlap: "from-[#211812] via-[#3b2b21] to-[#523d30] border-[#dfb755]/30",
+    topFlap: "from-[#614838] via-[#453327] to-[#2e2119] border-[#dfb755]/35",
+  },
+  sakura: {
+    back: "bg-[#f2cad9] border-[#b38728]/50",
+    backDot: "bg-[radial-gradient(#d889a8_1px,transparent_1px)]",
+    leftFlap: "from-[#f7dce7] via-[#f2cedd] to-[#ebc0d2] border-[#b38728]/30",
+    rightFlap: "from-[#f7dce7] via-[#f2cedd] to-[#ebc0d2] border-[#b38728]/30",
+    bottomFlap: "from-[#e8b8cc] via-[#f2cedd] to-[#fae3ec] border-[#b38728]/35",
+    topFlap: "from-[#fcf0f5] via-[#f5d5e2] to-[#ecc3d4] border-[#b38728]/40",
+  },
+  sky: {
+    back: "bg-[#c5e0f8] border-[#b38728]/50",
+    backDot: "bg-[radial-gradient(#7ab6eb_1px,transparent_1px)]",
+    leftFlap: "from-[#dceeff] via-[#cee4fa] to-[#bedaf5] border-[#b38728]/30",
+    rightFlap: "from-[#dceeff] via-[#cee4fa] to-[#bedaf5] border-[#b38728]/30",
+    bottomFlap: "from-[#b5d5f2] via-[#cee4fa] to-[#e6f3fe] border-[#b38728]/35",
+    topFlap: "from-[#eff7ff] via-[#d7ebfc] to-[#c3dff8] border-[#b38728]/40",
+  },
+  lavender: {
+    back: "bg-[#dccbf2] border-[#b38728]/50",
+    backDot: "bg-[radial-gradient(#a78bfa_1px,transparent_1px)]",
+    leftFlap: "from-[#ebe0fa] via-[#e2d3f7] to-[#d6c2f2] border-[#b38728]/30",
+    rightFlap: "from-[#ebe0fa] via-[#e2d3f7] to-[#d6c2f2] border-[#b38728]/30",
+    bottomFlap: "from-[#cfb9ed] via-[#e2d3f7] to-[#f3ecfc] border-[#b38728]/35",
+    topFlap: "from-[#f7f2fe] via-[#e7dbf7] to-[#d8c5f0] border-[#b38728]/40",
+  },
+};
+
+const THEME_ENVELOPE_MAP = {
+  "uth-campus": "navy",
+  "uth-sunset": "burgundy",
+  "uth-memory": "sepia",
+  "midnight-gold": "navy",
+  "emerald-academic": "emerald",
+  "royal-burgundy": "burgundy",
+  "obsidian-cyber": "navy",
+  classic: "navy",
+  "sakura-ivory": "sakura",
+  "sky-horizon": "sky",
+  "lavender-mist": "lavender",
+};
+
+export function getEnvelopePalette(themeId) {
+  const variant = THEME_ENVELOPE_MAP[themeId] || "navy";
+  return ENVELOPE_PALETTES[variant] || ENVELOPE_PALETTES.navy;
+}
+
+export const LETTER_PALETTES = {
+  navy: {
+    paperTop: "#FFFDF7",
+    paperMid: "#FAF4E6",
+    paperBot: "#F4EAD2",
+    accentDark: "#001d42",
+    accent: "#002d62",
+    accentMid: "#003a80",
+    gold: "#b38728",
+    qrGradient: "from-[#001a3b] via-[#002654] to-[#003575]",
+  },
+  burgundy: {
+    paperTop: "#FFF9FA",
+    paperMid: "#FAF0F2",
+    paperBot: "#F3E1E5",
+    accentDark: "#450a1b",
+    accent: "#6b132b",
+    accentMid: "#8a1c3a",
+    gold: "#b38728",
+    qrGradient: "from-[#3b0816] via-[#540e22] to-[#701530]",
+  },
+  emerald: {
+    paperTop: "#F8FCFA",
+    paperMid: "#EEF7F3",
+    paperBot: "#E1EFE8",
+    accentDark: "#03261d",
+    accent: "#064031",
+    accentMid: "#0b5945",
+    gold: "#b38728",
+    qrGradient: "from-[#032119] via-[#06382b] to-[#0b523f]",
+  },
+  sepia: {
+    paperTop: "#FCF9F4",
+    paperMid: "#F6EFE5",
+    paperBot: "#ECE1D1",
+    accentDark: "#2e2118",
+    accent: "#4a3527",
+    accentMid: "#664a37",
+    gold: "#b38728",
+    qrGradient: "from-[#291d15] via-[#3f2e22] to-[#574030]",
+  },
+  sakura: {
+    paperTop: "#FFF9FB",
+    paperMid: "#FCEFF4",
+    paperBot: "#F7E2EB",
+    accentDark: "#5e2139",
+    accent: "#823151",
+    accentMid: "#a6456b",
+    gold: "#b38728",
+    qrGradient: "from-[#591e35] via-[#782b49] to-[#963b5e]",
+  },
+  sky: {
+    paperTop: "#F9FCFF",
+    paperMid: "#EFF6FD",
+    paperBot: "#E2EEFA",
+    accentDark: "#0b2e59",
+    accent: "#134682",
+    accentMid: "#1e5ea8",
+    gold: "#b38728",
+    qrGradient: "from-[#0a294f] via-[#123d73] to-[#1a5396]",
+  },
+  lavender: {
+    paperTop: "#FCFaff",
+    paperMid: "#F5EFFB",
+    paperBot: "#EAE0F6",
+    accentDark: "#321b54",
+    accent: "#4c2a7d",
+    accentMid: "#653ca1",
+    gold: "#b38728",
+    qrGradient: "from-[#2c174a] via-[#43246e] to-[#5a3391]",
+  },
+};
+
+export function getLetterPalette(themeId) {
+  const variant = THEME_ENVELOPE_MAP[themeId] || "navy";
+  return LETTER_PALETTES[variant] || LETTER_PALETTES.navy;
 }

@@ -10,6 +10,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
+import { getLetterPalette } from "../config/bgThemes";
 
 /* ── 2026 Editorial Hairline Diamond Divider ── */
 function GoldFlourish({ className = "" }) {
@@ -76,7 +77,9 @@ export default function InvitationCard({
   guestName,
   isPrintable,
   hideCalendar = false,
+  bgTheme = "uth-campus",
 }) {
+  const letterPalette = getLetterPalette(bgTheme);
   const prefersReducedMotion = useReducedMotion();
   const shouldStagger = !hideCalendar && !prefersReducedMotion;
 
@@ -206,6 +209,12 @@ export default function InvitationCard({
       onMouseLeave={handleMouseLeave}
       className="@container invitation-card w-full max-w-[780px] mx-auto my-0.5 relative overflow-hidden text-slate-800 card-paper-texture shadow-2xl select-none"
       style={{
+        "--card-paper-top": letterPalette.paperTop,
+        "--card-paper-mid": letterPalette.paperMid,
+        "--card-paper-bot": letterPalette.paperBot,
+        "--card-accent-dark": letterPalette.accentDark,
+        "--card-accent": letterPalette.accent,
+        "--card-accent-mid": letterPalette.accentMid,
         borderRadius: "1.35rem",
         border: "1.5px solid rgba(179, 135, 40, 0.42)",
         boxShadow: tilt.isHovered
@@ -238,19 +247,19 @@ export default function InvitationCard({
       >
         <UniversityCrest />
 
-        <p className="text-[clamp(0.5625rem,0.48rem+0.4cqi,0.65625rem)] tracking-[0.03em] @[480px]:tracking-wider font-sans font-extrabold text-[#002d62] uppercase leading-snug mt-0.5 text-balance">
+        <p className="text-[clamp(0.5625rem,0.48rem+0.4cqi,0.65625rem)] tracking-[0.03em] @[480px]:tracking-wider font-sans font-extrabold text-[var(--card-accent)] uppercase leading-snug mt-0.5 text-balance">
           Đại Học Giao Thông Vận Tải TP. Hồ Chí Minh
         </p>
 
         <h1
           id={!hideCalendar ? "invitation-main-heading" : undefined}
           tabIndex={!hideCalendar ? -1 : undefined}
-          className="text-[clamp(0.95rem,0.72rem+1.35cqi,1.375rem)] font-serif font-black uppercase tracking-[0.02em] @[480px]:tracking-wide leading-snug mt-1 @[480px]:mt-2 py-0.5 text-glow drop-shadow-xs inline-block foil-shimmer-text outline-none text-balance"
+          className="text-[clamp(0.95rem,0.72rem+1.35cqi,1.375rem)] font-serif font-black uppercase tracking-[0.02em] @[480px]:tracking-wide leading-snug mt-1 @[480px]:mt-2 py-0.5 text-glow drop-shadow-xs inline-block bg-clip-text text-transparent foil-shimmer-text outline-none text-balance"
           style={{
-            background:
-              "linear-gradient(135deg, #001d42 0%, #003a80 35%, #b38728 50%, #003a80 65%, #001d42 100%)",
+            backgroundImage: `linear-gradient(135deg, ${letterPalette.accentDark} 0%, ${letterPalette.accentMid} 35%, ${letterPalette.gold} 50%, ${letterPalette.accentMid} 65%, ${letterPalette.accentDark} 100%)`,
             backgroundSize: "200% auto",
             WebkitBackgroundClip: "text",
+            backgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
         >
@@ -275,7 +284,7 @@ export default function InvitationCard({
         </div>
 
         <h2
-          className="text-[clamp(1.25rem,1.05rem+1.4cqi,1.5625rem)] font-handwriting text-[#002d62] font-normal leading-tight text-glow px-2 py-0"
+          className="text-[clamp(1.25rem,1.05rem+1.4cqi,1.5625rem)] font-handwriting text-[var(--card-accent)] font-normal leading-tight text-glow px-2 py-0"
           style={{ letterSpacing: "0.02em" }}
         >
           {guestName || "Toàn thể Đại gia đình"}
@@ -294,24 +303,24 @@ export default function InvitationCard({
             className="absolute -right-3 -bottom-3 w-20 h-20 sm:w-24 sm:h-24 text-[#b38728]/[0.05] pointer-events-none rotate-[-12deg]"
           />
           {/* Graduate Emblem Title */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/6 border border-[#b38728]/40">
-            <GraduationCap className="w-3.5 h-3.5 text-[#002d62]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[var(--card-accent)]/6 border border-[#b38728]/40">
+            <GraduationCap className="w-3.5 h-3.5 text-[var(--card-accent)]" />
             <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#5c4308] font-sans font-extrabold">
               Tân {config.degree || "Cử Nhân"}
             </span>
           </div>
 
-          <h3 className="text-[clamp(1rem,0.85rem+1.4cqi,1.5rem)] font-serif font-black tracking-wide uppercase leading-tight text-[#001d42] py-0 px-2 inline-block drop-shadow-xs text-balance">
+          <h3 className="text-[clamp(1rem,0.85rem+1.4cqi,1.5rem)] font-serif font-black tracking-wide uppercase leading-tight text-[var(--card-accent-dark)] py-0 px-2 inline-block drop-shadow-xs text-balance">
             {config.gradName}
           </h3>
 
           {/* Academic Info */}
           <div className="flex flex-wrap items-center justify-center gap-1.5 mt-0.5 text-[11px] text-slate-800 font-medium max-w-full">
-            <span className="inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-[#002d62]/8 border border-[#002d62]/20 shadow-2xs max-w-full text-center">
+            <span className="inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-[var(--card-accent)]/8 border border-[var(--card-accent)]/20 shadow-2xs max-w-full text-center">
               <span className="w-1.5 h-1.5 rounded-full bg-[#b38728] shrink-0" />
               <span>
                 Ngành:{" "}
-                <strong className="font-extrabold text-[#002d62]">
+                <strong className="font-extrabold text-[var(--card-accent)]">
                   {config.major}
                 </strong>
               </span>
@@ -449,7 +458,9 @@ export default function InvitationCard({
           </div>
 
           {/* QR MAP PASS CARD */}
-          <div className="min-w-0 @[480px]:col-span-2 @[580px]:col-span-1 py-1.5 px-2.5 @[480px]:py-2.5 @[480px]:px-3 @[580px]:p-3 rounded-xl bg-gradient-to-br from-[#001a3b] via-[#002654] to-[#003575] border border-[#b38728]/55 text-white flex flex-row @[580px]:flex-col items-center justify-between @[580px]:justify-center gap-2 @[580px]:gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[580px]:w-32">
+          <div
+            className={`min-w-0 @[480px]:col-span-2 @[580px]:col-span-1 py-1.5 px-2.5 @[480px]:py-2.5 @[480px]:px-3 @[580px]:p-3 rounded-xl bg-gradient-to-br ${letterPalette.qrGradient} border border-[#b38728]/55 text-white flex flex-row @[580px]:flex-col items-center justify-between @[580px]:justify-center gap-2 @[580px]:gap-2 shadow-[0_8px_20px_rgba(0,29,66,0.24),inset_0_1px_0_rgba(255,255,255,0.16)] @[580px]:w-32`}
+          >
             {/* QR Code: Hidden when card container < 580px, Visible on Tablet/Desktop & 672px Export */}
             <div className="hidden @[580px]:flex items-center justify-center relative p-1.5 bg-white rounded-md border border-[#b38728]/45 shrink-0 shadow-xs">
               <span aria-hidden="true" className="no-print print:hidden absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-[#f3e5ab] rounded-tl-[2px]" />
@@ -493,7 +504,7 @@ export default function InvitationCard({
         <div className="text-[10.5px] sm:text-[11px] text-slate-600 font-sans leading-snug">
           <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5">
             <span>Trân trọng kính mời & đón tiếp •</span>
-            <span className="font-extrabold text-[#002d62] italic text-[11px] sm:text-xs whitespace-nowrap">
+            <span className="font-extrabold text-[var(--card-accent)] italic text-[11px] sm:text-xs whitespace-nowrap">
               {config.gradName}
             </span>
           </p>

@@ -10,6 +10,7 @@ export default function ExportModal({
   onChange,
   guestName,
   onGuestChange,
+  bgTheme = "uth-campus",
 }) {
   // CRITICAL: Call all hooks BEFORE any conditional return to satisfy Rules of Hooks
   const [isExporting, setIsExporting] = useState(false);
@@ -347,7 +348,12 @@ export default function ExportModal({
 
             <div className="flex-1 flex items-start justify-center overflow-x-hidden">
               <div className="w-full pointer-events-none">
-                <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
+                <InvitationCard
+                  config={config}
+                  guestName={guestName}
+                  hideCalendar={true}
+                  bgTheme={bgTheme}
+                />
               </div>
             </div>
           </div>
@@ -405,7 +411,12 @@ export default function ExportModal({
           style={{ width: "672px" }}
         >
           <div ref={cardRef}>
-            <InvitationCard config={config} guestName={guestName} hideCalendar={true} />
+            <InvitationCard
+              config={config}
+              guestName={guestName}
+              hideCalendar={true}
+              bgTheme={bgTheme}
+            />
           </div>
         </div>
       )}

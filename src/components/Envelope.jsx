@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Sparkles, GraduationCap } from "lucide-react";
-import { getBgTheme } from "../config/bgThemes";
+import { getBgTheme, getEnvelopePalette, getLetterPalette } from "../config/bgThemes";
 
 export default function Envelope({
   guestName,
@@ -18,6 +18,8 @@ export default function Envelope({
   const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50, active: false });
   const prefersReducedMotion = useReducedMotion();
   const isLightBg = getBgTheme(bgTheme).isLight;
+  const envelopePalette = getEnvelopePalette(bgTheme);
+  const letterPalette = getLetterPalette(bgTheme);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -147,10 +149,10 @@ export default function Envelope({
 
             {/* Back Interior Layer */}
             <div
-              className="absolute inset-0 bg-[#001a3b] rounded-2xl border-2 border-[#b38728]/50 shadow-[0_24px_50px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center overflow-hidden"
+              className={`absolute inset-0 rounded-2xl border-2 shadow-[0_24px_50px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center overflow-hidden transition-colors duration-500 ${envelopePalette.back}`}
               style={{ transform: "translateZ(-8px)" }}
             >
-              <div className="absolute inset-0 bg-[radial-gradient(#003a80_1px,transparent_1px)] [background-size:16px_16px] opacity-35" />
+              <div className={`absolute inset-0 [background-size:16px_16px] opacity-35 ${envelopePalette.backDot}`} />
             </div>
 
             {/* Letter Sheet (Slides out when opened) */}
@@ -169,17 +171,28 @@ export default function Envelope({
                 ease: [0.22, 1, 0.36, 1],
               }}
               className="absolute inset-x-3 sm:inset-x-4 top-3 sm:top-4 bottom-3 sm:bottom-4 card-paper-texture rounded-xl border border-[#b38728]/40 shadow-xl pt-4 sm:pt-6 px-3 sm:px-4 pb-3 flex flex-col items-center justify-start gap-2 sm:gap-2.5 text-slate-900 pointer-events-none z-10"
-              style={{ willChange: isOpening ? "transform, opacity" : "auto" }}
+              style={{
+                "--card-paper-top": letterPalette.paperTop,
+                "--card-paper-mid": letterPalette.paperMid,
+                "--card-paper-bot": letterPalette.paperBot,
+                willChange: isOpening ? "transform, opacity" : "auto",
+              }}
             >
               <div className="w-11 h-11 rounded-full border-2 border-[#b38728] bg-[#001d42]/8 flex items-center justify-center shadow-xs">
-                <GraduationCap className="w-5 h-5 text-[#002d62]" />
+                <GraduationCap
+                  className="w-5 h-5"
+                  style={{ color: letterPalette.accent }}
+                />
               </div>
 
               <div className="flex flex-col items-center text-center">
                 <p className="text-[8.5px] sm:text-[10.5px] uppercase tracking-[0.04em] sm:tracking-wider text-[#7a5c10] font-bold">
                   Đại Học Giao Thông Vận Tải TP. Hồ Chí Minh
                 </p>
-                <h3 className="text-[13px] sm:text-lg font-serif font-black text-[#002d62] mt-0.5 tracking-normal sm:tracking-wide uppercase">
+                <h3
+                  className="text-[13px] sm:text-lg font-serif font-black mt-0.5 tracking-normal sm:tracking-wide uppercase"
+                  style={{ color: letterPalette.accent }}
+                >
                   THƯ MỜI DỰ LỄ TỐT NGHIỆP
                 </h3>
               </div>
@@ -188,7 +201,7 @@ export default function Envelope({
 
             {/* Left Flap */}
             <div
-              className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#002b5c] via-[#002247] to-[#001938] rounded-l-2xl border-l-2 border-y border-[#b38728]/25 pointer-events-none z-20 shadow-md"
+              className={`absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r rounded-l-2xl border-l-2 border-y pointer-events-none z-20 shadow-md transition-colors duration-500 ${envelopePalette.leftFlap}`}
               style={{
                 clipPath: "polygon(0% 0%, 100% 50%, 0% 100%)",
                 transform: "translateZ(2px)",
@@ -197,7 +210,7 @@ export default function Envelope({
 
             {/* Right Flap */}
             <div
-              className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-[#002b5c] via-[#002247] to-[#001938] rounded-r-2xl border-r-2 border-y border-[#b38728]/25 pointer-events-none z-20 shadow-md"
+              className={`absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l rounded-r-2xl border-r-2 border-y pointer-events-none z-20 shadow-md transition-colors duration-500 ${envelopePalette.rightFlap}`}
               style={{
                 clipPath: "polygon(100% 0%, 0% 50%, 100% 100%)",
                 transform: "translateZ(2px)",
@@ -206,7 +219,7 @@ export default function Envelope({
 
             {/* Bottom Flap */}
             <div
-              className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#001530] via-[#00234a] to-[#002b5c] rounded-b-2xl border-b-2 border-x border-[#b38728]/30 pointer-events-none z-21 shadow-lg"
+              className={`absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t rounded-b-2xl border-b-2 border-x pointer-events-none z-21 shadow-lg transition-colors duration-500 ${envelopePalette.bottomFlap}`}
               style={{
                 clipPath: "polygon(0% 100%, 50% 0%, 100% 100%)",
                 transform: "translateZ(2px)",
@@ -245,7 +258,7 @@ export default function Envelope({
                 },
                 z: { delay: isOpening ? (prefersReducedMotion ? 0 : 0.45) : 0, duration: 0 },
               }}
-              className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#003c80] via-[#002a5c] to-[#001a3d] rounded-t-2xl border-t-2 border-x border-[#b38728]/35 pointer-events-none shadow-md"
+              className={`absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b rounded-t-2xl border-t-2 border-x pointer-events-none shadow-md transition-colors duration-500 ${envelopePalette.topFlap}`}
               style={{
                 clipPath: "polygon(0% 0%, 100% 0%, 50% 100%)",
                 transformOrigin: "top center",

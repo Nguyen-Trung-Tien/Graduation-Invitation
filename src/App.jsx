@@ -16,7 +16,6 @@ import Customizer from "./components/Customizer";
 import ExportModal from "./components/ExportModal";
 import uthCampusImg from "./assets/Hinh_UTH.jpg";
 import uthSunsetImg from "./assets/Hinh_UTH1.jpg";
-import uthAerialImg from "./assets/University of Transport Ho Chi Minh City – UTH.jpg";
 import uthMemoryImg from "./assets/1000011633-9970-7187.jpg";
 import { INVITATION_DEFAULTS } from "./config/invitationDefaults";
 import {
@@ -37,12 +36,6 @@ const PHOTO_THEMES = {
     alt: "UTH Campus Sunset",
     primaryOverlay: "bg-gradient-to-tr from-[#2b0f16]/85 via-[#4a1c1a]/50 to-amber-700/35",
     secondaryOverlay: "bg-gradient-to-r from-black/30 via-transparent to-black/40 backdrop-blur-[1.5px]",
-  },
-  "uth-aerial": {
-    src: uthAerialImg,
-    alt: "UTH Campus Aerial View",
-    primaryOverlay: "bg-gradient-to-tr from-[#04142b]/88 via-[#0a2a54]/52 to-amber-800/30",
-    secondaryOverlay: "bg-gradient-to-b from-black/30 via-transparent to-black/45 backdrop-blur-[1.5px]",
   },
   "uth-memory": {
     src: uthMemoryImg,
@@ -758,6 +751,7 @@ export default function App() {
         onChange={setConfig}
         guestName={guestName}
         onGuestChange={setGuestName}
+        bgTheme={bgTheme}
       />
     </div>
   );
